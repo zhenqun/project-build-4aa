@@ -1,0 +1,8 @@
+spring:
+  application:
+    name: party-build-4a-sm
+  profiles.active: dev
+  #cloud:
+    #config:
+      #uri: http://192.168.10.230:8888
+      #uri: http://10.144.152.53:8888

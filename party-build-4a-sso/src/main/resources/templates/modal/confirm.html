@@ -1,0 +1,21 @@
+<script type="text/ng-template" id="confirm.html" th:fragment="confirm">
+    <div id="info" class="e-box m-b" style="margin-top: 200px">
+        <div class="e-box-title">
+            <h2>{{option.title}}</h2>
+            <div class="e-box-toolbar">
+                <button type="button" class="close m-t-sm" ng-click="$dismiss()">
+                    <span aria-hidden="true">&times;</span>
+                    <span class="sr-only">Close</span>
+                </button>
+            </div>
+        </div>
+        <div class="e-box-content">
+            <div class="p-sm">{{option.content}}</div>
+            <hr class="m-t-sm m-b-sm">
+            <div class="etal-c m-b-sm" ng-if="!option.timer&&(option.type!='tip')">
+                <button class="btn" ng-click="$close()">{{option.oktext}}</button>
+                <button class="btn " ng-click="$dismiss()">{{option.canceltext}}</button>
+            </div>
+        </div>
+    </div>
+</script>

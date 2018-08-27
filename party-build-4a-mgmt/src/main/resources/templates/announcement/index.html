@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" layout:decorator="layout">
+	<head>
+		<title>通知公告</title>
+		<style>
+			.hide {
+				display: none !important;
+			}
+			
+			.e-table th.center1 {
+				text-align: center;
+			}
+			
+			.e-table td.center1 {
+				text-align: center;
+			}
+			
+			.clients-wrapper {
+				width: 20%;
+				display: inline-block;
+			}
+			
+			.clients-wrapper .client {
+				border-right: 1px solid #ccc;
+			}
+			
+			.clients-wrapper .client.active {
+				border-right: none;
+			}
+			
+			.roleDetails {
+				width: 80%;
+				display: inline-block;
+			}
+			.modal-org-wrapper {
+				display: inline-block;
+				margin-left: 21px;
+				margin-top: 10px;
+			}
+			
+			.modal-org-wrapper>span {
+				margin-right: 15px;
+			}
+			
+			.e-table th input[type="checkbox"], .e-table td input[type="checkbox"] {
+				vertical-align: sub;
+			}
+		</style>
+	</head>
+
+	<body ng-controller="AnnouncementController">
+		<div layout:fragment="content">
+			<div class="layout-content">
+				<div class="guidepost">
+					<span class="guidepost-span">位置：</span>
+					<ul class="guidepost-con">
+						<li class="guidepost-item">
+							<a href="#">
+								首页
+								<i class="icons-12 icons-12-arrowr gray"></i>
+							</a>
+						</li>
+						<li class="guidepost-item">通知公告</li>
+					</ul>
+				</div>
+				<div class="e-main">
+					<div class="mian-box-content">
+						<div class="row margin-b10">
+							<div class="row-space">
+								<div class="e-box float-e-margins">
+									<div class="e-box-title">
+										<h2>公告管理</h2>
+										<span class="e-box-toolbar" ng-cloak>
+											<a class="btn btn-xs" href="/manage/announcement/update/add">添加公告</a>
+	                                        <button class="btn btn-xs" ng-click="getItems(manipulate.del)" ng-disabled="isDeleteing"
+	                                        	disabled="disabled" ng-if="list.length > 0">批量删除</button>
+	                                        <button class="btn btn-xs" ng-click="getItems(manipulate.pub)" ng-disabled="isPublishing"
+	                                        	disabled="disabled" ng-if="list.length > 0">批量发布</button>
+	                                    </span>
+									</div>
+									<div class="e-box-content p-xs">
+										<form ng-submit="beforeQuery()">
+											<div class="clearfix e-form">
+												<div class="form-group clearfix margin-b0">
+													<div class="form-item m-n">
+														<span class="form-item-name">公告名称：</span>
+														<div class="form-item-input">
+															<div class="form-item-input">
+																<input type="text" ng-model='params.noticeTitle'>
+															</div>
+														</div>
+													</div>
+													<button type="submit" class="btn btn-info">查 询</button>
+												</div>
+											</div>
+										</form>
+									</div>
+									<table class="e-table margin-t10 center1">
+										<thead>
+											<tr class="text-center">
+												<th class='center1'>
+													<select-all list="list" selected-key="selected"></select-all>
+												</th>
+												<th width="5%" class="text-center">序号</th>
+												<th class="text-center">公告标题</th>
+												<th class="text-center">创建人</th>
+												<th class="text-center">更新人</th>
+												<th class="text-center">创建时间</th>
+												<th width="15%" class="text-center">更新时间</th>
+												<th width="15%" class="text-center">操作</th>
+											</tr>
+										</thead>
+										<tbody ng-cloak ng-if="isLoading">
+											<tr class="text-center">
+												<td colspan="9">数据加载中...</td>
+											</tr>
+										</tbody>
+										<tbody ng-cloak ng-if="!isLoading">
+											<tr ng-if="list.length === 0" class="text-center">
+												<td colspan="9">暂无数据</td>
+											</tr>
+											<tr class="text-center" ng-repeat="item in list track by $index" ng-if="list.length > 0">
+												<td>
+													<input type="checkbox" ng-model="item.selected"/>
+												</td>
+												<td ng-bind="$index | handleIndex: page"></td>
+												<td style="text-align:left;">
+													<a ng-href="/manage/announcement/update/{{item.noticeId}}" ng-bind="item.noticeTitle" title="点击编辑"></a>
+												</td>
+												<td ng-bind="item.createBy"></td>
+												<td ng-bind="item.updateBy"></td>
+												<td ng-bind="item.createDate | date: 'yyyy-MM-dd HH:mm:ss'"></td>
+												<td ng-bind="item.updateDate | date: 'yyyy-MM-dd HH:mm:ss'"></td>
+												<td>
+													<button class="btn btn-xs m-r-xs" ng-if="!item.release"
+														ng-click="getItems(manipulate.pub, item)">发布</button>
+													<button class="btn btn-xs m-r-xs" ng-if="item.release">已发布</button>
+													<a ng-href="/manage/announcement/update/{{item.noticeId}}" class="btn btn-xs m-r-xs">编辑</a>
+													<button class="btn btn-xs btn-danger" ng-click="getItems(manipulate.del, item)"
+														ng-disabled="isDeleteing" disabled="disabled">删除</button>
+												</td>
+											</tr>
+										</tbody>
+									</table>
+									<nav class="text-center">
+										<uib-pagination ng-model="page.pageNo" ng-change="query()" total-items="totalItems"
+											items-per-page="page.pageSize" template-url="pagination.html"
+											force-ellipses="true" max-size="7">
+										</uib-pagination>
+									</nav>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div layout:fragment='templates'>
+			<div th:replace="modal/auth :: auth"></div>
+		</div>
+		<div layout:fragment="scripts">
+			<script src="/manage/js/manage/announcement/index.js"></script>
+		</div>
+	</body>
+</html>

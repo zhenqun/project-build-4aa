@@ -1,0 +1,30 @@
+<script type="text/ng-template" id="selectApp.html" th:fragment="selectApp">
+    <style>
+        .role{
+            padding-top: 10px;
+        }
+        .role .btn {
+            margin: 0 3px;
+            margin-bottom: 5px;
+            padding: 0 7px;
+        }
+        select-app{
+            position: static!important;
+            padding: 0!important;
+        }
+        .e-main{
+            top: 40px!important;
+            display: flex;
+            flex-direction: column;
+        }
+        .e-main .mian-box-content{
+            padding-top: 5px!important;
+            flex: 1;
+            height: auto!important;
+        }
+    </style>
+    <div class="role" style="padding-left: 29px;display: flex;align-items: center;margin-right: 20px;">
+        <span style='vertical-align:sub;color: #333;margin-bottom: 5px'>应用切换 : </span>
+        <div style="flex: 1;flex-wrap: wrap;"><button ng-repeat="item in $ctrl.appList track by item.clientId" class="btn" ng-class="{'btn-success':$ctrl.selectClient.clientId == item.clientId}" ng-click="$ctrl.select(item)" ng-cloak>{{item.clientName}}</button></div>
+    </div>
+</script>

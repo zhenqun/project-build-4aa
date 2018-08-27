@@ -1,0 +1,132 @@
+.tianze-login{
+	max-width: 1000px;
+	min-height: 450px;
+	background: none;
+	background-color: #fff; 
+	margin: 30px auto;
+	padding: 15px 80px;
+	border: none;
+	border-radius: 0;
+}
+.tianze-login h3{
+	width: 100%;
+	background: url(../img/forget-h3.png) left 66% no-repeat;
+	border-bottom: 1px solid #ddd;
+}
+.tianze-user-box input{
+	padding-left: 15px;
+}
+.e-form{
+	max-width: 500px;
+	width: 100%;
+	margin: 0 auto;
+}
+.e-form .tianze-user-box span{
+	min-width: 80px;
+	display: inline-block;
+	text-align: right;
+	line-height: 35px;
+	margin-right: 8px;
+}
+.tianze-user-box input{
+	width: 347px;
+}
+.w-100{text-align: center;}
+.tianze-loginbtn{width: 145px;height: 38px;line-height: 38px;display: inline-block;margin: 10px auto;}
+.e-form .w-width input{float: none;width: 200px;}
+.e-form .tianze-yzm{
+	cursor: pointer;
+	text-align: center;
+	margin-right: 50px;
+	border-radius: 3px;
+	background: linear-gradient(to bottom, #ffffff 0%, #f1f1f1 100%);
+}
+.e-form .tianze-yzm a{
+	line-height: 35px;
+	font-size: 14px;
+	color: #666;
+}
+/* 中间步骤样式  */
+.forget-steps{
+	width: 80%;
+	margin: 50px auto;
+	line-height: 35px;
+}
+.forget-steps .forget-step{
+	width: 33.3%;
+	float: left;
+	text-align: center;
+}
+.forget-step p{
+	font-size: 18px;
+	color: #e0e0e0;
+	display: inline-block;
+}
+.forget-step p i{
+	font-size: 25px;
+	// font-weight: bold;
+	margin-right: 8px;
+	font-style: italic;
+}
+.forget-step span {
+	float: right;
+	color: #e0e0e0;
+	font-size: 20px;
+}
+.forget-step-active p{
+	color: #333;
+	border-bottom: 2px solid #f8b2b2;
+}
+.forget-step-active p i{
+	color: #333;
+}
+.forget-success{text-align: center;padding-left: 80px;}
+.forget-success img{float: left;}
+.forget-success .success-tip{
+	padding-left: 25px;
+	float: left;
+	text-align: center;
+}
+.success-tip p{
+	font-size: 20px;
+	padding: 20px 0;
+	font-weight: bold;
+}
+.success-tip span{margin: 0 10px;}
+.success-tip a, .success-tip span{
+	color: #1d7fb0;
+} 
+@media screen and (max-width: 720px) {
+	.tianze-login{
+		padding: 15px 20px;
+	}
+	.forget-steps{width: 100%;}
+	.e-form .tianze-yzm{width: 110px;}
+}
+@media screen and (max-width: 520px) {
+	.tianze-login{
+		padding: 10px 20px;
+		margin: 0 auto;
+	}
+	.forget-success{padding-left: 60px;}
+	.e-form{width:400px;}
+	.tianze-user-box input{width: 280px;}
+	.e-form .w-width input{width: 150px;}
+	.e-form .tianze-yzm{width: 110px;margin-right: 15px;}
+}
+@media screen and (max-width: 420px) {
+	.e-form{width:300px;}
+	.forget-success{padding-left: 30px;}
+	.forget-success .success-tip{padding-left: 8px;}
+	.tianze-user-box input{width: 180px;}
+	.e-form .w-width input{width: 80px;}
+	.e-form .tianze-yzm{width: 95px;margin-right: 10px;}
+	.forget-steps{margin: 20px auto; }
+	.forget-step p{
+		font-size: 14px;
+	}
+	.forget-step p i{
+		font-size: 18px;
+		margin-right: 0;
+	}
+}

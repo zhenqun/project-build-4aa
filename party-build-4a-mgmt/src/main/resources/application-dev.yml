@@ -1,0 +1,168 @@
+server:
+  port: 8887
+
+security:
+  sessions: if-required
+  #ALWAYS
+  #user.password: password
+  #if-required
+  #encrpyt.encoder bcrypt or SHA-256,default:SHA-256
+  encrypt.encoder: SHA-256
+  encrypt.hash-interations: 1024
+  encrypt.strength: 8
+  # ALWAYS
+  #ignored: /webjars/**, /manage/css/**, /manage/dist/**, /manage/fonts/**,/manage/images/**,/manage/img/**,/manage/js/**,/validateCodeServlet, /internet/**,/memberList/**,/common/**,/user/**,/sendMessage
+  defaultPassword: 123456
+  oauth2:
+    #resource:
+      #resourceId: party-build-4a-mgmt
+      #userInfoUri: http://localhost:9898/sso/user/principal
+    server:
+      checkTokenUri: http://localhost:9999/sso/oauth/check_token
+      resourceId: party-build-4a-mgmt
+      resourceSecret: ido85R&Dcenter
+      tokenUrl: http://localhost:9999/sso/oauth/token?grant_type=client_credentials
+        
+spring:
+  application:
+    name: party-build-aaaamgmt
+  primaryDataSource:
+    dataSourceClassName: com.highgo.jdbc.jdbc2.optional.SimpleDataSource
+    url: jdbc:highgo://192.168.10.211:5866/party_4a_mgmt?useUnicode=true&characterEncoding=utf-8
+    username: highgo
+    password: highgo85ido
+    poolName: StringBootHikariCP
+    maximumPoolSize: 5
+    minimumIdle: 3
+    maxLifetime: 2000000
+    connectionTimeout: 30000
+    idleTimeout: 30000
+    pool-prepared-statements: true
+    max-open-prepared-statements: 300
+  InternetDataSource:
+    dataSourceClassName: com.highgo.jdbc.jdbc2.optional.SimpleDataSource
+    url: jdbc:highgo://192.168.10.211:5866/sso_internet_copy?useUnicode=true&characterEncoding=utf-8
+    username: highgo
+    password: highgo85ido
+    poolName: StringBootHikariCP
+    maximumPoolSize: 50
+    minimumIdle: 30
+    maxLifetime: 2000000
+    connectionTimeout: 30000
+    idleTimeout: 30000
+    pool-prepared-statements: true
+    max-open-prepared-statements: 300
+  BusinessDataSource:
+    dataSourceClassName: com.highgo.jdbc.jdbc2.optional.SimpleDataSource
+    url: jdbc:highgo://192.168.10.211:5866/sso_vpn_copy?useUnicode=true&characterEncoding=utf-8
+    username: highgo
+    password: highgo85ido
+    poolName: StringBootHikariCP
+    maximumPoolSize: 50
+    minimumIdle: 30
+    maxLifetime: 2000000
+    connectionTimeout: 30000
+    idleTimeout: 30000
+    pool-prepared-statements: true
+    max-open-prepared-statements: 300
+  jpa:
+    databasePlatform: org.hibernate.dialect.PostgreSQLDialect
+    properties:
+      hibernate.cache.use_second_level_cache: false
+      hibernate.cache.use_query_cache: false
+      hibernate.cache.region.factory_class: org.hibernate.cache.ehcache.EhCacheRegionFactory
+      show-sql: true
+  redis:
+    host: 192.168.10.211
+    #host: localhost
+    password: ido85redis
+    port: 6379
+    database: 10
+  thymeleaf:
+    prefix: classpath:/templates/
+    suffix: .html
+    encoding: utf-8
+    content-type: text/html
+    cache: false
+    excluded-view-names: 
+    check-template-location: true
+    mode: LEGACYHTML5
+  session: 
+    store-type: redis
+
+ribbon.eureka.enabled: false
+party-simpledata-server:
+  ribbon:
+    MaxAutoRetries: 1
+    MaxAutoRetriesNextServer: 1
+    OkToRetryOnAllOperations: true
+    ServerListRefreshInterval: 2000
+    ConnectTimeout: 3000
+    ReadTimeout: 3000
+    EnablePrimeConnections: true
+    listOfServers: http://10.243.32.7:8962
+party-education-back-server-test:
+  ribbon:
+    MaxAutoRetries: 1
+    MaxAutoRetriesNextServer: 1
+    OkToRetryOnAllOperations: true
+    ServerListRefreshInterval: 2000
+    ConnectTimeout: 3000
+    ReadTimeout: 3000
+    EnablePrimeConnections: true
+    listOfServers: http://10.254.23.65:8086
+party-build-4a-authentication:
+  ribbon:
+    MaxAutoRetries: 1
+    MaxAutoRetriesNextServer: 1
+    OkToRetryOnAllOperations: true
+    ServerListRefreshInterval: 2000
+    ConnectTimeout: 3000
+    ReadTimeout: 3000
+    EnablePrimeConnections: true
+    listOfServers: http://localhost:8081
+
+ldap:
+  url: ldap://10.243.32.5:389
+  login-dn: cn=Manager,dc=inspur,dc=com
+  password: 123456
+  base-dn: dc=inspur,dc=com
+  dn.format: uid=%s,ou=%s
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://192.168.10.230:8761/eureka/
+      #defaultZone: http://localhost:8761/eureka/
+  instance:
+    prefer-ip-address: true
+
+logging:
+  config: classpath:logback.xml
+  path: ./logs
+
+threadpool:
+  core-pool-size: 10
+  max-pool-size: 20
+  queue-capacity: 1000
+  keep-alive-seconds: 300
+
+multipart:
+  maxFileSize: 5Mb
+  maxRequestSize: 30Mb
+
+sendMessage:
+  url: http://118.190.41.112/smsJson.aspx
+  userpwd: 85chuangxin1A
+  message: 
+  account: chuangxin
+  intervaltime: 1
+
+getOrganizationsUrl: http://192.168.10.211:8083/simpledata/queryOrgInfo/
+queryUserInfoByHashUrl: http://192.168.10.211:8083/simpledata/queryUserInfoByHash/
+checkUserExistUrl: http://192.168.10.211:8083/simpledata/checkUserExist/
+ROLE_SECURITY: ROLE_SECURITY
+ROLE_AUDITOR: ROLE_AUDITOR
+downUrl: http://10.254.23.110:8888/excel/
+userLogoUrl: http://10.254.23.110:8888/userLogo/
+uploadLogoUrl: D://

@@ -1,0 +1,151 @@
+<!--/* [批量]重新授权 */-->
+<script type="text/ng-template" id="reauthorize-modal.html">
+    <style type="text/css">
+        /*授权列表5.20*/
+
+        .form-item-input.role-item {
+            width: initial;
+            margin-right: 20px;
+            line-height: 35px;
+        }
+
+        ul.users-container {
+            display: inline-block;
+            /*overflow-y: scroll;*/
+            width: 16%;
+            /*max-height: 650px;*/
+            /*width: 130%;*/
+            vertical-align: top;
+            margin-right: -4px;
+        }
+
+        ul.users-container>li {
+            box-sizing: border-box;
+            line-height: 30px;
+            font-size: 15px;
+            padding-left: 35px;
+            border: 1px solid white;
+        }
+
+        ul.users-container>li:hover {
+            border: 1px solid #ccc;
+            border-right: 1px solid white;
+            background-color: #FFFEF1;
+            color: black;
+            cursor: pointer;
+            margin-right: -2.5px;
+        }
+
+        ul.users-container>li.active {
+            border: 1px solid #ccc;
+            border-right: 1px solid white;
+            background-color: #FFFEF1;
+            color: black;
+            margin-right: -2.5px;
+        }
+
+        table.auth-table {}
+
+        .e-box.app-wrapper {
+            width: 83%;
+            min-height: 206px;
+            overflow-y: auto;
+            padding-left: 7px;
+            float: right;
+            border-left: 1px solid #ccc!important;
+        }
+
+        .font-red {
+            color: red!important;
+        }
+
+        .popover-fix {
+            left: 651px!important;
+            color: red!important;
+        }
+
+        .single-user .app-wrapper {
+            width: 100%;
+            padding: 10px 20px;
+            box-sizing: border-box;
+        }
+
+        .single-user ul.users-container {
+            display: none;
+        }
+    </style>
+    <div class="modal-content">
+        <div id="info" class="e-box m-b">
+            <form name="authForm">
+                <div class="e-box-title">
+                    <h2>授权</h2>
+                    <div class="e-box-toolbar close-modal"><button type="button" class="close m-t-sm"><span ng-click='$close()'>&times;</span><span class="sr-only" ng-click='$close()'>Close</span></button></div>
+                </div>
+                <div class="e-box-content" style="overflow:hidden;" ng-class="{'single-user': assistors.length === 1}">
+                    <ul class="users-container">
+                        <li ng-repeat="user in assistors track by user.fzuserId" ng-class="{active: selectedAssistor.fzuserId === user.fzuserId}" ng-click="selectAssistor(user)">{{user.relName}}</li>
+                    </ul>
+                    <div class="e-box app-wrapper">
+                        <div class="e-box-title">
+                            <h2>{{selectedAssistor.relName}} 的应用和管理范围</h2>
+                            <ul class="e-box-toolbar">
+                                <button type="submit" class="btn btn-sm m-t-xs m-r-md" ng-if="clientList.length !== 0 && (!isClientLoading) && (!selectedAssistor.isLoading)" ng-disabled="authForm.$invalid || authForm.$pending || isLoading" ng-click="saveAuthorization()">
+                                    保存 {{selectedAssistor.relName}}
+                                </button>
+                            </ul>
+                        </div>
+
+                        <table class="e-table margin-t10 center1 auth-table">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        <select-all list="selectedAssistor.clients" selected-key="_selected"></select-all>
+                                    </th>
+                                    <th>
+                                        应用
+                                        <a class="m-l-xs" style="cursor: pointer;" uib-popover-template="'client-not-display.html'" popover-append-to-body="true" popover-placement="right">部分应用系统没有显示，为什么？</a>
+                                    </th>
+                                    <th style="width: 50%;">管理范围</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="text-center" ng-if="isClientLoading || selectedAssistor.isLoading">
+                                    <td colspan="3"><i class="fa fa-spin fa-spinner fa-2x"></i> 正在加载应用列表</td>
+                                </tr>
+                                <tr class="text-center" ng-if="(!isClientLoading) && (!selectedAssistor.isLoading) && (!selectedAssistor.clients.length)">
+                                    <td colspan="3">暂无可见的应用系统，请先前往“<a href="/manage/role-packs">辅助安全员-可用角色配置</a>”页面配置应用和角色</td>
+                                </tr>
+                                <tr ng-if="selectedAssistor.clients.length > 0 && (!isClientLoading) && (!selectedAssistor.isLoading)" ng-repeat="client in selectedAssistor.clients track by $index">
+                                    <td>
+                                        <input type="checkbox" id="client-{{client.clientId}}" ng-model="client._selected">
+                                    </td>
+                                    <td>
+                                        <label for="client-{{client.clientId}}" ng-bind="client.clientName"></label>
+                                    </td>
+                                    <td>
+                                        <input type="text" style="width:94%;" name="{{client.roleId}}" class="form-item-input large-org" kt-dict="ZZ" ng-model="client.manageId" display-value="client.manageName"
+                                               org-verify role-type="work" clientid="{{client.clientId}}" enable-search="false" org-can-search="true" tree-level="1" allow-top="false">
+                                        <!--<org-dict ng-model='client.manageId' url="{{client.classificationUrl}}"></org-dict>-->
+                                        <!--<div class="" uib-popover="请选择管理范围" popover-class="popover-fix" popover-trigger='null' popover-is-open="authForm.$submitted&&checkOrg(client)">
+                                            <div uib-popover="请选择正确的管理范围" popover-class="popover-fix" popover-trigger='null' popover-is-open="authForm[client.roleId].$error.errOrg">
+                                                <input type="text" style="width:94%;" kt-dict='ZZ' ng-model='client.manageId' display-value="client.manageName" class='form-item-input large-org'
+                                                    org-verify role-type="work" clientid="{{client.clientId}}" name="{{client.roleId}}" ng-change="checkOrg(client)" ng-if="topOrg.level === ORG_LEVELS.Xian" enable-search="'auto'" org-can-search="true">
+                                                <input type="text" style="width:94%;" kt-dict='ZZ' ng-model='client.manageId' display-value="client.manageName" class='form-item-input large-org'
+                                                       org-verify role-type="work" clientid="{{client.clientId}}" name="{{client.roleId}}" ng-change="checkOrg(client)" tree-level="0" ng-if="topOrg.level < ORG_LEVELS.Xian">
+                                                <span ng-show="authForm['client.roleId'].$pending"><i class="fa fa-spin fa-spinner loading-btn"></i></span>
+                                            </div>
+                                        </div>-->
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <!--<hr class="m-t-sm m-b-sm">
+                    <div class="etal-c m-b-sm">                                                    
+                        <div class="btn btn-danger close-modal" ng-click='$dismiss()'>关闭</div>
+                    </div>-->
+                </div>
+            </form>
+        </div>
+    </div>
+</script>

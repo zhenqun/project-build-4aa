@@ -1,0 +1,38 @@
+ <style> 
+ .uploadify-button {
+            -webkit-border-radius: 0px;
+            -moz-border-radius: 0px;
+        }
+</style>
+<link href="js/uploadify/uploadify.css" rel="stylesheet" /> 
+<script src="js/uploadify/jquery.uploadify.js"></script>
+<script src="js/uploadify/uploadify-plug-in.js"></script>  
+ <script type="text/javascript">  
+        function bindUp() {
+            var options = {
+                buttonText: "上传照片",
+                uploader: "/Doc/Upload",
+                queueSizeLimit: 1,
+                fileSizeLimit: "10MB",
+                width: '70',
+                fileTypeExts: '*.jpg;*.jpge;*.gif;*.png',
+                height: '25',
+                dialogClass: "btn green-btn", 
+                onUploadSuccess: function (file, data, response) {
+                     var obje = eval('(' + data + ')');
+                     $("#imgZhaoPian").attr("src", obje.FileUrl);
+                }
+            };
+            $("#uploadify").ktUploadify("uploadify", options);
+            $("#uploadify-button").removeClass("uploadify-button");
+            $("#uploadify > object").css("left", "0px");
+        }
+     bindUp();
+    </script>  
+
+<div class="form-item hide form-item-input">
+    <span class="form-item-name">照片：</span>
+    <span class="btn btn-info">
+           <button id="uploadify" name="uploadify">选择照片 ...</button>
+    </span>
+</div>  

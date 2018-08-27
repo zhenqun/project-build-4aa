@@ -1,0 +1,18 @@
+<!--/* 批量开通辅助安全员-导入弹框 */-->
+<script type="text/ng-template" id="batch-open-modal.html">
+    <div class="e-box">
+        <div class="e-box-title">
+            <h2>批量开通辅助安全员</h2>
+            <div class="e-box-toolbar close-modal"><button type="button" class="close m-t-sm" ng-click="$dismiss()"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button></div>
+        </div>
+        <div class="e-box-content p-sm">
+            <a href="/manage/批量导入辅助安全员.xlsx" target="_blank" class="btn">下载模板</a>
+            <button class="btn" type="file" ngf-pattern="'.xls,.xlsx'" ngf-accept="'application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'" ngf-select="uploadFiles($file)">批量开通辅助安全员</button>
+            <uib-progressbar class="m-t-md progress-striped active" value="uploadProgress" type="info" title="正在导入管理员" ng-show="isUploading">正在导入辅助安全员</uib-progressbar>
+            <ol class="m-t" style="line-height:1.8;">
+                <li>1. 请下载模板并按照格式填写，不要修改模板的格式。</li>
+                <li>2. 填写完毕后回到本页，点击“批量开通辅助安全员”，选择填写完毕的模板即可导入信息，导入信息后需要为所有导入的辅助安全员选择应用和管理范围。</li>
+            </ol>
+        </div>
+    </div>
+</script>

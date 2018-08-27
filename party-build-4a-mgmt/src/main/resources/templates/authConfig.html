@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" layout:decorator="layout">
+
+<head>
+    <title>权限配置 </title>
+    <meta http-equiv="content-type" content="text/html;charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="Keywords" content="" />
+    <meta name="Description" content="" />
+    <link rel="stylesheet" type="text/css" href="/manage/jsTree/default/style.css">
+    <link rel="stylesheet" type="text/css" href="/manage/css/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="/manage/css/base.css">
+    <style>
+        .role {
+            display: inline-block;
+            margin-right: 100px;
+        }
+        .pagination{
+             margin:5px 0;
+         }
+        .e-table.e-clborder tr:last-child{
+            border-bottom:1px solid #E2E6EA;}
+    </style>
+</head>
+
+<body ng-controller="AuthConfigController">
+    <div layout:fragment="content">
+        <div class="layout-content">
+            <div class="guidepost">
+                <span class="guidepost-span">位置：</span>
+                <ul class="guidepost-con">
+                    <li class="guidepost-item">
+                        <a href="#">首页 <i class="icons-12 icons-12-arrowr gray"></i></a>
+                    </li>
+                    <li class="guidepost-item">权限配置
+                    </li>
+                </ul>
+            </div>
+            <div class="e-main">
+                <select-app th:if="${showApp} != false">正在加载应用列表...</select-app>
+                <div class="mian-box-content" style="box-sizing: border-box;height: 100%;">
+                    <div class="e-box m-n" style="height: 100%;box-sizing: border-box;display: flex;flex-direction: column;">
+                        <div class="e-box-title">
+                            <h2>权限配置</h2>
+                            <span class="e-box-toolbar">
+                                <!--<button type="button" class="btn btn-xs btn-info" ng-click='openEdit()'>添加角色</button>-->
+                                <!--<button class='btn btn-xs' ng-click='exportUser()'>导出授权码</button>                                     -->
+                            <!--<button class='btn btn-xs' type="file" ngf-pattern=".xls,.xlsx" ngf-select="uploadFiles($file, $invalidFiles)">导入业务管理员信息</button>-->
+                            </span>
+                        </div>
+                        <div class="e-box-content p-xs e-border-bottom">
+                            <form id='queryForm' novalidate>
+                                <div class="clearfix e-form">
+                                    <div class="form-group clearfix m-n">
+                                        <div class="form-item">
+                                            <span class="form-item-name">角色名称：</span>
+                                            <div class="form-item-input">
+                                                <input type="text" ng-model='queryParams.roleDescription' class="form-item-input">
+                                            </div>
+                                        </div>
+                                        <a class="btn btn-info" ng-click='query()'>查 询</a>
+                                    </div>
+
+                                </div>
+                            </form>
+                        </div>
+
+                        <!--/////////////////-->
+                        <div class="e-box-title">
+                            <h2>角色列表</h2>
+                            <span class="e-box-toolbar" >
+                                <button type="button" class="btn btn-xs btn-info m-r-xl" ng-click="openEdit()" ng-if="selectClient.clientId !== 'party-build-dtdj' && ifCanCreateRole ==='1'">添加角色</button>
+                                <button type="button" class="btn btn-xs btn-info m-r-xl disabled" ng-if="selectClient.clientId === 'party-build-dtdj'"
+                                    uib-popover="内容发布系统 不允许添加角色" popover-append-to-body="true" popover-placement="top" popover-trigger="mouseenter">添加角色</button>
+                                 <button type="button" class="btn btn-xs btn-info m-r-xl disabled" ng-if="selectClient.clientId !== 'party-build-dtdj' && ifCanCreateRole ==='0'"
+                                         uib-popover="无权添加角色" popover-append-to-body="true" popover-placement="top" popover-trigger="mouseenter">添加角色</button>
+                                <!--<button type="button" class="btn btn-xs" ng-if='!isLoading&&roleList.length>0' ng-click='openAuthorty()' ng-if="!noClients()">批量授权</button>-->
+                                <!--<button type="button" class="btn btn-xs" ng-if="noClients()">正在为您准备...</button>   -->
+                            </span>
+                        </div>
+                        <div style="flex: 1;overflow: auto;border-bottom: 1px solid #C7CED3;">
+                            <table class="e-table e-clborder margin-t10 center1">
+                                <thead>
+                                <tr>
+                                    <!--<th class='center1'>
+                                        <select-all ng-show="roleList&&roleList.length>0" list="roleList" selected-key="_selected"></select-all>
+                                    </th>-->
+                                    <th width="5%" class="text-center">
+                                        序号
+                                    </th>
+                                    <th>角色名称</th>
+                                    <th style="width:20%;">角色描述</th>
+                                    <th>创建时间</th>
+                                    <th>创建人</th>
+                                    <th>最后一次更新人</th>
+                                    <th>最后一次更新时间</th>
+                                    <th width="15%" class="text-center">操作</th>
+                                </tr>
+                                </thead>
+                                <tbody ng-cloak>
+                                <tr ng-if='!orgLoading&&!isLoading&&roleList.length>0' ng-repeat='role in roleList'>
+                                    <!--<td class="text-center"><input type="checkbox" ng-model="role._selected"></td>-->
+                                    <td class="text-center" ng-bind="$index|handleIndex:page"></td>
+                                    <td>{{role.roleDescription}}</td>
+                                    <td class="role-detail-col interactable" ng-bind="role.detail" uib-popover-template="'role-detail.html'"
+                                        popover-append-to-body="true" popover-placement="right" popover-title="角色详细描述" popover-trigger="mouseenter"></td>
+                                    <td>{{role.createDate|date:'yyyy-MM-dd HH:mm'}}</td>
+                                    <td>{{role.createBy}}</td>
+                                    <td>{{role.updateBy}}</td>
+                                    <td>{{role.updateDate|date:'yyyy-MM-dd HH:mm'}}</td>
+                                    <td class="text-center" ng-if="!role.common">
+                                        <button class="btn btn-xs btn-info" ng-click='openEdit(role)'>编辑</button>
+                                        <button class="btn btn-xs btn-danger" ng-disabled="deling" ng-click='del(role)'>删除</button>
+                                    </td>
+                                    <td class="text-center" ng-if="role.common" uib-popover="共享角色无法操作" popover-append-to-body="true" popover-placement="top" popover-trigger="mouseenter">
+                                        <button class="btn btn-xs disabled">编辑</button>
+                                        <button class="btn btn-xs disabled">删除</button>
+                                    </td>
+                                </tr>
+                                <tr ng-if='!orgLoading&&!isLoading&&(roleList.length==0||!roleList)' class="text-center">
+                                    <td colspan='13'>暂无数据</td>
+                                </tr>
+                                <tr ng-if='orgLoading||isLoading' class="text-center">
+                                    <td colspan='13'>加载中</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <nav class="text-center">
+                            <uib-pagination ng-model="page.pageNo" ng-change="queryUsers()" total-items="totalItems" items-per-page="page.pageSize" template-url="pagination.html"
+                                force-ellipses="true" max-size="7">
+                            </uib-pagination>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div layout:fragment='templates'>
+        <div th:replace="modal/dist :: dist"></div>
+        <div th:replace="modal/role :: role"></div>
+        <div th:replace="modal/auth :: auth"></div>
+
+        <script type="text/ng-template" id="role-detail.html">
+            <div style="height: 200px; overflow: auto;">{{role.detail}}</div>
+        </script>
+    </div>
+    <div layout:fragment="scripts">
+        <script src="/manage/js/manage/auth-config.js"></script>
+    </div>
+
+</body>
+
+</html>

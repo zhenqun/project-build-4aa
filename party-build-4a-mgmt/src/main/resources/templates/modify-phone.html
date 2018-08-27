@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" layout:decorator="front-layout">
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+    <meta charset="utf-8"/>
+    <meta name="description" content="User login page"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0"/>
+    <link rel="stylesheet" type="text/css" href="/manage/css/style1.css">
+    <title>灯塔-党建在线登录页面</title>
+    <style type="text/css">
+        html {
+            min-height: auto;
+        }
+
+        .content .login-con .forget {
+            display: none;
+        }
+
+        .e-form .tianze-yzm a {
+            line-height: 35px;
+            font-size: 14px;
+            color: #666;
+        }
+
+        .e-form .tianze-yzm {
+            float: right;
+            width: 126px;
+            border: 1px solid #ddd;
+            background-color: #fbfbfb;
+            height: 33px;
+            overflow: hidden;
+            border-radius: 0;
+        }
+
+        a {
+            text-decoration: none;
+            color: #1e8ceb;
+        }
+
+        #validateCode {
+            width: 45%;
+            float: left;
+            margin-left: 19px;
+            margin-right: 13px;
+        }
+
+        #yanzhengma {
+            margin-top: 6px;
+        }
+
+        .content .login-con .login-word {
+            width: 20%;
+            min-width: 78px;
+            margin-left: -6px;
+        }
+
+        .oldPass {
+            letter-spacing: 12px;
+            margin-right: -3px;
+            margin-left: -4px !important;
+            letter-spacing: 11.5px;
+            text-align: right !important;
+        }
+
+        /* TODO 这里不合规矩的点在于 js- 开头的类本身应该只作为事件钩子，不应该承担样式 */
+        .js-pwd-strength-result {
+            position: absolute;
+            right: 0px;
+            height: 40px;
+            background: #f3f3f3;
+            width: 80px;
+            border-radius: 0 5px 5px 0;
+            border: 1px solid #ccc;
+            box-sizing: border-box;
+            text-align: center;
+            line-height: 38px;
+        }
+
+        .text-muted {
+            color: #999
+        }
+
+        .text-primary {
+            color: #428bca
+        }
+
+        a.text-primary:hover {
+            color: #3071a9
+        }
+
+        .text-success {
+            color: #3c763d
+        }
+
+        a.text-success:hover {
+            color: #2b542c
+        }
+
+        .text-info {
+            color: #31708f
+        }
+
+        a.text-info:hover {
+            color: #245269
+        }
+
+        .text-warning {
+            color: #8a6d3b
+        }
+
+        a.text-warning:hover {
+            color: #66512c
+        }
+
+        .text-danger {
+            color: #a94442
+        }
+
+        a.text-danger:hover {
+            color: #843534
+        }
+
+        .login-word {
+            letter-spacing: 0;
+        }
+
+        .content .login-con {
+            width: 400px;
+        }
+
+        .parsley-required {
+            padding:3px 15px;
+        }
+        .parsley-pattern{
+            padding:0 15px;
+        }
+        .text-danger{
+            height: 18px;
+            line-height: 18px;
+        }
+    </style>
+</head>
+
+<body>
+<div layout:fragment="content">
+    <div class="content clearfix">
+        <div class="login-top">
+            <span class="login-title">欢迎使用“灯塔-党建在线”</span>
+            <span class="login-register"><a href="#" onclick='history.back(-1)'>返回</a></span>
+        </div>
+        <div class="login-con">
+            <form id="modifyPhoneForm" data-parsley-trigger="blur">
+                <div class="form-login clearfix">
+                    <span class="login-word">原手机号码</span>
+                    <input type="text" id="oldMobile" name="oldMobile" placeholder='原手机号码'
+                           data-parsley-pattern="/^1[3456789]\d{9}$/"
+                           data-parsley-pattern-message="请输入正确手机号码" data-parsley-required-message="请输入常用的手机号码" required
+                           data-parsley-errors-container="#oldMobileMessage">
+                    <div class="text-danger" id="oldMobileMessage"></div>
+                </div>
+
+                <div class="form-login clearfix e-pos-r">
+                    <span class="login-word">新手机号码</span>
+                    <input type="text" id="newMobile" name="newMobile" placeholder='新手机号码'
+                           data-parsley-pattern="/^1[3456789]\d{9}$/"
+                           data-parsley-pattern-message="请输入正确手机号码" data-parsley-required-message="请输入常用的手机号码" required
+                           data-parsley-errors-container="#newMobileMessage">
+                    <div class="text-danger" id="newMobileMessage">
+                        <ul>
+                            <li  class="text-danger hide" style="width:150px;margin-left: 15px;" id="errtelePhone">该手机号已注册</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="form-login clearfix">
+                    <span class="login-word">验证码</span>
+                    <div class="form-totle clearfix">
+                    <input type="text" id="validateode" name="validateCode" placeholder="验证码" required
+                           style="text-transform: uppercase;width:150px;float: left;margin-left: 33px;" data-parsley-required-message="请输入图片验证码"
+                           data-parsley-errors-container="#oldPasswordMessages">
+                    <div class="yzm" style="float: right;">
+                        <img alt="验证码" onclick="javascript:refresh()" id="yanzhengma"
+                             style="width: 85px;height: 38px;margin-top: 0;border-radius: 5px;width: 112px;"/>
+                    </div>
+                    </div>
+                    <div class="text-danger" id="oldPasswordMessages"></div>
+                    <div class="text-danger hide" style="width:150px;margin-left: 11px;" id="errvalidCode">验证码错误</div>
+                </div>
+
+                <div class="form-login clearfix e-pos-r">
+                    <span class="login-word" style="">短信验证码</span>
+                    <div class="form-totle clearfix">
+                    <input class="form-control" data-parsley-errors-container="#validateCodeMessage"
+                           data-parsley-required-message="请输入验证码" id="validateCode" name="verifyCode" required=""
+                           type="text" data-parsley-errors-container="#validateCodeMessage" style="width: 150px;"/>
+                    <div class="tianze-yzm">
+                        <a id='sms-btn' class="hqyzm">获取验证码</a>
+                    </div>
+                    </div>
+                    <div class="text-danger" id="validateCodeMessage"></div>
+                </div>
+
+                <div class="form-login clearfix" style="margin-bottom: 50px;margin-top:25px;">
+                    <input type="button" value="确认修改" id='verify' class="login-btn">
+                </div>
+            </form>
+        </div>
+    </div>
+
+</div>
+<div layout:fragment="scripts">
+    <script src="/manage/js/deps/zxcvbn.min.js"></script>
+    <script src="/manage/js/manage/modify-phone.js"></script>
+    <script type="text/javascript"></script>
+</div>
+</body>
+</html>

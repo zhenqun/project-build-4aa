@@ -1,0 +1,10 @@
+<script type="text/ng-template" id="roleUrl.html" th:fragment="roleUrl">
+    <div class="e-box-toolbar role">
+        <span style='vertical-align:bottom'>角色切换 : </span>
+        <a href="/branch/index?role=0" class="btn" ng-class="{'btn-success':$ctrl.role==0}">党支部</a>
+        <a href="?role=1" class="btn" ng-class="{'btn-success':role==1}">基层党委</a>
+        <a href="?role=2" class="btn" ng-class="{'btn-success':role==2}">县（市、区）委组织部</a>
+        <a href="?role=3" class="btn" ng-class="{'btn-success':role==3}">市委组织部</a>
+        <a href="?role=4" class="btn" ng-class="{'btn-success':role==4}">省委组织部</a>
+    </div>
+</script>

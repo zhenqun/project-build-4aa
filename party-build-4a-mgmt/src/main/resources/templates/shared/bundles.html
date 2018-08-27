@@ -1,0 +1,69 @@
+<!-- build:js(static/) /manage/js/bundles/bundles.js -->
+<script src="/manage/js/bundles/jquery.js" type="text/javascript" charset="utf-8"></script>
+<script src="/manage/js/bundles/es5-shim.js"></script>
+<script src="/manage/js/bundles/es5-sham.js"></script>
+<script src="/manage/js/bundles/es6-shim.js"></script>
+<script src="/manage/js/bundles/es6-sham.js"></script>
+<script src="/manage/js/bundles/underscore-min.js"></script>
+<script src="/manage/js/bundles/bootstrap.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="/manage/js/bundles/moment-with-locales.js"></script>
+<!-- endbuild -->
+
+<!-- build:js(static/) /manage/js/bundles/ui-bundles.js -->
+<script src="/manage/js/bundles/toastr.js"></script>
+<script src='/manage/js/bundles/jstree.js'></script>
+<script src="/manage/js/bundles/cacheManager.js"></script>
+<script src="/manage/js/bundles/dictManager.js"></script>
+<script src="/manage/js/bundles/selectize.js"></script>
+<script src="/manage/js/bundles/sweetalert.min.js"></script>
+<script src="/manage/js/bundles/jquery-ui.js"></script>
+<!-- endbuild -->
+
+<!-- build:js(static/) /manage/js/bundles/angular-bundles.js -->
+<script src="/manage/js/bundles/angular.js"></script>
+<script src="/manage/js/bundles/angular-locale_zh-cn.js"></script>
+<script src="/manage/js/bundles/angular-sanitize.js"></script>
+<script src="/manage/js/bundles/angular-moment.js"></script>
+<script src="/manage/js/bundles/angular-messages.js"></script>
+<script src="/manage/js/bundles/angular-animate.js"></script>
+<script src="/manage/js/bundles/ui-bootstrap-tpls.js"></script>
+<script src="/manage/js/bundles/angular-toastr.tpls.js"></script>
+<script src="/manage/js/bundles/angular-selectize.js"></script>
+<script src="/manage/js/bundles/ng-file-upload.min.js"></script>
+<script src="/manage/js/bundles/ng-file-upload-shim.min.js"></script>
+<script src="/manage/js/bundles/SweetAlert.js"></script>
+<script src="/manage/js/bundles/ADM-dateTimePicker.min.js"></script>
+<!-- endbuild -->
+
+<!-- build:js(static/) /manage/js/bundles/main.js -->
+<script src="/manage/js/manage/main.js"></script>
+<script src="/manage/js/service/httpService.js"></script>
+<script src="/manage/js/service/toastrService.js"></script>
+<script src="/manage/js/service/alertService.js"></script>
+<script src="/manage/js/service/dataIsland.js"></script>
+<script src="/manage/js/service/appConstants.js"></script>
+<script src="/manage/js/service/exportUsersService.js"></script>
+<script src="/manage/js/service/topOrgService.js"></script>
+<script src="/manage/js/service/operation.js"></script>
+<script src="/manage/js/filters/toNo.js"></script>
+<script src="/manage/js/directive/select-all.js"></script>
+<script src="/manage/js/directive/select-app.js"></script>
+<script src="/manage/js/directive/org-verify.js"></script>
+<script src="/manage/js/directive/org-dict.js"></script>
+<!-- endbuild -->
+
+<script>
+    $(window).on('load', function() {
+        // Pretty simple huh?
+        var scene = document.getElementById('topwave');
+        // var parallax = new Parallax(scene);
+        $('.sub-nav-li .sub-nav-a').closest('.sub-nav-li').find('ul.collapse').collapse('hide');
+        $('body').on('click', '.sub-nav-a[data-toggle="collapse"]', function () {
+            $('.sub-nav-li .sub-nav-a').closest('.sub-nav-li').find('ul.collapse').collapse('hide');
+            $(this).closest('.sub-nav-li').find('ul.collapse').collapse('toggle');
+        });
+        $('.minify-toggle').on('click', function () {
+            $('body').toggleClass('layout-minify')
+        });
+    });
+</script>

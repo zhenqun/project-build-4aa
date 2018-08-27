@@ -1,0 +1,66 @@
+<style type="text/css">
+    .dlmodal.e-box {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        z-index: 100;
+        margin-left: -160px;
+        width: 320px;
+        box-shadow: 0 0 15px rgba(0,0,0,0.18);
+        margin-top: -100px;
+    }
+    .dlmodal.e-box .close {
+        margin-top: 1px;
+        margin-right: 9px;
+        display: block;
+        color: #e60000;
+    }
+    .dlmodal.e-box .e-box-content {
+        height: 150px;
+        padding-top: 1px;
+    }
+    .dlmodal.e-box .e-box-content p {
+        font-size: 14px;
+        text-align: center;
+        line-height: 27px;
+        margin-top: 40px;
+    }
+    .dlmodal.e-box .e-btn {
+        padding: 10px 15px;
+        display: inline-block;
+    }
+    .mask {
+        position: fixed;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        right: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.15);
+        z-index: 10000;
+    }
+</style>
+<style th:unless="${showAfterInit}">
+    .dlmodal.e-box .close {
+        transform: scale(1.5);
+    }
+</style>
+<div id="browser-modal" class="mask" th:classappend="${showAfterInit} ? '' : 'hide'" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="dlmodal e-box">
+            <div class="e-box-title">
+                <h2>更新浏览器</h2>
+                <div class="e-box-toolbar" th:if="${allowClose} != false">
+                    <a href="javascript:void(0)" class="close" data-dismiss="modal">&times;</a>
+                </div>
+            </div>
+            <div class="e-box-content">
+                <p>为了获得更好的使用体验<br>请下载并使用谷歌浏览器访问</p>
+            </div>
+            <div class="e-border-top etal-c p-xxs">
+                <a href="http://10.243.32.40:8930/files/dtfiles.zip" class="e-btn btn-info">点击下载</a>
+            </div>
+        </div>
+    </div>
+</div>

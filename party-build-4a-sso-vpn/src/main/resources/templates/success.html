@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" layout:decorate="front-layout">
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+		<meta charset="utf-8" />
+		<meta name="description" content="User login page" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+		<title><a href="register">注册成功</title>
+		<link rel="stylesheet" type="text/css" href="/sso/css/reset.css"/>
+		<link rel="stylesheet" type="text/css" href="/sso/css/idangerous.swiper.css"/>
+		<link rel="stylesheet" type="text/css" href="/sso/css/base.css"/>
+		<link rel="stylesheet" type="text/css" href="/sso/css/media.css"/>
+		<link rel="stylesheet" type='text/css' href="/sso/css/login.css">
+		<!--<link rel="stylesheet" type="text/css" href="/sso/css/style1.css"/>-->
+		<link rel="stylesheet" type="text/css" href="/sso/css/toastr.css"/>
+		<style>
+			.text-danger {
+				 margin-top: 7px;
+			}
+		</style>        
+</head>
+<body>
+	<div layout:fragment="content">
+	<div class="content clearfix">
+		<div class="login-top clearfix">
+			<span class="login-title">欢迎注册 灯塔-党建在线</span>
+			<span class="login-register">我有账号，<a href="/sso/login">登录</a></span>
+		</div>
+		<p class="login-con-title">恭喜，您已经成功注册灯塔-党建在线帐号！</p>
+		<span class="login-con-title2">填写验证信息并完成实名认证,系统将为您开通对应权限。</span>
+		<div class="login-con clearfix" style="margin:20px auto">
+			<form id="regForm">
+				<!-- 
+					当有错误的时候,在p标签加error-show类,在input上加error-border类
+				-->				
+				<div class="form-login clearfix" style='margin-bottom: 20px;'>
+					<span class="login-word">真实姓名</span>
+					<span>:</span>
+					<input type="text" name="realName" required
+					data-parsley-required-message="请输入真实姓名"
+					data-parsley-errors-container="#nameMessage" data-parsley-maxlength="30">
+					<div class="text-danger" id="nameMessage"></div> 
+				</div>
+				<!--<p class="error-word error-show">请输入真实姓名</p>-->
+				<div class="form-login clearfix" style='margin-bottom: 20px;'>
+					<span class="login-word">身份证号</span>
+					<span>:</span>
+					<input type="text" name="idCard" required  data-parsley-minlength="18" data-parsley-maxlength="18"
+                        data-parsley-required-message="请输入您的身份证号码"
+                        data-parsley-minlength-message="请输入正确的身份证号码"
+                        data-parsley-maxlength-message="请输入正确的身份证号码"
+                        data-parsley-errors-container="#idMessage">
+					<div class="text-danger" id="idMessage"></div>   
+				</div>
+				<!--<p class="error-word error-show">请输入真实身份证号</p>-->
+				<div class="form-login clearfix">
+					<input type="button" name="" id='verify' value="实名认证" class="login-btn">
+				</div>
+				<div class="form-login clearfix">
+					<input type="button" name="" value="以后认证" class="login-btn btn-default">
+				</div>
+			</form>	
+			<input type="hidden" name='username' th:value='${username}'>		
+		</div>
+	</div>
+    </div>
+	<div layout:fragment="scripts">
+		<script src="/sso/js/parsley.min.js"></script>
+		<script src="/sso/js/toastr.js"></script>
+		<script>
+			!function(){				
+				// $('#regForm').parsley();
+				$('body').on('click','#verify',function(){
+					var flag = $('#regForm').parsley().validate();
+					if(!flag) {
+						return ;
+					}
+					var obj = {
+						username:$("[name='username']").val(),
+						idCard:$("[name='idCard']").val(),
+						realName:$("[name='realName']").val()
+					}
+					$.post({
+						headers: { 							
+						   'Content-Type': 'application/json' 
+						},
+						url:'/sso/acc/realnameAuthentication',
+						data:JSON.stringify(obj),
+						dataType:'json'
+					})
+					.then(function(data){
+						if(data) {
+							toastr.success("认证成功,即将跳转至登录页");
+							setTimeout(function(){
+								window.location = '/sso/login';
+							},2000);
+						}
+						else{
+							toastr.warning('认证失败');
+						}
+					})					
+				})
+			
+			}()
+		</script>
+	</div>
+</body>
+
+</html>

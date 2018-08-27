@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" layout:decorate="front-layout">
+
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>灯塔-党建在线 激活</title>
+	<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css" />
+	<!--<link rel="stylesheet" type="text/css" href="css/jsTree/default/style.css">-->
+	<link rel="stylesheet" type="text/css" href="css/style2.css">
+	<style>
+		* {
+			-webkit-box-sizing: initial;
+			-moz-box-sizing: initial;
+			box-sizing: initial;
+		}
+		
+		body {
+			line-height: 1;
+		}
+		
+		p {
+			margin: initial;
+		}
+		
+		a:hover,
+		a:focus {
+			color: initial;
+			text-decoration: initial;
+		}
+		
+		#sms-btn {
+			display: inline-block;
+			cursor: pointer;
+		}
+		
+		div,
+		ul,
+		li,
+		h4,
+		h6 {
+			margin: 0;
+			padding: 0;
+		}
+		/*start 4.14*/
+		
+		.modal-body {
+			line-height: 1.5em;
+			padding: 32px;
+			max-height: 400px;
+			overflow-y: scroll;
+			font-family: SimSun;
+		}
+		
+		.modal-body h6,
+		.modal-body h4 {
+			
+			line-height: 1.5em;
+			text-indent: 2em;
+		}
+		.modal-body p{text-indent: 2em;}
+		.modal-body h4 {
+			font-size: 12px;
+			font-weight: bold;
+		}
+		
+		.modal-body h6 {
+			font-size: 12px;
+			font-weight: normal;
+		}
+		
+		.modal-body li {
+			font-size: 12px;
+			text-indent: 2em;
+		}
+		/*end*/
+
+		.e-form .text {
+			width: 100%!important;
+		}
+
+		.js-check-result {
+			line-height: 20px;
+		}
+		.js-check-result [data-check-result] {
+			transition: color 0.3s;
+		}
+	</style>
+</head>
+
+<body>
+	<div layout:fragment="content">
+		<div class="register" style="max-width: 560px;">
+			<div class="login-top">
+				<span class="login-title">“灯塔-党建在线”激活</span>
+				<span class="login-register">已有账号，<a href="login">登录</a></span>
+			</div>
+			<form class="clearfix e-form" id="regForm" data-parsley-validate data-parsley-trigger="blur" novalidate>
+				<div class="form-con clearfix">
+					<!--
+					<div class="register-user-box clearfix  register-user">
+						<span class="reg-label">用户名</span>
+						<input name="username" type="text" required data-parsley-required-message="请输入用户名" data-parsley-errors-container="#usernameMessage"
+						 data-parsley-maxlength="30" placeholder='用户名'>
+						<p class="text" id="usernameMessage"></p>
+						<p class="text hide" id="errusername">该用户名已被使用</p>
+					</div>
+					-->
+					<div class="register-user-box clearfix register-phone">
+						<span class="reg-label">手机号码</span>
+						<input data-parsley-errors-container="#phoneMessage" name='telePhone' placeholder='手机号' data-parsley-pattern="/^1[34578]\d{9}$/"
+						 data-parsley-pattern-message="请输入正确的手机号码" data-parsley-required-message="请输入常用的手机号码" required type="text">
+						<p class="text" id="phoneMessage"></p>
+						<p class="text hide" id="errtelePhone">该手机号已被使用</p>
+					</div>
+					<div class="register-user-box clearfix register-yzm w-width clearfix">
+						<span class="reg-label">验证码</span>
+						<input type="text" id="validateCode" name="validateCode" placeholder="验证码" required style="text-transform:uppercase;" data-parsley-required-message="请输入图片验证码"
+						 data-parsley-errors-container="#validateCodeMessage" />
+						<div class="yzm">
+							<img alt="验证码" onclick="refresh()" id="yanzhengma" />
+						</div>
+						<p class="text" id="validateCodeMessage"></p>
+						<p class="text hide" id="errvalidCode">验证码错误</p>
+					</div>
+					<div class="register-user-box clearfix register-sjyzm w-width clearfix">
+						<span class="reg-label">短信验证码</span>
+						<input type="text" name="verifyCode" value="" required data-parsley-required-message="请输入手机验证码" placeholder="手机验证码" data-parsley-errors-container="#phoneValidateMessage">
+						<div class="hqyzm">
+							<a id='sms-btn' data-clear="#validateCode">获取验证码</a>
+						</div>
+						<p class="text" id="phoneValidateMessage"></p>
+					</div>
+					<!--<div class="register-user-box register-qrmm">
+						<input name="authorizationCode" type="text" required data-parsley-required-message="请输入授权码" data-parsley-errors-container="#authcodeMessage"
+						 data-parsley-maxlength="30" placeholder='授权码'>
+						<p class="text" id="authcodeMessage"></p>
+					</div>-->
+					<div class="register-user-box clearfix register-pwd">
+						<span class="reg-label">授权码</span>
+						<input  name="authorizationCode" type="text" required data-parsley-required-message="请输入授权码" data-parsley-errors-container="#authcodeMessage"
+						 data-parsley-maxlength="30">
+						<p class="text" id="authcodeMessage"></p>
+					</div>
+					<div class="register-user-box clearfix register-pwd">
+						<span class="reg-label" style="width:100px; margin-left:-25px;">管理员密码</span>
+						<input class="form-control js-password-popover" type="password" placeholder="登录应用系统的密码" name="password" id="password" required
+							   data-parsley-errors-container="#passwordMessage"
+							   data-parsley-maxlength="18"
+							   data-parsley-minlength="8"
+							   data-parsley-password-strength="2"
+							   data-parsley-required-message="请输入密码"
+							   data-parsley-maxlength-message="请输入8-18位的密码"
+							   data-parsley-minlength-message="请输入8-18位的密码"
+							   data-parsley-password-strength-message="密码强度较弱，请混合使用大小写字母和数字，避开常用密码">
+						<p class="text" id="passwordMessage"></p>
+					</div>
+					<div class="register-user-box clearfix register-qrmm">
+						<span class="reg-label">确认密码</span>
+						<input data-parsley-equalto="#password" placeholder="确认登录密码" data-parsley-equalto-message="两次密码不一致，请重新填写" data-parsley-errors-container="#rpasswordMessage"
+						 data-parsley-required-message="请输入重复密码" name="rPassword" required type="password">
+						<p class="text" id="rpasswordMessage"></p>
+					</div>
+				</div>
+				<div class="form-item">
+					<span>激活授权时请修改VPN账号密码</span>
+				</div>
+				<div class="form-con clearfix">
+					<div class="register-user-box clearfix register-qrmm">
+						<span class="reg-label">VPN 密码</span>
+						<input type="password" name="vpnpwd" id="vpnpwd" placeholder="指定VPN 密码" required
+							   data-parsley-errors-container="#vpnpwdMessage" data-parsley-minlength="8" data-parsley-maxlength="18"
+							   data-parsley-required-message="请输入新的VPN密码" data-parsley-minlength-message="请输入8-18位的 VPN 密码" data-parsley-maxlength-message="请输入8-18位的 VPN 密码">
+						<div style="position:absolute; top:11px; right:50px;">
+							<a tabindex="-1" href="javascript:void(0)" style="margin-left:5px;" data-toggle="popover" data-container="body" data-title="什么是 VPN 密码？" data-content="VPN 密码指的是您使用客户端连接“灯塔-党建在线”虚拟专网的账号的密码。下次连接虚拟专网时请使用修改后的 VPN 密码。VPN 密码长度为8-18位。" data-placement="right">
+								<i class="glyphicon glyphicon-question-sign"></i>
+							</a>
+						</div>
+						<p class="text" id="vpnpwdMessage"></p>
+					</div>
+					<div class="register-user-box clearfix register-qrmm">
+						<span class="reg-label" style="width: 110px; margin-left: -34px;">确认 VPN 密码</span>
+						<input type="password" name="revpnpwd" placeholder="确认 VPN 密码" required
+							   data-parsley-equalto="#vpnpwd" data-parsley-errors-container="#revpnpwdMessage"
+							   data-parsley-required-message="请输入确认VPN密码" data-parsley-equalto-message="两次VPN 密码不一致，请重新填写">
+						<p class="text" id="revpnpwdMessage"></p>
+					</div>
+				</div>
+				<!--
+				<div class="form-item">
+					<span class="text-red">*</span>
+					<span>党员认证信息：您只有通过党员身份认证才能够使用本平台的功能</span>
+				</div>
+				-->
+				<div class="form-con clearfix">
+					<div class="register-user-box clearfix register-name">
+						<span class="reg-label">姓 名</span>
+						<input name="name" type="text" required placeholder='姓名' data-parsley-required-message="请输入您的姓名" data-parsley-errors-container="#nameMessage">
+						<p class="text" id="nameMessage"></p>
+					</div>
+					<div class="register-user-box clearfix register-sfzh">
+						<span class="reg-label">身份证号</span>
+						<input class="input-idcard" name="idCard" type="text" required data-parsley-minlength="18" placeholder='身份证号' data-parsley-maxlength="18" data-parsley-required-message="请输入您的身份证号码"
+						 data-parsley-minlength-message="请输入正确的身份证号码" data-parsley-maxlength-message="请输入正确的身份证号码" data-parsley-errors-container="#idMessage">
+						<p class="text" id="idMessage"></p>
+					</div>
+
+				</div>
+				<div class="register-btn">
+					<span class="reg-label">&nbsp;</span>
+					<input type="submit" id='submitBtn' value="激 活" class="register-loginbtn" style='cursor: pointer;'>
+				</div>
+			</form>
+		</div>
+		<!-- Modal -->
+		<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+						<h4 class="modal-title" id="myModalLabel" style="text-align: center;">“灯塔-党建在线”用户须知</h4>
+					</div>
+					<div class="modal-body">
+
+						<p>欢迎您注册使用“灯塔-党建在线”综合管理服务平台（以下简称“平台”）。在注册前请您仔细阅读本须知的全部条款。</p>
+						<h4>一、用户的注册使用</h4>
+						<h6>（一）用户注册。注册实行实名制，用户只有通过党员实名认证后才能使用平台的有关应用功能。用户在注册填写用户名时，请注意以下事项：</h6>
+						<ul>
+							<li>1、请勿使用违法及不良信息；</li>
+							<li>2、请勿使用易产生歧义、引起他人误解的信息；</li>
+							<li>3、请勿使用社会知名人士的姓名等称谓；</li>
+							<li>4、请勿使用组织机构或单位的名称；</li>
+							<li>5、请勿使用与其他用户相同、相仿的用户名。</li>
+						</ul>
+						<h6>（二）用户登录。平台用户注册完成后，可以使用注册的用户名登录，也可以使用关联绑定的身份证号或手机号作为用户名登录。</h6>
+						<h4>二、用户的个人信息</h4>
+						<ul>
+							<li>1、用户注册时，请填写真实、有效、准确的个人信息（包括姓名、身份证号、手机号等），以便进行党员实名认证。</li>
+							<li>2、用户的个人信息发生变化时，应及时进行修改。</li>
+						</ul>
+						<h4>三、用户的账号、密码安全</h4>
+						<ul>
+							<li>1、注册成功后，用户应妥善保管用户名和密码，并对以其用户名在平台上进行的所有活动负责。</li>
+							<li>2、用户因忘记密码或密码被盗向平台查询密码时，可以通过获取手机验证码的方式，验证用户身份，进行密码重置；也可以通过向平台提供完整注册信息（姓名、身份证号、手机号等）的方式，自助找回密码。</li>
+							<li>3、用户的用户名和密码仅供本人使用，不得转让或借予他人。如用户发现其用户名遭他人非法使用或存在其它安全问题等情况，应立即通知所在党组织的平台管理员，采取相应保护措施。用户因保管疏忽导致用户名、密码遭他人非法使用，将自行承担责任。</li>
+						</ul>
+						<h4>四、用户责任</h4>
+						<h6>（一）遵守《中华人民共和国保守国家秘密法》、《中华人民共和国计算机信息系统安全保护条例》、《计算机软件保护条例》等相关法律、法规和条例规定，承担因自己的行为直接或间接引起的法律责任。</h6>
+						<h6>（二）不得传播含有下列内容的信息：</h6>
+						<ul>
+							<li>1、反对宪法、党章，反对中国共产党，反对社会主义，损害党和国家荣誉、利益。</li>
+							<li>2、危害国家安全，泄露党和国家秘密，颠覆国家政权，破坏祖国统一。</li>
+							<li>3、煽动民族仇恨、民族歧视，破坏民族团结。</li>
+							<li>4、破坏国家宗教政策，宣扬邪教和封建迷信。</li>
+							<li>5、散布谣言，扰乱社会秩序，破坏社会稳定。</li>
+							<li>6、侮辱或者诽谤他人，侵害他人合法权益。</li>
+							<li>7、未经证实或容易引起歧义、引发争议。</li>
+							<li>8、涉及单位和党组织秘密，及其他不宜公开的党务信息。</li>
+							<li>9、不宜公开的统计数据。</li>
+							<li>10、含有法律、法规禁止的其他内容。</li>
+						</ul>
+						<h6>（三）用户在使用平台过程中，如不能履行和遵守本规定要求，平台有权删改用户上传的不当信息，或封禁、删除用户账号，同时保留依法追究当事人法律责任的权利。</h6>
+						<h4>五、版权声明</h4>
+						<ul>
+							<li>1、平台提供的服务内容（包括但不限于：文字、图片、图表、音频、视频、软件等），均受版权保护，属平台版权所有，或由第三方授权使用。用户不能擅自复制、再造这些内容，或创造与内容有关的派生产品。</li>
+							<li>2、凡以任何方式登陆本平台或直接、间接使用本平台资料者，视为自愿接受本平台用户须知的约束。本须知未涉及的问题参照国家有关法律法规的规定执行，当本须知与国家法律法规冲突时，以国家法律法规为准。</li>
+							<li>3、平台用户须知以及其修改、更新和最终解释等权力，归本平台所有。</li>
+						</ul>
+					</div>
+					<div class="modal-footer text-center">
+						<button type="button" class="btn btn-primary" data-dismiss="modal" onclick='agree()' style="line-height:1;height:20px">关闭本页</button>
+						<!-- <button type="button" class="btn btn-primary">不同意</button> -->
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div layout:fragment="templates">
+		<script th:replace="common/password-popover-tpl"></script>
+	</div>
+
+	<!-- Mainly scripts -->
+	<div layout:fragment="scripts">
+		<script src="js/parsley.min.js"></script>
+		<script src='js/sendsms.js'></script>
+		<script src="js/manage/passwordPopover.js"></script>
+		<script th:inline="javascript">
+            var SAFE_CENTER_URL = /*[[${safeCenterUrl}]]*/ '/';
+			toastr.options.positionClass='toast-middle-right';
+
+			function refresh() {
+				$('#yanzhengma').attr('src', 'validateCodeServlet?w=96&h=42&t=' + (Math.random() * 10));
+			}
+			$(window).on('load', function () {
+			    refresh();
+
+                $('#regForm').parsley();
+
+				(function () {
+					$('[data-toggle="popover"]').popover();
+
+					var urls = {
+						register: '/sso/acc/register',
+						checkTel: '/sso/acc/checkTelephoneRegister/',
+						checkCode: '/sso/checkValidateCode/'
+					};
+
+                    /**
+                     * 验证是否被使用
+                     * @param url
+                     * @param val
+                     * @param {string} errEleName 错误提示元素 selector
+                     * @param {string} btnToDisable 要禁用的按钮 selector，使用逗号分隔
+                     */
+                    function isUsed(url, val, errEleName, btnToDisable) {
+                        if (val != null && val.length > 0) {
+                            return $.get(url + val + '/')
+                                .then(function (data) {
+                                    if (!data) {
+                                        $(errEleName).removeClass('hide');
+                                    }
+                                    else {
+                                        $(errEleName).addClass('hide');
+                                    }
+                                    if (btnToDisable) {
+                                        var classOperator = data ? 'removeClass' : 'addClass';
+                                        $(btnToDisable)
+                                            .prop('disabled', !data)
+                                            [classOperator]('disabled');
+                                    }
+
+                                    return data;
+                                });
+                        }
+                        else {
+                            $(errEleName).addClass('hide');
+                            if (btnToDisable) {
+                                $(btnToDisable)
+                                    .prop('disabled', false)
+                                    .removeClass('disabled');
+                            }
+                            var def = $.Deferred();
+                            def.resolve(true);
+                            return def.promise();
+                        }
+                    }
+
+					$('body').on('submit', '#regForm', function (e) {
+					    e.preventDefault();
+
+						var $form = $('#regForm');
+						if (!$form.parsley().validate()) {
+							return;
+						}
+						var obj = $form.serializeJSON();
+						obj = trimField(obj, {
+						    ignore: ['password', 'rPassword', 'vpnpwd', 'revpnpwd'],
+							trimAll: ['name', 'idCard']
+						});
+						var $btn = $('#submitBtn');
+
+						$btn.val('正在激活').prop('disabled', true);
+						$.ajax({
+							type: 'POST',
+							url: urls.register,
+							contentType: 'application/json',
+							data: JSON.stringify(obj)
+						})
+						.then(
+							function (data) {
+								if (data.flag === 'success') {
+									toastr.success('激活成功');
+									setTimeout(function () {
+										location.href = 'login';
+									}, 2000);
+								}
+								else if (data.flag === 'suggest') {
+									$btn.val('激 活').prop('disabled', false);
+									toastr.error(null, '系统未为您分配管理员账号或者您的授权码错误，如果您是安全员，请点击该提示消息前往安全中心激活', {
+										onclick: function() {
+											location.href = SAFE_CENTER_URL + 'register';
+										},
+										timeOut: 30e3,
+										extendedTimeOut: 20e3
+									});
+								}
+								else {
+									$btn.val('激 活').prop('disabled', false);
+									toastr.error(data.message);
+								}
+							},
+							function(data) {
+								$btn.val('激 活').prop('disabled', false);
+								toastr.error('服务器内部错误，请联系技术人员');
+							}
+						);
+
+						return false;
+					});
+
+					$('[name="telePhone"]').on('blur', function () {
+                        var $smsBtn = $('#sms-btn');
+                        $smsBtn
+                            .removeProp('telephone-valid')
+                            .trigger('change.validation');
+                        isUsed(urls.checkTel, $.trim($(this).val()), '#errtelePhone', '#submitBtn')
+                            .then(function(data) {
+                                $smsBtn
+                                    .prop('telephone-valid', data)
+                                    .trigger('change.validation');
+                            });
+					});
+
+					$('[name="validateCode"]').on('blur', function () {
+                        var $smsBtn = $('#sms-btn');
+                        $smsBtn
+                            .removeProp('captcha-valid')
+                            .trigger('change.validation');
+                        isUsed(urls.checkCode, $.trim($(this).val()), '#errvalidCode', '#submitBtn')
+                            .then(function(data) {
+                                $smsBtn
+                                    .prop('captcha-valid', data)
+                                    .trigger('change.validation');
+                            });
+					});
+				})();
+			});
+		</script>
+	</div>
+</body>
+
+</html>

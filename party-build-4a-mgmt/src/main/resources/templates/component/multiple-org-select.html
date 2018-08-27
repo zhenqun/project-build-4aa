@@ -1,0 +1,15 @@
+<script type="text/ng-template" id="multiple-org-select.html">
+    <div class="input-group" ng-repeat="org in orgList track by $index" ng-style="{width: isSingle ? '100%' : ''}">
+        <input type="text" style="width: 96%;" ng-class="selectClass" kt-dict="ZZ"
+               ng-model="org.orgId" display-value="org.orgInfo" clientid="{{$ctrl.client.clientId}}"
+               root="{{$ctrl.role.manageId}}" enable-search="$ctrl.enableSearch" org-can-search="$ctrl.orgCanSearch" tree-level="$ctrl.treeLevel">
+        <span class="input-group-btn">
+            <button class="btn" type="button" style="height: 32px;" ng-click="addRow()" ng-if="!isSingle">
+                <i class="fa fa-plus"></i>
+            </button>
+            <button class="btn" type="button" style="height: 32px;" ng-show="orgList.length > 1" ng-click="removeRow(org)" ng-if="!isSingle">
+                <i class="fa fa-minus"></i>
+            </button>
+        </span>
+    </div>
+</script>

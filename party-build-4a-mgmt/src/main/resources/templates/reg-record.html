@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" layout:decorator="layout">
+	<head>
+		<title>注册日志查看 </title>
+		<meta http-equiv="content-type" content="text/html;charset=utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+		<meta name="Keywords" content="" />
+		<meta name="Description" content="" />
+		<link rel="stylesheet" type="text/css" href="/manage/jsTree/default/style.css">
+        <link rel="stylesheet" type="text/css" href="/manage/css/ADM-dateTimePicker.min.css">
+        <link rel="stylesheet" type="text/css" href="/manage/css/extrafororm.css">
+        <style>
+            .hide{
+                display: none!important;
+            }
+        </style>
+	</head>
+
+	<body ng-controller="RecordController">
+        <div layout:fragment="content">
+		<div class="layout-content">
+			<div class="guidepost">
+				<span class="guidepost-span">位置：</span>
+				<ul class="guidepost-con">
+					<li class="guidepost-item">
+						<a href="#">首页 <i class="icons-12 icons-12-arrowr gray"></i></a>
+					</li>
+					<li class="guidepost-item">注册日志查看
+					</li>
+				</ul>
+			</div>
+			<div class="e-main">
+				<div class="mian-box-content">
+					<div class="row margin-b10">
+						<div class="row-space">
+							<div class="e-box float-e-margins"  style='overflow: initial;'>
+								<div class="e-box-title">
+									<h2>注册日志查看</h2>
+                                    <!--<span class="e-box-toolbar">
+                                        <button type="button" class="btn btn-xs" data-toggle="modal" data-target="#modal-4">添加</button>
+                                        <button class='btn btn-xs'>导入</button>
+                                     
+                                     </span>  -->
+                                </div>
+								<div class="e-box-content p-xs">
+                                    <!--/////////////////-->
+                                    <form id='queryForm'>
+                                        <div class="clearfix e-form" >
+                                            <div class="form-group clearfix margin-b0">
+                                               <div class="adm-wrapper">
+                                                    <span class="form-item-name">开始时间：</span> 
+                                                    <adm-dtp class='adm-input' ng-model='queryParams.startDate' required></adm-dtp>   
+                                                </div>
+                                                 <div class="adm-wrapper">
+                                                    <span class="form-item-name">结束时间：</span> 
+                                                    <adm-dtp class='adm-input' ng-model='queryParams.endDate' required></adm-dtp>   
+                                                </div> 
+                                                
+                                                <div class="form-item">
+                                                    <span class="form-item-name">操作人：</span>
+                                                    <div class="form-item-input">
+                                                        <input id="telephone" name='telephone' type="text" class="form-item-input" ng-model='queryParams.logOperator'>
+                                                    </div>
+                                                </div> 
+                                                <div class="form-item" ng-cloak>
+                                                    <span class="form-item-name">日志来源：</span>
+                                                    <select type="text" class="form-item-input" name='status' ng-model='queryParams.logFrom'>
+                                                         <option ng-cloak ng-repeat="type in localData.sources" value="{{type.val}}">{{type.name}}</option>                                                       
+                                                    </select>
+                                                </div>                                                       
+                                                <div class="form-item" ng-cloak>
+                                                    <span class="form-item-name">注册结果：</span>
+                                                    <select type="text" class="form-item-input" name='status' ng-model='queryParams.result'>
+                                                         <option ng-cloak ng-repeat="type in localData.regResult" value="{{type.val}}">{{type.name}}</option>                                                       
+                                                    </select>
+                                                </div>                                          
+                                                <a class="btn btn-info" ng-click='query()'>查 询</a>
+                                             </div>
+                                        </div>
+                                    </form>
+                                    <!--/////////////////-->
+									<div class="e-box-title">
+										<h3>日志列表</h3>
+									</div>
+                                    <table class="e-table margin-t10">
+                                        <thead>
+                                            <tr>                                               
+                                                <th width="5%" class="text-center">
+                                                    序号
+                                                </th>
+                                                <th class='text-center'>业务名称</th>
+                                                <th class='text-center'>操作人</th>
+                                                <th class='text-center'>操作人姓名</th>
+                                                <th class='text-center'>注册名</th>
+                                                <th class='text-center'>操作时间</th>
+                                                <th class='text-center'>操作人所属支部</th>
+                                                <th class='text-center'>身份证</th>
+                                                <th class='text-center'>主机名</th>
+                                                <th class='text-center'>ip地址</th>
+                                                <th class='text-center'>mac地址</th>                                               
+                                                
+                                            </tr>
+                                        </thead>
+                                        <tbody>                                             
+                                            <tr ng-repeat='record in recordList track by $index' ng-cloak ng-if='!isLoading&&recordList.length>0'>                                                                                               
+                                                <td class="text-center">{{$index|handleIndex:page}}</td>
+                                                <td class="text-center">
+                                                     {{record.result}}
+                                                    <!--<span ng-repeat='type in localData.regResult' ng-if='type.val == record.result'>{{type.name}}</span>-->
+                                                </td>
+                                                <td class='text-center'>{{record.logOperator}}</td>                                                                                                 
+                                                <td class="text-center">{{record.relName}}</td>                                                
+                                                <td class="text-center">{{record.registerName}}</td>
+                                                <td class='text-center'>{{record.logDate|date:'yyyy-MM-dd HH:mm'}}</td>
+                                                <td>{{record.orgName}}</td>
+                                                <td class="text-center">{{record.idCard}}</td>
+                                                <td class="text-center">{{record.hostName}}</td>
+                                                <td class="text-center">{{record.registerIP}}</td>
+                                                <td class="text-center">{{record.mac}}</td>
+                                            </tr> 
+                                            <!--<tr ng-repeat-end ng-cloak>
+                                               <td colspan='7' style='padding:0;height: 0;'>
+                                                   <div style='text-indent:30px;margin: 20px;' uib-collapse="!record.showOldDetail"><span>{{record.oldDetail}}</span></div>
+                                                   <div style='text-indent:30px;margin: 20px;' uib-collapse="!record.showDetail"><span>{{record.detail}}</span></div>
+                                               </td> 
+                                            </tr>                                           -->
+                                            <tr ng-if='!isLoading&&(recordList.length == 0||!recordList)' ng-cloak class="text-center"><td colspan='10'>暂无数据</td></tr>
+                                            <tr ng-if='isLoading' ng-cloak class="text-center"><td colspan='10'>加载中</td></tr>                                            
+                                        </tbody>
+                                    </table>
+                                    <nav class="text-center">
+                                        <uib-pagination
+                                            ng-model="page.pageNo"
+                                            ng-change="query()"
+                                            total-items="totalItems"
+                                            items-per-page="page.pageSize"
+                                            template-url="pagination.html"
+                                            force-ellipses = "true"
+                                            max-size="7">
+                                        </uib-pagination>
+                                    </nav>               
+							    </div>
+						    </div>
+					    </div>
+				    </div>
+                </div>
+            </div>
+        </div>
+	
+		
+        </div>
+		<div layout:fragment="scripts">
+			<script src="/manage/js/manage/reg-record.js"></script>
+			
+	    </div>
+	</body>
+    
+</html>

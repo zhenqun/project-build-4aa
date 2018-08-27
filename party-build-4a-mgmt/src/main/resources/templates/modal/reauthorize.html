@@ -1,0 +1,139 @@
+<!--弹窗6-->
+<script type="text/ng-template" id="reauthorize.html">
+    <style>
+        /*授权列表5.20*/
+        
+        .form-item-input.role-item {
+            width: initial;
+            margin-right: 20px;
+            line-height: 35px;
+        }
+        
+        ul.users-container {
+            display: inline-block;
+            /*overflow-y: scroll;*/
+            width: 16%;
+            /*max-height: 650px;*/
+            /*width: 130%;*/
+            vertical-align: top;
+            margin-right: -4px;
+        }
+        
+        ul.users-container>li {
+            box-sizing: border-box;
+            line-height: 30px;
+            font-size: 15px;
+            padding-left: 35px;
+            border: 1px solid white;
+        }
+        
+        ul.users-container>li:hover {
+            border: 1px solid #ccc;
+            border-right: 1px solid white;
+            background-color: #FFFEF1;
+            color: black;
+            cursor: pointer;
+            margin-right: -2.5px;
+        }
+        
+        ul.users-container>li.active {
+            border: 1px solid #ccc;
+            border-right: 1px solid white;
+            background-color: #FFFEF1;
+            color: black;
+            margin-right: -2.5px;
+        }
+        
+        table.auth-table {}
+        
+        .e-box.app-wrapper {
+            width: 83%;
+            min-height: 206px;
+            overflow-y: auto;
+            padding-left: 7px;
+            float: right;
+            border-left: 1px solid #ccc!important;
+        }
+        
+        .font-red {
+            color: red!important;
+        }
+        
+        .popover-fix {
+            left: 651px!important;
+            color: red!important;
+        }
+
+        .single-user .app-wrapper {
+            width: 100%;
+            padding: 10px 20px;
+            box-sizing: border-box;
+        } 
+
+        .single-user ul.users-container {
+            display: none;
+        }    
+    </style>
+    <div class="modal-content">
+        <div id="info" class="e-box m-b">
+            <form name="authForm">
+                <div class="e-box-title">
+                    <h2>授权</h2>
+                    <div class="e-box-toolbar close-modal"><button type="button" class="close m-t-sm"><span ng-click='$close()'>&times;</span><span class="sr-only" ng-click='$close()'>Close</span></button></div>
+                </div>
+                <div class="e-box-content" style="overflow:hidden;" ng-class="{'single-user': users.length === 1}">
+                    <ul class="users-container">
+                        <li ng-repeat="user in users track by user.businessUserId" ng-class="{active:selectedUser.businessUserId === user.businessUserId}" ng-click="selectUser(user)"
+                            ng-cloak>{{user.businessUserName}}</li>
+                    </ul>
+                    <div class="e-box app-wrapper">
+                        <div class="e-box-title">
+                            <h2 ng-cloak>{{client.clientName}}</h2>
+                            <ul class="e-box-toolbar">
+                                <button type="submit" class="btn btn-sm m-t-xs m-r-md" ng-if="clientList.length !== 0 && !isLoading" ng-disabled="authForm.$invalid || authForm.$pending" ng-click="save()">
+                                    保存
+                                </button>
+                            </ul>
+                        </div>
+
+                        <table class="e-table margin-t10 center1 auth-table">
+                            <thead>
+                                <tr>
+                                    <th style="width: 15%;">应用</th>
+                                    <th style="width: 15%;">角色</th>
+                                    <th style="width: 20%;">角色描述</th>
+                                    <th style="width: 50%;">管理范围</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="text-center" ng-if="isRoleLoading">
+                                    <td colspan="3"><i class="fa fa-spin fa-spinner fa-2x"></i> 正在加载角色列表</td>
+                                </tr>
+                                <tr class="text-center" ng-if="!isRoleLoading && !client.roles.length">
+                                    <td colspan="3">暂无可见的角色，请先前往“<a ng-href="auth-config?clientId={{client.clientId}}">权限配置</a>”页面配置角色</td>
+                                </tr>
+                                <tr ng-if="selectedUser.client.roles.length > 0 && !isRoleLoading" ng-repeat="role in selectedUser.client.roles" ng-cloak>
+                                    <td rowspan="{{selectedUser.client.roles.length || 1}}" ng-if="$index === 0" ng-bind="selectedUser.client.clientName"></td>
+                                    <td>
+                                        <div class="form-item-input role-item">
+                                            <input id="{{selectedUser.client.clientId + 'x' + role.roleId}}" type="checkbox" ng-model="role._selected">
+                                            <label for="{{selectedUser.client.clientId + 'x' + role.roleId}}" ng-bind="role.roleDescription"></label>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="role-detail-col interactable" ng-bind="role.detail || '&nbsp;'" uib-popover-template="'role-item-detail.html'"
+                                             popover-append-to-body="true" popover-placement="right" popover-title="角色详细描述" popover-trigger="mouseenter"></div>
+                                    </td>
+                                    <td>
+                                        <multiple-org-select client="selectedUser.client" role="role" org-list="role.orgList" is-single="true" tree-level="0" ng-if="topOrg.level < ORG_LEVELS.Xian"></multiple-org-select>
+                                        <multiple-org-select client="selectedUser.client" role="role" org-list="role.orgList" ng-if="topOrg.level === ORG_LEVELS.Xian" enable-search="'auto'" org-can-search="true"></multiple-org-select>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</script>

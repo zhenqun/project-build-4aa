@@ -1,0 +1,385 @@
+.sys-box a.sys-item {
+	border: none;
+	padding: 0px 15px;
+}
+
+.sys-box li.sys-item-box {
+	width: 14.28%;
+	padding: 0px;
+}
+
+.e-box {
+	border: none;
+	box-shadow: 0 0 7px rgba(0, 0, 0, 0.2);
+}
+
+.e-box-title {
+	margin-bottom: 5px;
+}
+
+.e-main {
+	background: #E5E5E5;
+}
+
+.mian-box-content.padding-20 {
+	padding: 20px 46px !important;
+}
+
+.bg-col {
+	background-color: #e44343;
+}
+
+.wea-title {
+	border-bottom: 1px solid #fff;
+	padding: 10px 16px;
+	color: #fff;
+}
+
+.wea-title-le {
+	display: inline-block;
+	float: left;
+}
+
+.wea-title-le h2 {
+	padding-bottom: 6px;
+}
+
+.wea-content {
+	color: #fff;
+	padding: 20px;
+}
+
+.wea-content-le {
+	float: left;
+	font-size: 30px;
+}
+
+.wea-content-ri {
+	float: right;
+}
+
+.bor-r {
+	width: 0;
+	height: 0;
+	border-top: 1em solid #e60000;
+	border-left: 1em solid transparent;
+	float: right;
+	margin-top: 5px;
+	margin-right: 5px;
+}
+
+
+/*登录信息*/
+
+.z-login {
+	margin: 16px 0;
+}
+
+.z-login-le {
+	float: left;
+	width: 30%;
+}
+
+.z-login-le-bor {
+	border: 1px #bbb5b5 solid;
+	width: 82px;
+	height: 82px;
+	text-align: center;
+	padding: 12px;
+	margin-left: 10px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	padding: 4px;
+
+}
+.z-login-le-bor .js-head{
+	max-height: 100%;
+	max-width: 100%;
+	width: 100%;
+	height: 100%;
+}
+
+.z-login-ri {
+	float: left;
+	margin-left: 10px;
+	width: 190px;
+}
+
+.z-login-ri p {
+	padding: 15px 0px;
+}
+
+.z-login-ri h2,
+.z-login-ri p,
+.z-login-ri div {
+	padding-left: 10px;
+}
+
+.btn {
+	height: 24px;
+	line-height: 24px;
+}
+
+.z-other {
+	background-color: #F9FAFC;
+	border-top: 1px solid #EEEEEE;
+	overflow-y: scroll;
+	max-height: 208px;
+	padding: 10px 0px;
+}
+
+.z-other-today {
+	padding: 10px;
+	position: relative;
+}
+
+.z-other-today ul {
+	position: relative;
+	z-index: 1;
+}
+
+.z-other-item {
+	padding: 5px;
+}
+
+.z-other-le {
+	float: left;
+	width: 12%;
+}
+
+.z-other-le img {
+	background: #118497;
+	border-radius: 100%;
+	border: 3px solid #fff !important;
+}
+
+.z-other-ri {
+	float: right;
+	width: 88%;
+	vertical-align: middle;
+	margin-top: 4px;
+}
+
+.z-text {
+	max-width: 50%;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	display: inline-block;
+	vertical-align: middle;
+	margin-top: -4px;
+}
+
+.ago-ri {
+	float: right;
+}
+
+.timeline-label {
+	display: block;
+	clear: both;
+	margin: 0 0 10px;
+	margin-left: 24px;
+}
+
+.z-other-today:before {
+	content: "";
+	display: block;
+	position: absolute;
+	left: 24px;
+	top: 0;
+	bottom: 0;
+	border: 1px solid #E3E9F4;
+	background-color: #E3E9F4;
+	width: 4px;
+	border-width: 0 1px;
+}
+
+.arrowed-in-right {
+	position: relative;
+	z-index: 1;
+	display: inline-block;
+}
+
+.label {
+	padding: 4px 6px 4px 2px;
+	border-radius: 0px;
+}
+
+.arrowed-in-right:after {
+	content: " ";
+	display: inline-block;
+	position: absolute;
+	top: 0;
+	z-index: -1;
+	border: 1px solid transparent;
+	border-right-color: transparent !important;
+	right: -6px;
+	border-width: 9px 6px;
+}
+
+.label-danger.arrowed-in-right:after {
+	border-color: #d9534f;
+}
+
+.label-warning.arrowed-in-right:after {
+	border-color: #f0ad4e;
+}
+
+.z-more {
+	background-color: #F2F3F5;
+	border-top: 1px solid #EEEEEE;
+	padding: 10px;
+	text-align: center;
+}
+
+.z-more a {
+	color: #333;
+}
+
+.refresh {
+	color: inherit;
+}
+
+.refresh:hover,
+.refresh:focus {
+	color: #fff;
+}
+
+@font-face {
+	font-family: "iconfont";
+	src: url('font/iconfont.eot');
+	/* IE9*/
+	src: url('font/iconfont.eot#iefix') format('embedded-opentype'), /* IE6-IE8 */
+	url('font/iconfont.woff') format('woff'), /* chrome, firefox */
+	url('font/iconfont.ttf') format('truetype'), /* chrome, firefox, opera, Safari, Android, iOS 4.2+*/
+	url('font/iconfont.svg#iconfont') format('svg');
+	/* iOS 4.1- */
+}
+
+.iconfont {
+	font-family: "iconfont" !important;
+	font-size: 16px;
+	font-style: normal;
+	-webkit-font-smoothing: antialiased;
+	-webkit-text-stroke-width: 0.2px;
+	-moz-osx-font-smoothing: grayscale;
+	color: #fff;
+	font-family: weather;
+	font-size: 50px;
+	font-weight: normal;
+	font-style: normal;
+	line-height: 1.0;
+	text-transform: none;
+	vertical-align: middle;
+}
+
+.wea-content {
+	width: 100%;
+	margin: 0px auto;
+	text-align: left;
+	padding: 29px 0;
+	min-height: 74px;
+	text-transform: uppercase;
+}
+
+.wea-content h2 {
+	margin: 0 0 8px;
+	color: #fff;
+	font-size: 60px;
+	font-weight: 300;
+	margin-left: 60px;
+	text-align: left;
+	text-shadow: 0px 1px 3px rgba(0, 0, 0, 0.15);
+}
+
+.wea-content ul {
+	margin: 0;
+	padding: 0;
+}
+
+.wea-content li {
+	background: #fff;
+	background: rgba(255, 255, 255, 0.90);
+	padding: 10px;
+	display: inline-block;
+	border-radius: 5px;
+}
+
+.wea-content .currently {
+	margin: 0 20px;
+}
+
+.city-wea {
+	font-size: 14px;
+	padding-left: 10px;
+}
+
+.e-box {
+	box-shadow: none;
+	background: transparent;
+}
+
+.e-box-title {
+	border-radius: 3px;
+}
+
+.e-box-content,
+.e-table {
+	background: #fff;
+}
+
+.rotate {
+	animation: myrotate 1s 1;
+}
+
+
+/* 新修改的样式 */
+
+.news-box {
+	padding: 5px;
+	padding-left: 10px;
+}
+
+.news-box .news-box-item {
+	width: 100%;
+	line-height: 45px;
+	height: 45px;
+	border-bottom: 1px solid #e3e3e3;
+}
+
+.news-box .news-box-item:hover a {
+	color: #e60000;
+}
+
+.news-box .news-box-item:last-child {
+	border-bottom: none;
+}
+
+.news-box-item a {
+	display: block;
+	float: left;
+	width: 70%;
+	color: #333;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	font-size: 14px;
+	padding-left: 3px;
+}
+
+.news-box-item span {
+	width: 18%;
+	min-width: 50px;
+	float: right;
+	display: block;
+	text-align: center;
+}
+
+.bg-list {
+	background: url(/sso/vpn/img/empty-bg.png)no-repeat;
+    height: 322px;
+    background-size: 100% 100%;
+    text-align: center;
+    padding-top: 15px;
+}

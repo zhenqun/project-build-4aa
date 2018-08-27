@@ -1,0 +1,103 @@
+<!--弹窗4-->
+<script type='text/ng-template' id='role.html' th:fragment="role">
+    <style>
+        td label {
+            margin: initial;
+            font-weight: initial;
+        }
+
+        .form-item-input.fix {
+            position: relative;
+        }
+
+        .form-item-input.fix span.font-red {
+            position: absolute;
+            left: 50px;
+            bottom: -27px;
+        }
+    </style>
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div id="info" class="e-box m-b">
+                <div class="e-box-title">
+                    <h2>
+                        <span ng-if="!role.roleId">添加</span><span ng-if="role.roleId">编辑</span>角色
+                    </h2>
+                    <div class="e-box-toolbar close-modal"><button type="button" ng-click='$dismiss()' class="close m-t-sm"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button></div>
+                </div>
+                <div class="e-box-content p-m">
+                    <form name='addForm' novalidate style="min-height:200px">
+                        <div class="clearfix e-form">
+                            <div class="form-group clearfix margin-b0">
+                                <div class="clearfix e-form">
+                                    <div class="form-group clearfix margin-b0">
+										<!--/*
+                                        <div class="form-item">
+                                            <span class="form-item-name">角色代码：</span>
+                                            <div class="form-item-input fix">
+                                                <span style="vertical-align: inherit;" title='角色代码必须以ROLE_开头'>ROLE_</span>
+                                                <input type="text" name='roleName' ng-model='role.roleName' required>
+                                                <span class="font-red" ng-if='addForm.$submitted&&addForm.roleName.$invalid'>请填写角色代码</span>
+                                            </div>
+                                        </div>
+										*/-->
+                                        <div class="form-item form-item-2xl">
+                                            <span class="form-item-name">角色名称：</span>
+                                            <div class="form-item-input fix">
+                                                <input type="text" ng-model='role.roleDescription' name="roleDescription" class="form-item-input"
+                                                    required>
+                                                <span class="font-red" style="left: 0;" ng-if='addForm.$submitted&&addForm.roleDescription.$invalid'>请填写角色名称</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group clearfix margin-b0">
+                                        <div class="form-item form-item-2xl">
+                                            <span class="form-item-name">角色描述：</span>
+                                            <div class="form-item-input fix">
+                                                <textarea class="form-item-input" style="padding-left: 5px; line-height: initial; height: initial;" name="detail" rows="3" maxlength="500" ng-model="role.detail"></textarea>
+                                                <span class="font-red" style="left: 0;" ng-if="(addForm.$submitted || addForm.detail.$touched) && addForm.detail.$error.maxlength">角色描述最大支持500个字</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <table class="e-table margin-t10 center1">
+                                    <thead>
+                                        <tr>
+                                            <th class='center1 text-center' style="width:10%;">
+                                                <select-all ng-show="selectItem.permissions&&selectItem.permissions.length>0" list="selectItem.permissions" selected-key="_selected"></select-all>
+                                            </th>
+                                            <th style="padding-left: 10%;">
+                                                <span class='btn' style="margin-right: 5px;" ng-repeat='item in role.permissions' ng-class="{' btn-success':selectItem == item}"
+                                                    ng-click='setItem(item)'>{{item.categoryName}}</span>
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody ng-cloak>
+                                        <tr ng-if='!orgLoading&&!isLoading&&role.permissions.length>0' ng-repeat='permission in selectItem.permissions track by $index'>
+                                            <td class="text-center"><input id="{{permission.permissionId}}" ng-disabled='permission.isLimit == "1"'
+                                                    type="checkbox" ng-model="permission._selected"></td>
+                                            <td style="padding-left: 10%;"><label for="{{permission.permissionId}}">{{permission.permissionDescription}}</label></td>
+                                        </tr>
+                                        <tr ng-if='!orgLoading&&!isLoading&&(role.permissions.length==0||selectItem.permissions.length == 0||!selectItem.permissions||!role.permissions)'
+                                            class="text-center">
+                                            <td colspan='13'>暂无数据</td>
+                                        </tr>
+                                        <tr ng-if='orgLoading||isLoading' class="text-center">
+                                            <td colspan='13'>加载中</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </form>
+                    <hr class="m-t-sm m-b-sm">
+                    <div class="etal-c m-b-sm">
+                        <button class="btn btn-info" ng-disabled='isSubmitting' ng-click='edit()'>确定</button>
+                        <div class="btn btn-danger close-modal" data-dismiss="modal" ng-click='$dismiss()'>取消</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</script>
+<!--弹窗4-->

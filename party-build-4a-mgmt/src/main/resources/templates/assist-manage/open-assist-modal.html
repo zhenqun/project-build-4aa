@@ -1,0 +1,104 @@
+<!--/* 开通辅助安全员 */-->
+<script type="text/ng-template" id="open-assist-modal.html">
+    <div id="info" class="e-box m-b">
+        <div class="e-box-title">
+            <h2>开通辅助安全员</h2>
+            <div class="e-box-toolbar close-modal"><button type="button" class="close m-t-sm" ng-click="$dismiss()"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button></div>
+        </div>
+        <div class="e-box-content p-m" style="padding-bottom:0;">
+            <form name="addForm" novalidate style="min-height:200px">
+                <div class="clearfix e-form">
+                    <div class="form-group clearfix margin-b0">
+                        <div class="form-item">
+                            <span class="form-item-name">姓名：</span>
+                            <div class="form-item-input">
+                                <input id="username" name="username" type="text" class="form-item-input" required ng-model="assistor.relName">
+                                <span style="color: red;position: absolute;" ng-show="addForm.$submitted && addForm.username.$error.required">请填写姓名</span>
+                            </div>
+                        </div>
+
+                        <div class="form-item">
+                            <span class="form-item-name">身份证号：</span>
+                            <div class="form-item-input">
+                                <input name="idCard" type="text" class="form-item-input input-idcard" required ng-minlength="18" ng-maxlength="18" ng-model="assistor.idCard">
+                                <span style='color: red;position: absolute;' ng-show="addForm.$submitted && addForm.idCard.$error.required">请填写身份证号</span>
+                                <span style='color: red;position: absolute;' ng-show="addForm.$submitted && addForm.idCard.$invalid && !addForm.idCard.$error.required">请填写正确的身份证号</span>
+                            </div>
+                        </div>
+
+                        <div class="form-item">
+                            <span class="form-item-name">手机号：</span>
+                            <div class="form-item-input">
+                                <input name="telephone" ng-pattern="/^1[3456789]\d{9}$/" type="text" class="form-item-input" required ng-model="assistor.telephone">
+                                <span style='color: red;position: absolute;' ng-show="addForm.$submitted && addForm.telephone.$error.required">请填写手机号</span>
+                                <span style='color: red;position: absolute;' ng-show="addForm.$submitted && addForm.telephone.$invalid && !addForm.telephone.$error.required">请填写正确的手机号</span>
+                            </div>
+                        </div>
+                    </div>
+                    <!--/*
+                    <div class="form-group clearfix">
+                        <div class="form-item">
+                            <span class="form-item-name">单位和职务</span>
+                            <div class="form-item-input form-item-2xl">
+                                <textarea name="remark" rows="2" class="form-item-input" maxlength="100" style="height: 46px;" ng-model="assistor.remark"></textarea>
+                                <span style='color: red;position: absolute;' ng-show="addForm.$submitted && addForm.remark.$error.maxlength">最多只能填写100个字符</span>
+                            </div>
+                        </div>
+                    </div>
+                    */-->
+                    <div class="form-group clearfix">
+                        <table class="e-table margin-t10 center1 auth-table">
+                            <thead>
+                            <tr>
+                                <th>
+                                    <select-all list="clientList" selected-key="_selected"></select-all>
+                                </th>
+                                <th>
+                                    应用
+                                    <a class="m-l-xs" style="cursor: pointer;" uib-popover-template="'client-not-display.html'" popover-append-to-body="true" popover-placement="right" popover-trigger="outsideClick">部分应用系统没有显示，为什么？</a>
+                                </th>
+                                <th style="width: 50%;">管理范围</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr class="text-center" ng-if="isClientLoading">
+                                <td colspan="3"><i class="fa fa-spin fa-spinner fa-2x"></i> 正在加载应用列表</td>
+                            </tr>
+                            <tr class="text-center" ng-if="!isClientLoading && !clientList.length">
+                                <td colspan="3">没有能开通辅助安全员的应用系统，请先前往“<a href="/manage/role-packs">辅助安全员-可用角色配置</a>”页面配置应用和角色</td>
+                            </tr>
+                            <tr ng-if="clientList.length > 0 && !isRoleLoading" ng-repeat="client in clientList track by $index" ng-cloak>
+                                <td>
+                                    <input type="checkbox" id="client-{{client.clientId}}" ng-model="client._selected" ng-change="clientSelected(client)">
+                                </td>
+                                <td>
+                                    <label for="client-{{client.clientId}}" ng-bind="client.clientName"></label>
+                                </td>
+
+                                <td>
+                                    <input type="text" class="form-item-input large-org" style="width:94%;" kt-dict="ZZ" ng-model="client.manageId" display-value="client.manageName" org-verify
+                                           role-type="work" clientid="{{client.clientId}}" name="{{client.roleId}}" tree-level="1" allow-top="false">
+                                    <!--<org-dict ng-model='client.manageId' url="{{client.classificationUrl}}"></org-dict>-->
+                                    <!--<div class="" uib-popover="请选择管理范围" popover-class="popover-fix" popover-trigger='null' popover-is-open="addForm.$submitted&&checkOrg(client)">-->
+                                    <!--<div uib-popover="请选择正确的管理范围" popover-class="popover-fix" popover-trigger='null' popover-is-open="addForm[client.roleId].$error.errOrg">-->
+
+                                    <!--<input type="text" style="width:94%;" kt-dict='ZZ' ng-model='client.manageId' display-value="client.manageName" class='form-item-input large-org'-->
+                                    <!--org-verify role-type="work" clientid="{{client.clientId}}" name="{{client.roleId}}" tree-level="0" ng-if="topOrg.level < ORG_LEVELS.Xian">-->
+                                    <!--<span ng-show="addForm['client.roleId'].$pending"><i class="fa fa-spin fa-spinner loading-btn"></i></span>-->
+                                    <!--</div>-->
+                                    <!--</div>-->
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </form>
+            <hr class="m-t-sm m-b-sm">
+            <div class="etal-c m-b-sm">
+                <button class="btn btn-info" disabled ng-disabled="isClientLoading || isSubmitting" ng-click="add()">确定</button>
+                <button class="btn close-modal" ng-click="$dismiss()">取消</button>
+            </div>
+        </div>
+    </div>
+</script>

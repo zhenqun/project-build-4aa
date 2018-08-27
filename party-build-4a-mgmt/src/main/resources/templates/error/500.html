@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" layout:decorator="layout">
+
+<head>
+  
+    <title>服务器内部错误</title>
+    <meta http-equiv="content-type" content="text/html;charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="Keywords" content="" />
+    <meta name="Description" content="" />
+    <link rel="icon" type="image/x-ico" href="/manage/images/favicon.ico">
+    <style>
+        .errorinfo {
+            max-width: 700px;
+            min-height: 400px;
+            margin: 50px auto;
+            overflow: hidden;
+            font-family: 'Microsoft YaHei';
+            box-shadow: 0 2px 10px rgba(0, 0, 0, .2);
+            background: #fff url('/manage/img/errorinfo-bg.png') no-repeat bottom;
+            background-size: contain;
+        }
+
+        .error-con {
+            text-align: center;
+            margin: 0 auto;
+            padding-bottom: 100px;
+            background: url('/manage/img/errorinfo-dt.png') no-repeat 0 center;
+        }
+
+        .error-con img {
+            width: 200px;
+            height: 113px;
+            margin: 50px auto 0;
+        }
+
+        .error-con .error-title {
+            font-size: 22px;
+            color: #e60000;
+            font-weight: bold;
+            line-height: 30px;
+            max-width: 500px;
+            padding: 0 20px;
+            margin: 20px auto;
+            word-wrap: break-word;
+        }
+
+        .error-con .error-txt {
+            display: block;
+            font-size: 14px;
+            color: #ccc;
+            line-height: 25px;
+            max-width: 500px;
+            padding: 0 20px;
+            margin: 0 auto;
+            word-wrap: break-word;
+        }
+
+        .login-btn {
+            padding: 2px 25px;
+            display: inline-block;
+            background: #fff;
+            border: 1px solid #e60000;
+            border-radius: 3px;
+            color: #e60000;
+            text-align: center;
+            line-height: 30px;
+            font-size: 14px;
+            margin: 10px 5px;
+        }
+
+        .login-btn:hover {
+            box-shadow: 0 0 5px rgba(0, 0, 0, .5);
+        }
+
+        @media screen and (max-width:720px) {
+            .error-con {
+                background: none;
+            }
+        }
+
+        .role {
+            display:none!important;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div layout:fragment="content">
+        <div class="e-main">
+            <div class="main-box e-box full" style='overflow:initial;'>
+                <div class="con">
+                    <div class="errorinfo" style="box-shadow: none;">
+                        <div class="error-con">
+                            <img src="/manage/img/errorinfo-icon.png">
+                            <div>
+                                <p class="error-title" th:text="#{${'error.title.'+errorCode}}+' 错误码：'+${errorCode}"></p>
+                            </div>
+                            <div>
+                                <span class="error-txt" th:text="#{${'error.info.'+errorCode}}+' 点击“返回”按钮继续访问。'"> </span>
+                            </div>
+                            <span class="error-txt" th:text="${errorMessage}"></span>
+                            <a href="#" class="login-btn" onclick="history.back()">返回</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div layout:fragment="templates"></div>
+</body>
+
+</html>

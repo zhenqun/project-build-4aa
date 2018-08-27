@@ -1,0 +1,199 @@
+.page-nav .pagenav-item a{
+	// display:block;
+	background: url(../img/login-back.png) 0px 0px no-repeat;
+	font-size: 14px;
+	color: #000;
+	border-right: none;
+	padding:0 20px;
+}
+.page-nav .pagenav-item{
+	padding: 12px 0;
+}
+.search{
+	font-size:14px;
+	color: #000;
+	line-height: 41px;
+	margin-top: 0;
+	span{
+		float: left;
+		font-size: 14px;
+	}
+	form{
+		float: left;
+		font-size: 14px;
+		input{
+			width: 194px;
+		    height: 26px;
+		    border: 1px solid #d6d4d4;
+		    margin: 0 5px;
+		    background:#fff;
+		}
+
+	}
+	.search-btn{
+			display: block;
+		    width: 49px;
+		    height: 26px;
+		    text-align: center;
+		    margin-top: 7px;
+		    border: 1px solid #d6d4d4;
+		    border-radius: 2px;
+		    line-height: 28px;
+		    cursor: pointer;
+		    background: url(../img/btn-bg1.png) repeat-x;
+		}
+}
+//内容部分的样式
+.content{
+	max-width: 1100px;
+	min-height: 607px;
+	margin: 25px auto;
+	background:url(../img/login-bg.png)  no-repeat;
+	background-size: 100% auto;
+	.login-top{
+		height: 58px;
+		line-height: 58px;
+		color: #000;
+		font-size: 18px;
+		padding-left: 20px;
+		border-bottom: 1px solid #e60000;
+	}
+	.login-title{
+		display:block;
+		width: 45%;
+		overflow: hidden;
+		float: left;
+		word-break:keep-all;
+        white-space:nowrap; 
+	}
+	.login-register{
+		display:block;
+		font-size: 14px;
+		float: right;
+		padding-right: 20px;
+		width: 50%;
+		text-align: right;
+		a{
+			color: #4d79d2;
+			text-decoration: underline;
+		}
+	}
+	.login-con{
+		width: 340px;
+		padding: 0 10px;
+		font-size: 14px;
+		margin: 50px auto 0;
+		.form-login{
+			width:auto;
+			// margin-bottom: 20px;
+			span{
+				display: block;
+				float: left;
+				line-height: 40px;
+				text-align:center;
+				text-align:justify;
+				text-justify:distribute-all-lines;
+			}
+			input{
+				display:block;
+				width:73%;
+				height: 38px;
+				float: right;
+				margin-left: 5px;
+				border: 1px solid #ccc;
+				border-radius: 5px;
+			}
+		}
+		.login-word{
+			width: 20%;
+			min-width: 62px;
+		}
+		.login-btn{
+			background: #e60000;
+			color: #fff;
+			cursor: pointer;
+			border: none;
+			margin-bottom: 10px;
+		}
+		.btn-default{
+			background: #e7e7e7;
+			color: #999;
+			margin-bottom: 50px;
+		}
+		
+		.forget{
+			float: right;
+			color: #4d79d2;
+			text-decoration: underline;
+		}
+	}
+	.login-con-title{
+			font-weight: bold;
+			font-size: 16px;
+			margin-bottom: 10px;
+			text-align: center;
+			margin-top: 30px;
+		}
+		.login-con-title2{
+			display: block;
+			font-size: 14px;
+			color: #ccc;
+			line-height: 20px;
+			text-align: center;
+		}
+}
+.error-word{
+	line-height: 20px;
+	font-size: 14px;
+	color: #e60000;
+	margin-left: 90px;
+	visibility: hidden;
+}
+.error-border{
+	border-color: #e60000!important;
+}
+.error-show{
+	visibility: visible!important;
+}
+@media screen and(max-width: 1000px) {
+	.content{
+		margin: 0 auto;
+		.login-top{
+		height: 38px;
+		line-height: 38px;
+		color: #000;
+		font-size: 16px;
+		padding-left: 10px;
+		}
+		.login-register{
+			padding-right: 10px;
+			width: 50%;
+		}
+	}
+}
+@media screen and(max-width: 768px) {
+	.content{
+		min-height: 400px;
+		background-size: center;
+		.login-con{
+		width: 280px;
+		margin: 50px auto 0;
+		.form-login{
+			// margin-bottom: 15px;
+		}
+		span{
+			line-height: 30px;
+		}
+		input{
+			height: 28px;
+		}
+	}
+	}
+}
+@media screen and(max-width: 600px) {
+	.content{
+		min-height: 300px;
+		background:url(../img/login-bg.png) left bottom no-repeat;
+		background-size: 100% auto;
+	}
+}

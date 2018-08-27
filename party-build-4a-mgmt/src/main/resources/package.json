@@ -1,0 +1,79 @@
+{
+    "name": "party-build-4a-mgmt",
+    "version": "0.1.0",
+    "scripts": {
+    },
+    "dependencies": {
+
+    },
+    "devDependencies": {
+        "babel-cli": "^6.6.5",
+        "babel-preset-es2015": "^6.6.0",
+        "browser-sync": "^2.18.2",
+        "del": "^2.2.2",
+        "gulp": "^3.9.1",
+        "gulp-angular-templatecache": "^1.8.0",
+        "gulp-babel": "^6.1.2",
+        "gulp-cached": "^1.1.0",
+        "gulp-cssnano": "^2.1.1",
+        "gulp-eslint": "^3.0.1",
+        "gulp-file-assets": "^2.2.2",
+        "gulp-if": "^2.0.0",
+        "gulp-jade": "^1.1.0",
+        "gulp-load-plugins": "^1.2.4",
+        "gulp-load-subtasks": "^1.1.2",
+        "gulp-ng-annotate": "^2.0.0",
+        "gulp-ngdocs": "^0.3.0",
+        "gulp-plumber": "^1.1.0",
+        "gulp-rev": "^7.0.0",
+        "gulp-rev-collector": "^1.0.2",
+        "gulp-rev-replace": "^0.4.3",
+        "gulp-sourcemaps": "^2.6.0",
+        "gulp-strip-debug": "^1.1.0",
+        "gulp-uglify": "^1.5.3",
+        "gulp-useref": "^3.0.8",
+        "gulp-util": "^3.0.7",
+        "run-sequence": "^1.1.5"
+    },
+    "projectConfig": {
+        "client": {
+            "css": {
+                "src": "static/manage/css/**/*.css",
+                "dist": "dist/static/manage/css/"
+            },
+            "resource": {
+                "src": ["static/manage/!(css|js|source)", "static/manage/!(css|js|source)/**/*"],
+                "dist": "dist/static/manage/"
+            },
+            "js": {
+                "src": "static/manage/js/!(bundles|deps)/**/*.js",
+                "lintrc": "static/.eslintrc.js",
+                "dist": "dist/static/manage/js/",
+                "deps": {
+                    "src": "static/manage/js/deps/**/*",
+                    "dist": "dist/static/manage/js/deps/",
+                    "bundles": "templates/+(shared)/*.html"
+                },
+                "develop": {
+                    "dist": "public/js/"
+                }
+            },
+            "rev": {
+                "dist": "dist/static/manage/rev/"
+            }
+        },
+        "server": {
+            "js": {
+                "src": "+(middlewares|helpers|routes|services|datas)/**/*.js",
+                "dist": "dist/"
+            },
+            "views": {
+                "src": [
+                    "templates/!(shared)/**/*",
+                    "templates/*.html"
+                ],
+                "dist": "dist/templates/"
+            }
+        }
+    }
+}

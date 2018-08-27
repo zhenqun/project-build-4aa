@@ -1,0 +1,203 @@
+.tianze-login{
+  max-width: 345px;
+  height: 343px;
+  margin:6.3% auto;
+  padding: 15px 97px;
+  background-color: #f5f6f7;
+  background-image: -moz-linear-gradient(top, #f1f1f1 0%, #ffffff 100%);
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#f1f1f1), color-stop(100%,#ffffff));
+  background: -webkit-linear-gradient(top, #f1f1f1 0%,#ffffff 100%);
+  background: -o-linear-gradient(top, #f1f1f1 0%,#ffffff 100%);
+  background: -ms-linear-gradient(top, #f1f1f1 0%,#ffffff 100%);
+  background: linear-gradient(to bottom, #f1f1f1 0%,#ffffff 100%);
+  /* background-image: url(../img/regist-bg.png); */
+  background-repeat: no-repeat;
+  background-position: center bottom;
+  border: 1px solid #Dadbdd;
+  /* border-top: 3px solid #E60000; */
+  border-radius: 5px;
+  box-shadow: inset 0 0 15px #fff;
+  position: relative;
+  z-index: 100;
+}
+
+.tianze-login {}
+
+.tianze-login:before {
+    background-image: url(../img/regist-bg.png); 
+    background-size: 100% auto;
+    background-repeat: no-repeat;
+    background-position: center top;
+    content: "";
+    position: absolute;
+    bottom: -41px;
+    display: block;
+    width: 100%;
+    height: 45px;
+    z-index: 0;
+    left: 0;
+}
+.tianze-login .login-top{
+    height: 58px;
+    line-height: 58px;
+    color: #000;
+    font-size: 18px;
+    padding-left: 20px;
+    border-bottom: 1px solid #E9E9E9;
+}
+.tianze-login h3{
+   font-size: 28px;
+   line-height: 2.8;
+   color:#454545btn;
+   font-weight: 200;
+   text-align: center;
+   height: 78px;
+   display: inline-block;
+   width: 100px;
+   font-size: 0;
+   background: url(../img/login-h3.png) left 66% no-repeat;
+}
+.tianze-user-box{
+  position: relative;
+  margin: 16px 0;
+}
+.tianze-user-box:before{
+    display: block;
+    background-color: transparent;
+    content: '';
+    width: 32px;
+    height: 32px;
+    position: absolute;
+    left: 3px;
+    top: 1px;
+}
+.tianze-user-box input{
+    border: 1px solid #d7d8d9;
+    line-height: 40px;
+    vertical-align: top;
+    width: 300px;
+    font-size: 15px;
+    font-family: "微软雅黑";
+    border-radius: 5px;
+    padding-left: 45px;
+}
+.e-form .text{
+  position: absolute;
+  bottom: -33px;
+  font-size: 14px;
+  color: #E60000;
+}
+.tianze-user,.tianze-pwd{
+  text-indent:45px;
+}
+.tianze-username:before{
+  background: url(../img/tianze-peo.png) 4px 2px no-repeat;
+}
+.tianze-password:before{
+  background: url(../img/tianze-lock.png) 4px 2px no-repeat;
+}
+.tianze-sryzm:before{
+  background: url(../img/tianze-sjyzm.png) 4px 2px no-repeat;
+}
+.e-form .w-width input{
+  width: 160px;
+  float: left;
+}
+.e-form .tianze-yzm{
+  float:right;
+  width:126px;
+  border:1px solid #ddd;
+  background-color: #fbfbfb;
+  height: 33px;
+  overflow:hidden;
+  border-radius: 0;
+}
+.e-form .tianze-yzm img{
+  width: 100%;
+  height: 100%;
+}
+.tianze-loginbtn{
+  display: inline-block;
+  width:47%;
+  height: 50px;
+  background-color: #c31f1f;
+  box-shadow: inset 0px 0px 5px #5f0600;
+  border-radius: 3px;
+  border:0;
+  text-align: center;
+  margin-top:10px;
+  color:#fff;
+  font: 18px/50px "微软雅黑";
+  margin-right:4%;
+}
+.tianze-loginbtn:hover{
+  background-color: #e60000;
+  box-shadow: inset 0px 0px 5px #990000;
+}
+.margin-none{
+  margin:0;
+}
+input:-webkit-autofill { 
+     -webkit-box-shadow: 0 0 0px 1000px white inset; 
+}
+.tianze-user-box input{
+  padding: 0;
+  height: 34px;
+  padding-left: 45px;
+  box-shadow: inset 0 1px 3px 0 rgba(0,0,0,.12);
+}
+.e-form .form-item{
+  float:none;
+  width: auto;
+} 
+@media screen and (max-width: 600px){
+    .tianze-login{
+      margin: 6.3% 10px;
+      padding: 15px 20px;
+    }
+}
+.e-form .text{
+    left: 46px;
+    top: 42px;
+    color: #E60000;
+  }
+@media screen and (max-width: 550px){
+    .tianze-user-box input{
+      width: 210px;
+    }
+    .e-form{
+      width: 257px;
+      margin: 0 auto;
+    }
+    .e-form .w-width input{
+      width: 124px;
+    }
+    .e-form .tianze-yzm{
+      width: 80px;
+    }
+}
+.tianze-user-box {
+    position: relative;
+    margin: 21px 0;
+    margin-top: 0;
+}
+.e-form .text {
+    left: 46px;
+    top: 39px;
+    color: #E60000;
+}
+
+.login-forget{
+  color: #999;
+}
+.login-regist {
+    float: right;
+    color: #1974a4;
+    margin-top: 42px;
+    padding-right: 10px;
+    background: url(../img/login-regist-bg.png) no-repeat right center;
+}
+a.tianze-loginbtn:hover,
+a.tianze-loginbtn:focus {
+    color: #ffffff;
+}

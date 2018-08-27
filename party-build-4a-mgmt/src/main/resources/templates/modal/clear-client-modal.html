@@ -1,0 +1,44 @@
+<script type="text/ng-template" id="clear-client-modal.html">
+    <div class="modal-dialog">
+        <div class="modal-config">
+            <div class="e-box m-b">
+                <div class="e-box-title">
+                    <h2>撤销{{client.clientName}}权限</h2>
+                </div>
+                <div class="e-box-content p-sm">
+                    <table class="e-table text-center">
+                        <thead>
+                            <tr>
+                                <th class="text-center">
+                                    <select-all list="users" selected-key="_checked"></select-all>
+                                </th>
+                                <th class="text-center">姓名</th>
+                                <th class="text-center">身份证号</th>
+                                <th class="text-center" width="50%">撤销操作</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="user in users">
+                                <td>
+                                    <input type="checkbox" ng-model="user._checked">
+                                </td>
+                                <td ng-bind="user.name"></td>
+                                <td ng-bind="user.idCard"></td>
+                                <td ng-if="user.isChecking">正在检查…</td>
+                                <td ng-if="!user.isChecking">
+                                    <span ng-if="user.canClear">可以撤销权限</span>
+                                    <span class="txt-red" ng-if="!user.canClear"><i class="icons-12 icons-12-warning red"></i> 撤销该用户后会删除用户的账号及VPN 账号等所有信息</span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <hr class="m-t-sm m-b-sm">
+                    <div class="etal-c">
+                        <buttpn type="button" class="btn btn-danger" ng-disabled="canDoClear() === false" ng-click="clear()">撤销</buttpn>
+                        <button type="button" class="btn close-modal" ng-click="$dismiss()">关闭</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</script>

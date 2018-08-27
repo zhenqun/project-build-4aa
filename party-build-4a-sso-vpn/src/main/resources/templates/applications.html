@@ -1,0 +1,13 @@
+<li th:attr="data-category-id=${cate?.categoryId}" th:each="cate : ${appCategories}">
+    <div class="e-box-content tab-system-item clearfix">
+        <div class="e-box-title">
+            <h3 th:text="${cate?.categoryName}"></h3>
+        </div>
+        <div class="tab-system-con" th:each="app : ${cate?.apps}">
+            <a target="_blank" th:href="${app?.applicationUrl}">
+                <img alt="应用系统图标" style="width:49px; height:49px;" th:src="${app?.applicationImage}">
+                <p class="title" th:text="${app?.applicationName}"></p>
+            </a>
+        </div>
+    </div>
+</li>

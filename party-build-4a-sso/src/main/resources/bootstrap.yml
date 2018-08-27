@@ -1,0 +1,9 @@
+spring:
+  application:
+    name: party-build-sso
+  profiles.active: release
+#  cloud:
+#    config:
+#      uri: http://10.243.32.50:8901
+#      username: party-config
+#      password: JFG!aem3251A36E

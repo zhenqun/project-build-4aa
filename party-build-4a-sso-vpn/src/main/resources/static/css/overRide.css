@@ -1,0 +1,95 @@
+/*sso-vpn登录头部 /sso/css/media.css   */
+.ban-box {
+  background-image: url(../img/header-bg.png);
+}
+.ban {
+    background-image: url(../img/banner2.png);
+}
+
+/*sso-vpn 中部 虚拟专网区用户登录字体 /sso/css/style1.css  */
+.tianze-login{
+  background-color: #f5f6f7;
+  background-image: -moz-linear-gradient(top, #f1f1f1 0%, #ffffff 100%);
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#f1f1f1), color-stop(100%,#ffffff));
+  background: -webkit-linear-gradient(top, #f1f1f1 0%,#ffffff 100%);
+  background: -o-linear-gradient(top, #f1f1f1 0%,#ffffff 100%);
+  background: -ms-linear-gradient(top, #f1f1f1 0%,#ffffff 100%);
+  background: linear-gradient(to bottom, #f1f1f1 0%,#ffffff 100%);
+  border: 1px solid #Dadbdd;
+  box-shadow: inset 0 0 15px #fff;
+}
+.tianze-login h3{
+   color:#454545btn;
+   background: url(../img/login-h3.png) left 66% no-repeat;
+}
+/*底部红条  /sso/css/footer.css*/
+.footer .footer-bg {
+    background: #ea220b url(../img/footer-bg.png) center center;
+}
+/*登录按钮  /sso/css/style1.css  */
+.tianze-loginbtn{
+  background-color: #c31f1f;
+  box-shadow: inset 0px 0px 5px #5f0600;
+  color:#fff;
+}
+/*下部党政机关图标  //dcs.conac.cn/image/red.png */
+
+/*下划线  /sso/css/forget.css  */
+.forget-step-active p {
+    color: #333;
+    border-bottom: 2px solid #f8b2b2;
+}
+
+/*忘记密码  重置成功  img/forget-success.png  /sso/css/forget.css  */
+.tianze-login h3{
+	background: url(../img/forget-h3.png) left 66% no-repeat;
+	border-bottom: 1px solid #ddd;
+}
+
+/*用户激活  /sso/css/style2.css  */
+.register .login-top .login-title {
+    background: url(../img/reg-h3.png) left 66% no-repeat;
+}
+/*注册按钮  /sso/css/style2.css  */
+.register-loginbtn{
+	background-color:#e60000;
+	box-shadow:inset 0 0 5px #5f0600;
+	color:#fff;
+}
+
+
+/*登录进入*/
+/*左上角图片    /sso/vpn/img/Logo.png*/
+.layout-top .layout-top-wave .topwave.wave1 {
+    background: url(/sso/vpn/img/wave1.png) repeat-x left bottom;
+}
+.layout-top .layout-top-wave .topwave.wave2 {
+    background: url(/sso/vpn/img/wave2.png) repeat-x left bottom;
+}
+.layout-top .layout-top-wave .topwave.wave3 {
+    background: url(/sso/vpn/img/wave3.png) repeat-x left bottom;
+}
+.layout-top .layout-top-wave .topwave.wave4 {
+    background: url(/sso/vpn/img/wave4.png) repeat-x left bottom;
+}
+
+/*左上角 工作台前图标*/
+.e-box-title h2:before {
+    background: #E91B1B;
+}
+/*右上角图标*/
+.bor-r {
+    border-top: 1em solid #e60000;
+}
+/*登录提醒*/
+.label-danger {
+    background-color: #d9534f;
+}
+.label-warning {
+    background-color: #f0ad4e;
+}
+/*中间消息框  <img src="/sso/vpn/img/empty-img.png">  */
+.bg-list {
+    background: url(/sso/vpn/img/empty-bg.png)no-repeat;
+}
+

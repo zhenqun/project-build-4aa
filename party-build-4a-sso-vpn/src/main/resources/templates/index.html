@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+	<head>
+		<title>虚拟专网区工作台</title>
+		<meta http-equiv="content-type" content="text/html;charset=utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+		<link rel="stylesheet" type="text/css" href="/sso/vpn/css/bootstrap.css">
+		<link rel="stylesheet" type="text/css" href="/sso/vpn/css/base.css">
+        <link rel="stylesheet" type="text/css" href="/sso/vpn/css/clash.css">
+        <link rel="stylesheet" href="/sso/vpn/css/zonghe.css">
+        <link rel="icon" href="/sso/images/favicon.ico" type="image/x-icon">
+        <style>
+            .user-img{
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                width: 40px;
+                height: 40px;
+            }
+        </style>
+	</head>
+
+	<body>
+		<div class="layout-top">
+			<div class="layout-top-wave" id="topwave">
+				<div class="layer topwave wave1" data-depth="0.02"></div>
+				<div class="layer topwave wave2" data-depth="0.08"></div>
+				<div class="layer topwave wave3" data-depth="0.14"></div>
+				<div class="layer topwave wave4" data-depth="0.20"></div>
+			</div>
+			<div id="J_header">
+				<div class="logo" style="width:350px;">
+					<h1>
+                        <a href="#">  <img src="/sso/vpn/img/Logo.png" alt=""></a>
+                    </h1>
+				</div>
+				<div class="sub-title pull-left"style="line-height: 88px;">
+				<h2 style=" line-height: 88px; color: #fff; font-weight: bolder; font-family: microsoft yahei; font-size: 22px; margin-left: 20px; letter-spacing: 2px; text-shadow: 0 1px 2px rgba(0,0,0,.4);">虚拟专网区工作台</h2></div>
+				<ul class="main-toolbar">
+					<li class="main-toolbar-item">
+						<div class="user-bar">
+							<div class="user-img m-r-sm">
+								<img id="headpic" class="js-head" th:src="${userLogo}" alt="用户头像">
+							</div>
+							<div class="user-info" style='color: white;'>
+								<div th:if="${!(#strings.isEmpty(session?.SPRING_SECURITY_CONTEXT?.authentication?.principal?.name))}">
+       								<span th:text="${session?.SPRING_SECURITY_CONTEXT?.authentication?.principal?.name}" class="user-name"></span>
+									<span th:if="${!(#strings.isEmpty(orgName))}">(</span>
+									<span th:text="${orgName}"></span>
+									<span th:if="${!(#strings.isEmpty(orgName))}">)</span>
+								</div>
+								<div th:if="${#strings.isEmpty(session?.SPRING_SECURITY_CONTEXT?.authentication?.principal?.username)}">
+									<a class="user-name" href="login" style='line-height: 3;'>登录</a>
+								</div>
+								<div th:if="${!(#strings.isEmpty(session?.SPRING_SECURITY_CONTEXT?.authentication?.principal?.username))}">
+								<div><span class='date-cus icons-12 icons-12-date'></span> 最后登录日期：<span th:text="${lastLoginDate}"></span></div></div>
+							</div>
+						</div>
+					</li>
+					<li class="main-toolbar-item main-btn-holder">
+						<div data-toggle="dropdown" class="enter-button ">
+							<a aria-haspopup="true" aria-expanded="false" class="avatar dropdown-toggle">
+								<i class="icons-32 icons-32-grid"></i>
+							</a>
+						</div>
+						<ul class="dropdown-menu tab-system" data-functions-container>
+						</ul>
+					</li>
+					<li class="main-toolbar-item main-btn-holder">
+						<div data-toggle="dropdown" class="enter-button ">
+							<a aria-haspopup="true" aria-expanded="false" class="avatar dropdown-toggle">
+								<i class="icons-32 icons-32-gear"></i>
+							</a>
+						</div>
+						<ul style="margin-left:-55px; min-width:100px" class="dropdown-menu">
+							<li>
+								<a href="modify">修改密码</a>
+							</li>
+							<li>
+								<a href="modify-vpn">修改VPN密码</a>
+							</li>
+                            <li>
+                                <a href="modify-phone">更换手机号码</a>
+                            </li>
+							<li>
+								<a href="head-pic">修改头像</a>
+							</li>
+							<li>
+								<a href="logout">退出登录</a>
+							</li>
+						</ul>
+					</li>
+				</ul>
+			</div>
+		</div>
+		<div class="layout-content" style="left: 0;">
+			<div class="guidepost">
+				<span class="guidepost-span">位置：</span>
+				<ul class="guidepost-con">
+					<li class="guidepost-item">
+						<a href="#">首页 <i class="icons-12 icons-12-arrowr gray"></i></a>
+					</li>
+					<!-- <li class="guidepost-item">党组织和党员队伍数据 </li> -->
+				</ul>
+			</div>
+			<div class="e-main">
+                <div class="mian-box-content padding-20">
+                    <div class="row margin-b10">
+                        <div class="col-xs-9">
+                            <div class="row-space">
+                                <div class="e-box">
+                                    <div class="e-box-title">
+                                        <h2>工作台</h2>
+                                        <div class="bor-r"></div>
+                                    </div>
+                                    <div class="e-box-content clearfix">
+                                        <div class="sys-box e-auto" style="padding: 20px 20px 19px; height: 246px;">
+                                            <ul class="clearfix">
+                                                <li class="sys-item-box" th:each="app : ${apps}" th:if="${app?.applicationId} != '1'">
+                                                    <a target='_blank' th:href="${app?.applicationUrl}" class="sys-item">
+                                                        <img alt="应用系统图标" style="width:49px; height:49px;" th:src="${app?.applicationImage}">
+                                                        <p class="title" th:text="${app?.applicationName}"></p>
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row-space">
+                                <div class="e-box m-n">
+                                    <div class="e-box-title with-tab">
+                                        <!-- <h2>待办任务</h2> -->
+                                        <div class="e-box-toolbar pull-left with-tab">
+                                            <ul id="myTabs-3" role="tablist" class="nav nav-tabs e-tabs-subline">
+                                                <li role="presentation" class="active">
+                                                    <a id="home-tab" href="#home-2" data-toggle="tab" style="font-size: 16px;">待办任务</a>
+                                                </li>
+                                                <li role="presentation" class="">
+                                                    <a href="#tab2-2" data-toggle="tab" style="font-size: 16px;">系统提醒</a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                        <div class="bor-r"></div>
+                                    </div>
+                                    <div class="e-tab-content">
+                                        <div id="myTabContent" class="tab-content">
+                                            <div id="home-2" role="tabpanel" class="tab-pane active">
+                                                <div class="bg-list">
+                                                    <img src="/sso/vpn/img/empty-img.png"/>
+                                                </div>
+                                            </div>
+                                            <div id="tab2-2" role="tabpanel" class="tab-pane">
+                                                <div class="bg-list">
+                                                    <img src="/sso/vpn/img/empty-img.png"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xs-3">
+                            <div class="row-space">
+                                <div class="e-box">
+                                    <div class="e-box-title">
+                                        <h2>通知公告</h2>
+                                        <div class="bor-r"></div>
+                                    </div>
+                                    <div class="e-box-content clearfix">
+                                        <ul class="news-box e-auto" style="height:275px;">
+                                            <li class="news-box-item" th:each="notice : ${notices}">
+                                                <a target="_blank" th:href="|notice/${notice?.noticeId}|" th:text="${notice?.noticeTitle}"></a>
+                                                <span th:text="${notice?.relativeReleaseDate}"></span>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <!--登录信息-->
+                                <div class="e-box float-e-margins m-n" style="background: #fff;">
+                                    <div class="z-login clearfix">
+                                        <div class="z-login-le">
+                                            <div class="z-login-le-bor">
+                                                <img class="js-head" th:src="${userLogo}" alt="头像" />
+                                            </div>
+                                        </div>
+                                        <div class="z-login-ri">
+                                            <h2 th:inline="text">您好，[[${session?.SPRING_SECURITY_CONTEXT?.authentication?.principal?.name}]]</h2>
+                                            <p th:inline="text">您上次登录是[[${lastLoginDate}]]</p>
+                                            <div>
+                                                <a class="btn" href="modify">修改密码</a>
+                                                <a class="btn" href="logout">退出登录</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="z-other">
+                                        <div class="z-other-today clearfix js-timeline-loading">
+                                            <ul class="js-timeline-container">
+                                                <li class="z-other-item clearfix">
+                                                    <div class="z-other-le">
+                                                        <img src="/sso/vpn/img/time.png" alt="时间图">
+                                                    </div>
+                                                    <div class="z-other-ri">
+                                                        <span>
+                                                            <i class="fa fa-spin fa-spinner"></i>
+                                                            正在加载
+                                                        </span>
+                                                    </div>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                        <div class="z-other-today clearfix js-timeline e-hide">
+                                            <div class="timeline-label">
+											<span class="label label-danger arrowed-in-right">
+												今天
+											</span>
+                                            </div>
+                                            <ul class="js-timeline-container" data-timeline-type="today">
+
+                                            </ul>
+                                        </div>
+                                        <div class="z-other-ago clearfix js-timeline e-hide">
+                                            <div class="z-other-today clearfix">
+                                                <div class="timeline-label">
+												<span class="label label-warning arrowed-in-right">
+													1天前
+												</span>
+                                                </div>
+                                                <ul class="js-timeline-container" data-timeline-type="one-day">
+
+                                                </ul>
+                                            </div>
+                                        </div>
+                                        <div class="z-other-ago clearfix js-timeline e-hide">
+                                            <div class="z-other-today clearfix">
+                                                <div class="timeline-label">
+												<span class="label label-warning arrowed-in-right">
+													1周前
+												</span>
+                                                </div>
+                                                <ul class="js-timeline-container" data-timeline-type="one-week">
+
+                                                </ul>
+                                            </div>
+                                        </div>
+                                        <div class="z-other-ago clearfix js-timeline e-hide">
+                                            <div class="z-other-today clearfix">
+                                                <div class="timeline-label">
+												<span class="label label-warning arrowed-in-right">
+													更早
+												</span>
+                                                </div>
+                                                <ul class="js-timeline-container" data-timeline-type="before">
+
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="z-more">
+                                        <a href="#" class="js-more-log">
+                                            查看更多登录信息
+                                            <img src="/sso/vpn/img/down.png" alt="查看更多" style="margin-top: -4px;" />
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+		</div>
+		
+		<script src="/sso/vpn/js/jquery-1.10.2.js" type="text/javascript" charset="utf-8"></script>
+		<script src="/sso/vpn/js/bootstrap.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="/sso/vpn/js/underscore-min.js" type="text/javascript" charset="utf-8"></script>
+		<!-- Scripts -->
+		<script src="/sso/vpn/js/deploy/parallax.js"></script>
+		<script src="/sso/vpn/js/echarts.common.min.js"></script>
+		<script src="/sso/application-sdk"></script>
+        <script th:inline="javascript">
+            var username = [[${session?.SPRING_SECURITY_CONTEXT?.authentication?.principal?.username}]];
+        </script>
+		<script>
+			// Pretty simple huh?
+			var scene = document.getElementById('topwave');
+            var parallax = new Parallax(scene);
+            $('.sub-nav-li .sub-nav-a').closest('.sub-nav-li').find('ul.collapse').collapse('hide');
+            $('.sub-nav-a[data-toggle="collapse"]').on('click', function() {
+                $('.sub-nav-li .sub-nav-a').closest('.sub-nav-li').find('ul.collapse').collapse('hide');
+                $(this).closest('.sub-nav-li').find('ul.collapse').collapse('toggle');
+            })
+
+            $('.minify-toggle').on('click', function() {
+                $('body').toggleClass('layout-minify')
+            })
+
+
+			//加载时获取图片
+            var getPic = function(){
+               $.get('/sso/acc/getUserLogo/'+username + '/')
+                .then(function(data){
+                    if(data!=null&&data!='') {
+                        $(".js-head").attr('src',data);
+                    }
+                    
+                })
+                .then(function(data){
+                    if(data!=null&&data!='') {
+                        $(".js-head").attr('src',data);
+                    }
+                    
+                })
+            };
+            getPic();
+
+            (function() {
+                var pageSize = 10;
+                var pageNo = 0;
+
+                function dayBetween(date, min, max, includeMax) {
+                    if (!(date instanceof Date)) {
+                        date = new Date(date);
+                    }
+
+                    var today = new Date();
+                    today.setHours(23);
+                    today.setMinutes(59);
+                    today.setSeconds(59);
+                    today.setMilliseconds(999);
+                    var betweenMilliseconds = today.getTime() - date.getTime();
+                    var betweenDays = betweenMilliseconds / (1000 * 60 * 60 * 24);
+                    if (typeof max === 'number') {
+                        if (includeMax) {
+                            return betweenDays >= min && betweenDays <= max;
+                        }
+                        return betweenDays >= min && betweenDays < max;
+                    }
+                    return betweenDays >= min;
+                }
+
+                function next() {
+                    return $.ajax({
+                        url: '/sso/acc/loginLog',
+                        method: 'POST',
+                        data: JSON.stringify({
+                            pageSize: pageSize,
+                            pageNo: ++pageNo
+                        }),
+                        headers: {
+                            'Content-Type': 'application/json'
+                        }
+                    }).then(function(result) {
+                        if (result == null) {
+                            return;
+                        }
+                        var timelines = {
+                            'today': [],
+                            'one-day': [],
+                            'one-week': [],
+                            'before': []
+                        };
+                        _.forEach(result, function(x) {
+                            if (dayBetween(x.loginDate, 0, 1, false)) {
+                                timelines['today'].push(x);
+                            }
+                            else if (dayBetween(x.loginDate, 1, 2, true)) {
+                                timelines['one-day'].push(x);
+                            }
+                            else if (dayBetween(x.loginDate, 2, 7, true)) {
+                                timelines['one-week'].push(x);
+                            }
+                            else if (dayBetween(x.loginDate, 7)) {
+                                timelines['before'].push(x);
+                            }
+                        });
+                        for (var key in timelines) {
+                            if (timelines.hasOwnProperty(key)) {
+                                var timeline = timelines[key];
+                                var $timelineContainer = $('.js-timeline-container[data-timeline-type="' + key + '"]');
+                                var $timeline = $timelineContainer.parents('.js-timeline');
+                                if (timeline.length > 0) {
+                                    var html = _.map(timelines[key], function(x) {
+                                        return [
+                                            '<li class="z-other-item clearfix js-timeline-item">',
+                                                '<div class="z-other-le">',
+                                                    '<img src="/sso/vpn/img/time.png" alt="时间图"/>',
+                                                '</div>',
+                                                '<div class="z-other-ri">',
+                                                    '<span>登录 </span>',
+                                                    '<span class="z-text">' + x.clientName + '</span>',
+                                                    '<span class="ago-ri">' + x.dateDetail + '</span>',
+                                                '</div>',
+                                            '</li>'
+                                        ].join('');
+                                    }).join('');
+                                    $timelineContainer.append(html);
+                                }
+
+                                var hasTimelineItem = $('.js-timeline-item', $timelineContainer).length > 0;
+                                if (hasTimelineItem) {
+                                    $timeline.removeClass('e-hide');
+                                }
+                                else {
+                                    $timeline.addClass('e-hide');
+                                }
+                            }
+                        }
+
+                        return result;
+                    });
+                }
+
+                next()
+                    .then(function() {
+                        $('.js-timeline-loading').remove();
+                    });
+
+                $('.js-more-log').on('click', function() {
+                    var $this = $(this);
+                    var noMore = $this.attr('data-no-more');
+                    if (!noMore) {
+                        next()
+                            .then(function(result) {
+                                if (result == null || result.length === 0) {
+                                    $this.attr('data-no-more', '');
+                                    $this.text('没有更多登录信息');
+                                }
+                            });
+                    }
+                });
+            })();
+		</script>
+	</body>
+
+</html>

@@ -1,0 +1,96 @@
+a:visited,
+a:focus,
+a:hover {
+  text-decoration: none;
+}
+.text-right {
+  text-align: right !important;
+}
+.m-r-10 {
+  margin-right: 10px;
+}
+.m-l-15 {
+  margin-left: 15px;
+}
+.w-auto {
+  width: auto !important;
+}
+.w-90 {
+  width: 90% !important;
+}
+.icon-btn {
+  margin-top: 4px;
+}
+.ell {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.cur-p:hover {
+  cursor: pointer;
+}
+.wangEditor-container {
+  margin-top: 15px !important;
+}
+.context {
+  width: 100%;
+  box-sizing: border-box;
+  height: 200px;
+}
+.main-toolbar .main-toolbar-item .dropdown-menu a {
+  color: #262626;
+}
+.block {
+  display: block !important;
+}
+.w-98 {
+  width: 98% !important;
+}
+.f-n {
+  float: none !important;
+}
+.f-r {
+  float: right !important;
+}
+.f-l {
+  float: left !important;
+}
+.f-12 {
+  font-size: 12px;
+}
+#editor-trigger {
+  height: 300px;
+}
+.form-item-input.date {
+  width: 450px !important;
+}
+.pagination a {
+  font-size: 12px;
+}
+.modal-zg {
+  width: 650px;
+}
+.tree-box {
+  padding-left: 320px;
+  position: relative;
+}
+.tree {
+  height: 100%;
+  width: 300px;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+.ic-item {
+  font-size: 0;
+  margin-left: 30px;
+}
+.ic-item span {
+  font-size: 12px;
+}
+.tab-btn-pos {
+  position: absolute;
+  top: 9px;
+  right: 5px;
+}
+/*# sourceMappingURL=clash.css.map */

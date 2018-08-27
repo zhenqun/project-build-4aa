@@ -1,0 +1,57 @@
+<!--弹窗5-->
+<script type='text/ng-template' id='dist.html' th:fragment="dist">
+    <style>
+        .popover-fix {
+            top: 54px!important;
+            left: 225px!important;
+            color: red!important;
+        }
+    </style>
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div id="info" class="e-box m-b">
+                <div class="e-box-title">
+                    <h2>分配</h2>
+                    <div class="e-box-toolbar close-modal"><button type="button" class="close m-t-sm"><span ng-click='$dismiss()'>&times;</span><span class="sr-only" ng-click='$dismiss()'>Close</span></button></div>
+                </div>
+                <div class="e-box-content p-m">
+                    <form name="distForm">
+                        <table class="e-table margin-t10">
+                            <thead>
+                                <tr>
+                                    <th class='text-center'>
+                                        姓名
+                                    </th>
+                                    <th class="text-center">
+                                        所属组织
+                                    </th>
+                                    
+                                </tr>
+                            </thead>
+                            <tbody ng-cloak>
+                                <tr ng-repeat="user in securityUsers track by user.securityUserId">
+                                    <td>{{user.securityUserName}}</td>
+                                    <td>
+                                        <div class="form-item-input" uib-popover="请选择正确的管理范围" popover-class="popover-fix" popover-trigger='null' 
+                                        popover-is-open="distForm[user.securityUserId].$error.errOrg||distForm[user.securityUserId].$invalid">
+                                            <input type="text" style="width: 80%;" kt-dict='ZZ' ng-model='user.manageId' class='form-item-input' org-verify role-type='security'
+                                                clientId="{{selectClient.clientId}}" display-value="user.orgInfo" name="{{user.securityUserId}}" required ng-change="checkOrg(client)" tree-level="1" allow-top="false">
+                                            <span ng-show="distForm.$pending"><i class="fa fa-spin fa-spinner loading-btn"></i></span>
+                                        </div>                                                
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>                       
+                    </form>
+                    <hr class="m-t-sm m-b-sm">
+                    <div class="etal-c m-b-sm">        
+                        <!--<span ></span>           -->
+                        <button class="btn btn-info" ng-disabled="isSubmitting || distForm.$invalid || distForm.$pending" ng-click='dist()'>确定</button>
+                        <div class="btn btn-danger close-modal" ng-click='$dismiss()'>取消</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</script>
+<!--弹窗5-->

@@ -1,0 +1,27 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<link rel="stylesheet" href="css/wro.css"/>
+</head>
+<body>
+	正在为您退出系统......
+	<div class="container">
+		<img src="http://dtgbxx.85ido.com:8080/logout" hidden="true"/>干部
+		<img src="http://dtdyjy.85ido.com:8080//logout" hidden="true"/>党员
+		<img src="http://dtjndf.85ido.com:8080/logout" hidden="true"/>党费 
+		<img src="http://dtezb.85ido.com:8080/logout" hidden="true"/>e支部 
+	</div>
+</body>
+</html>
+<script>
+var time=3;
+function loadTime(){
+	time = time-1;  
+	console.log(time);
+	if(time==0){
+		location.href="sso/login";
+		return;
+	}
+	setTimeout(function(){loadTime()},1000);
+}
+loadTime();
+</script>

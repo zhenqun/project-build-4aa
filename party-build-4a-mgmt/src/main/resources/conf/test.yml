@@ -1,0 +1,37 @@
+server:
+ port: 8080
+ session-timeout: 30
+ context-path: /
+ tomcat:
+  max-threads: 0
+  uri-encoding: UTF-8
+  
+spring:
+ datasource:
+  dataSourceClassName: com.mysql.jdbc.jdbc2.optional.MysqlDataSource
+  url: jdbc:mysql://localhost:3306/test?useUnicode=true&characterEncoding=utf-8
+  username: root
+  password: root
+  poolName: StringBootHikariCP
+  maximumPoolSize: 5
+  minimumIdle: 3
+  maxLifetime: 2000000
+  connectionTimeout: 30000
+  idleTimeout: 30000
+  pool-prepared-statements: true
+  max-open-prepared-statements: 300
+ jpa:
+  databasePlatform: org.hibernate.dialect.MySQLDialect
+
+
+
+
+testyml:
+ maps:
+  aaa:
+   name: ddd
+  bbb:
+   name: fdfdf
+ tests:
+  - name:dddd
+  - name:vvvv

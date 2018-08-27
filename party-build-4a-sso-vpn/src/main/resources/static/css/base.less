@@ -1,0 +1,74 @@
+body {
+  font-family: "microsoft yahei";
+  user-select: none;
+  -moz-user-select: none;
+  -webkit-user-select: none;
+}
+input:focus,
+textarea:focus,
+select:focus {
+  outline: none !important;
+}
+input,
+textarea {
+  line-height: normal;
+  /* for non-ie */
+  line-height: 22px \9;/* for ie */
+}
+
+//清浮动
+.clearfix:before,
+.clearfix:after {
+  content: " ";
+  display: table;
+}
+.clearfix:after {
+  clear: both;
+}
+
+//颜色
+@c-t:#676666;
+@c-bor:#DDDDDD;
+
+@c-sfont:#999999;
+@c-font:#606060;
+@c-bfont:#727272;
+@c-red:#E60000;
+
+//tab
+.tab-pane.active {
+  display: block;
+}
+.tab-pane {
+  display: none;
+}
+.w-100{
+    width: 100% !important;
+}
+//padding & margin
+.p-0-5 {
+  padding: 0 5px !important;
+}
+.p-0 {
+  padding: 0 !important;
+}
+.m-0 {
+  margin: 0 !important;
+}
+.m-t0 {
+  margin-top: 0 !important;
+}
+
+//常类
+.hide {
+  display: none;
+}
+.e-hide {
+  display: none;
+}
+.over-hidden {
+  overflow: hidden;
+}
+.text-center {
+  text-align: center !important;
+}

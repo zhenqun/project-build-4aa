@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" layout:decorator="layout">
+
+<head>
+    <title>辅助安全员管理 </title>
+    <link rel="stylesheet" type="text/css" href="/manage/jsTree/default/style.css">
+    <link rel="stylesheet" type="text/css" href="/manage/css/base.css">
+    <style>
+        .role {
+            display: inline-block;
+            margin-right: 100px;
+        }
+
+        .pagination {
+            margin:5px 0;
+        }
+
+        .e-table.e-clborder tr:last-child {
+            border-bottom:1px solid #E2E6EA;
+        }
+
+        .progress {
+            position: relative;
+        }
+        .progress-bar span {
+            color: #000;
+            white-space: nowrap;
+            text-align: center;
+            line-height: 20px;
+            position: absolute;
+            width: 100%;
+            left: 0;
+        }
+
+        .item-hover {
+            background-color: #F8FADC;
+        }
+    </style>
+    <style>
+        /*授权列表5.20*/
+
+        .form-item-input.role-item {
+            width: initial;
+            margin-right: 20px;
+            line-height: 35px;
+        }
+
+        ul.users-container {
+            display: inline-block;
+            overflow-x: hidden;
+            overflow-y: auto;
+            width: 18%;
+            max-height: 650px;
+            /*width: 130%;*/
+            vertical-align: top;
+            margin-right: -4px;
+        }
+
+        ul.users-container>li {
+            box-sizing: border-box;
+            line-height: 30px;
+            font-size: 16px;
+            padding-left: 13px;
+            line-height: 1.8;
+            border: 1px solid white;
+            border-bottom-color: #ccc;
+        }
+        ul.users-container > li .user-idcard,
+        ul.users-container > li .user-telephone {
+            font-size: 12px;
+        }
+
+        ul.users-container>li:hover {
+            border: 1px solid #ccc;
+            border-right: 1px solid white;
+            background-color: #FFFEF1;
+            color: black;
+            cursor: pointer;
+            /*margin-right: -2.5px;*/
+        }
+
+        ul.users-container>li.active {
+            border: 1px solid #ccc;
+            border-right: 1px solid white;
+            background-color: #FFFEF1;
+            color: black;
+            /*margin-right: -2.5px;*/
+        }
+        ul.users-container > li.disabled {
+            cursor: not-allowed;
+            color: #ccc;
+        }
+
+        table.auth-table {}
+
+        .e-box.app-wrapper {
+            width: 81%;
+            height: 620px;
+            overflow-y: auto;
+            padding-left: 7px;
+            float: right;
+            border-left: 1px solid #ccc!important;
+        }
+
+        .font-red {
+            color: red!important;
+        }
+
+        .popover-fix {
+            left: 651px!important;
+            color: red!important;
+        }
+
+        .single-user .app-wrapper {
+            width: 100%;
+            padding: 10px 20px;
+            box-sizing: border-box;
+        }
+
+        .single-user ul.users-container {
+            display: none;
+        }
+
+        .open-worker-container > .activiting-backdrop {
+            background-color: rgba(0, 0, 0, 0.25);
+            display: none;
+            position: absolute;
+            width: 100%;
+            top: 40px;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            z-index: 1;
+        }
+
+        .progress-container {
+            width: 45%;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            margin-top: -10px;
+            margin-left: -17.5%;
+        }
+
+        .open-worker-container.activiting > .activiting-backdrop {
+            display: block;
+        }
+
+        .progress.progress-info {
+            height: 20px;
+            margin-bottom: 20px;
+            overflow: hidden;
+            background-color: #03A9F4;
+            border-radius: 4px;
+            -webkit-box-shadow: inset 0 1px 2px rgba(0, 0, 0, .1);
+            box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.01), 0 0 15px rgba(0,0,0,.3);
+            border: 1px solid #2196f3;
+        }
+
+        .open-worker-container > .activiting-backdrop .progress-bar span {
+            color: #fff;
+        }
+        /* 批量开通辅助安全员 */
+        .e-box.app-wrapper.batch-success {
+            position: relative;
+        }
+        .e-box.app-wrapper.batch-success .success-layer {
+            position: absolute;
+            bottom: 0;
+            top: 0;
+            left: 0;
+            right: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #fff;
+            opacity: 0.85;
+        }
+        .e-box.app-wrapper.batch-success .success-layer .content {
+            margin-top: 65px;
+            font-size: 18px;
+        }
+    </style>
+</head>
+
+<body ng-controller="ManagerAppliController">
+<div layout:fragment="content">
+    <div class="layout-content">
+        <div class="guidepost">
+            <span class="guidepost-span">位置：</span>
+            <ul class="guidepost-con">
+                <li class="guidepost-item">
+                    <a href="#">首页 <i class="icons-12 icons-12-arrowr gray"></i></a>
+                </li>
+                <li class="guidepost-item">管理员申请备案
+                </li>
+            </ul>
+        </div>
+        <div class="e-main without-app-selector">
+            <div class="mian-box-content" style="box-sizing: border-box;height: 100%;">
+                <div class="e-box m-n" style="height: 100%;box-sizing: border-box;display: flex;flex-direction: column;">
+                    <div class="e-box-title">
+                        <h2>管理员申请管理</h2>
+                        <div class="e-box-toolbar">
+                            <span ng-if="isLoading">正在加载，请稍候……</span>
+                        </div>
+                        <span class="e-box-toolbar" ng-if="!isLoading" ng-cloak>
+                            <button type="button" ng-disabled="params.status ===5" class="btn btn-xs" ng-click="pass()">批量通过</button>
+                            <button type="button" ng-disabled="params.status ===5" class="btn btn-xs" ng-click='reject()'>批量不通过</button>
+                        </span>
+                    </div>
+                    <div class="e-box-content p-xs e-border-bottom">
+                        <form id="queryForm" novalidate ng-submit="beforeQuery()">
+                            <div class="clearfix e-form">
+                                <div class="form-group clearfix m-n">
+                                    <div class="form-item">
+                                        <span class="form-item-name">业务系统：</span>
+                                        <select class="form-item-input ng-pristine ng-untouched ng-valid ng-empty" ng-model="queryParams.clientId" type="text">
+                                            <option value="">全部</option>
+                                            <option ng-repeat="client in clients" value="{{client.clientId}}">{{client.clientName}}</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-item">
+                                        <span class="form-item-name">管理范围：</span>
+                                        <div class="form-item-input">
+                                            <div class="form-item-input" ng-model="queryParams.clientId" ng-cloak>
+                                                <input type="text" class="form-item-input" kt-dict="ZZ" ng-model="queryParams.manageId" display-value="view.orgInfo" clientId="{{queryParams.clientId}}" enable-search="'true'" org-can-search="true">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-item">
+                                        <span class="form-item-name">姓名：</span>
+                                        <div class="form-item-input">
+                                            <input class="form-item-input ng-pristine ng-untouched ng-valid ng-empty" ng-model="queryParams.relName" type="text">
+                                        </div>
+                                    </div>
+                                    <div class="form-item">
+                                        <span class="form-item-name">身份证号：</span>
+                                        <input class="form-item-input ng-pristine ng-untouched ng-valid ng-empty" ng-model="queryParams.idCard" type="text">
+                                    </div>
+                                    <div class="form-item">
+                                        <span class="form-item-name">手机号码：</span>
+                                        <input class="form-item-input ng-pristine ng-untouched ng-valid ng-empty" ng-model="queryParams.telephone" type="text">
+                                    </div>
+                                   <!-- <div class="form-item">
+                                        <a class="btn btn-info" ng-click="query()" ng-disabled="isLoading">查 询</a>
+                                    </div>-->
+                                    <button type="submit" class="btn btn-info" disabled ng-disabled="isLoading">查 询</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+
+                    <div class="e-box-title">
+                        <h2>管理员申请列表</h2>
+                        <div style="line-height: 40px;" ng-cloak>
+                            <ul class="nav nav-tabs e-tabs-subline">
+                                <li class="active"><a href="#g-1" data-toggle="tab" ng-click="queryByStatus(1)">未备案</a></li>
+                                <li class=""><a href="#g-2" data-toggle="tab" ng-click="queryByStatus(5)">已备案</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="tab-content" style="flex: 1;overflow: auto;border-bottom: 1px solid #C7CED3;">
+                        <div id="g-1" role="tabpanel" class="tab-pane active in">
+                            <table class="e-table e-clborder margin-t10 center1">
+                            <thead>
+                            <tr>
+                                <th class="center1">
+                                    <select-all list="list" selected-key="_selected"></select-all>
+                                </th>
+                                <th width="5%" class="text-center">
+                                    序号
+                                </th>
+                                <th>姓名</th>
+                                <th>身份证号</th>
+                                <th>手机号码</th>
+                                <th>单位和职务</th>
+                                <th>业务系统名称</th>
+                                <th>角色</th>
+                                <th width="20%">管理范围</th>
+                                <th>状态</th>
+                                <th>申请时间</th>
+                                <th ng-if="params.status ==5">审批时间</th>
+                                <th ng-if="params.status ==5">操作人</th>
+                                <th width="10%" class="text-center" ng-if="params.status ==1">操作</th>
+                            </tr>
+                            </thead>
+                            <tbody  ng-repeat="user in list " ng-init="serialIndex = $index">
+                            <tr  ng-class="{'item-hover': user.isHover}" ng-mouseover="user.isHover = true" ng-mouseleave="user.isHover = false" ng-click="user._selected = !user._selected" ng-if="!isLoading && list.length > 0" ng-repeat="role in user.roles track by $index" ng-cloak>
+                                <td rowspan="{{user.roles.length}}" ng-if="user.roles.length >0 && $index===0" class="center1"><input type="checkbox" ng-model="user._selected" ng-click="$event.stopPropagation()"></td>
+                                <td rowspan="{{user.roles.length}}" ng-if="user.roles.length >0 && $index===0"  class="text-center" ng-bind="serialIndex | toNo:params.pageNo:params.pageSize"></td>
+                                <td rowspan="{{user.roles.length}}" ng-if="user.roles.length >0 && $index===0"  ng-bind="user.relName"></td>
+                                <td rowspan="{{user.roles.length}}" ng-if="user.roles.length >0 && $index===0"  ng-bind="user.idCard"></td>
+                                <td rowspan="{{user.roles.length}}" ng-if="user.roles.length >0 && $index===0"  ng-bind="user.telephone"></td>
+                                <td  rowspan="{{user.roles.length}}"ng-bind-html="user.remark | multipleLines" ng-if="user.roles.length >0 && $index===0" ></td>
+                                <td ng-bind="role.clientName"></td>
+                                <td ng-bind="role.roleName"></td>
+                                <td ng-bind="role.manageName"></td>
+                                <td rowspan="{{user.roles.length}}"  ng-if="user.roles.length >0 && $index===0" >
+                                    <span ng-if="user.status == 1">未备案</span>
+                                    <span ng-if="user.status == 2">已通过</span>
+                                    <span ng-if="user.status == 3">未通过</span>
+                                </td>
+                                <td  rowspan="{{user.roles.length}}" ng-if="user.roles.length >0 && $index===0"  ng-bind="user.applyDate | date:'yyyy-MM-dd'"></td>
+                                <td  rowspan="{{user.roles.length}}" ng-if="user.roles.length >0 && $index===0 && params.status ==5"  ng-bind="user.approveTime | date:'yyyy-MM-dd'"></td>
+                                <td rowspan="{{user.roles.length}}" ng-if="user.roles.length >0 && $index===0 && params.status ==5"  ng-bind="user.approveBy"></td>
+                                <td ng-if="user.state ==1" rowspan="{{user.roles.length}}" ng-if="user.roles.length >0 && $index===0 && params.status ==1" ng-click="$event.stopPropagation()" class="text-center" style="white-space: nowrap;">
+                                    <button type="button" class="btn btn-xs btn-info" ng-click="pass(user)">通过</button>
+                                    <button type="button" class="btn btn-xs btn-info" ng-click="reject(user)">不通过</button>
+                                </td>
+                            </tr>
+                            </tbody>
+                            <tr class="text-center" ng-if="!isLoading && (!list.length)" ng-cloak>
+                                <td colspan="14">暂无数据</td>
+                            </tr>
+                            <tr class="text-center" ng-if="isLoading">
+                                <td colspan="14">加载中</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                        </div>
+                        <div id="g-2" role="tabpanel" class="tab-pane in">
+                            <table class="e-table e-clborder margin-t10 center1">
+                                <thead>
+                                <tr>
+                                    <th class="center1">
+                                        <select-all list="list" selected-key="_selected"></select-all>
+                                    </th>
+                                    <th width="5%" class="text-center">
+                                        序号
+                                    </th>
+                                    <th>姓名</th>
+                                    <th>身份证号</th>
+                                    <th>手机号码</th>
+                                    <th>单位和职务</th>
+                                    <th>业务系统名称</th>
+                                    <th>角色</th>
+                                    <th width="20%">管理范围</th>
+                                    <th>状态</th>
+                                    <th>申请时间</th>
+                                    <th ng-if="params.status ==5">审批时间</th>
+                                    <th ng-if="params.status ==5">操作人</th>
+                                    <th width="10%" class="text-center" ng-if="params.status ==1">操作</th>
+                                </tr>
+                                </thead>
+                                <tbody  ng-repeat="user in list " ng-init="serialIndex = $index">
+                                <tr  ng-class="{'item-hover': user.isHover}" ng-mouseover="user.isHover = true" ng-mouseleave="user.isHover = false" ng-click="user._selected = !user._selected" ng-if="!isLoading && list.length > 0" ng-repeat="role in user.roles track by $index" ng-cloak>
+                                    <td rowspan="{{user.roles.length}}" ng-if="user.roles.length >0 && $index===0" class="center1"><input type="checkbox" ng-model="user._selected" ng-click="$event.stopPropagation()"></td>
+                                    <td rowspan="{{user.roles.length}}" ng-if="user.roles.length >0 && $index===0"  class="text-center" ng-bind="serialIndex | toNo:params.pageNo:params.pageSize"></td>
+                                    <td rowspan="{{user.roles.length}}" ng-if="user.roles.length >0 && $index===0"  ng-bind="user.relName"></td>
+                                    <td rowspan="{{user.roles.length}}" ng-if="user.roles.length >0 && $index===0"  ng-bind="user.idCard"></td>
+                                    <td rowspan="{{user.roles.length}}" ng-if="user.roles.length >0 && $index===0"  ng-bind="user.telephone"></td>
+                                    <td  rowspan="{{user.roles.length}}"ng-bind-html="user.remark | multipleLines" ng-if="user.roles.length >0 && $index===0" ></td>
+                                    <td ng-bind="role.clientName"></td>
+                                    <td ng-bind="role.roleName"></td>
+                                    <td ng-bind="role.manageName"></td>
+                                    <td rowspan="{{user.roles.length}}"  ng-if="user.roles.length >0 && $index===0" >
+                                        <span ng-if="user.status == 1">未备案</span>
+                                        <span ng-if="user.status == 2">已通过</span>
+                                        <span ng-if="user.status == 3">未通过</span>
+                                    </td>
+                                    <td  rowspan="{{user.roles.length}}" ng-if="user.roles.length >0 && $index===0"  ng-bind="user.applyDate | date:'yyyy-MM-dd'"></td>
+                                    <td  rowspan="{{user.roles.length}}" ng-if="user.roles.length >0 && $index===0 && params.status ==5"  ng-bind="user.approveTime | date:'yyyy-MM-dd'"></td>
+                                    <td rowspan="{{user.roles.length}}" ng-if="user.roles.length >0 && $index===0 && params.status ==5"  ng-bind="user.approveBy"></td>
+                                    <td ng-if="user.state ==1" rowspan="{{user.roles.length}}" ng-if="user.roles.length >0 && $index===0 && params.status ==1" ng-click="$event.stopPropagation()" class="text-center" style="white-space: nowrap;">
+                                        <button type="button" class="btn btn-xs btn-info" ng-click="pass(user)">通过</button>
+                                        <button type="button" class="btn btn-xs btn-info" ng-click="reject(user)">不通过</button>
+                                    </td>
+                                </tr>
+                                </tbody>
+                                <tr class="text-center" ng-if="!isLoading && (!list.length)" ng-cloak>
+                                    <td colspan="14">暂无数据</td>
+                                </tr>
+                                <tr class="text-center" ng-if="isLoading">
+                                    <td colspan="14">加载中</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <nav class="text-center">
+                        <uib-pagination ng-model="params.pageNo" ng-change="query()" total-items="totalItems" items-per-page="params.pageSize" template-url="pagination.html"
+                                        force-ellipses="true" max-size="7">
+                        </uib-pagination>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div layout:fragment="templates">
+    <div th:replace="modal/clear-client-modal"></div>
+    <script th:replace="modal/exporting-modal"></script>
+
+    <script th:replace="assist-manage/open-assist-modal"></script>
+    <script th:replace="assist-manage/batch-open-modal"></script>
+    <script th:replace="assist-manage/batch-add-assistor"></script>
+    <script th:replace="assist-manage/client-not-display"></script>
+    <script type="text/ng-template" id="open-rejectReason-modal.html">
+        <div class="e-box">
+            <div class="e-box-title">
+                <h2 ng-cloak>不通过</h2>
+                <div class="e-box-toolbar close-modal">
+                    <button type="button" class="close m-t-sm" ng-click="$dismiss()"><span
+                            aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                </div>
+            </div>
+            <div class="e-box-content p-xs">
+                <form name="rejectForm" novalidate style="min-height:110px">
+                    <div class="clearfix e-form">
+                        <div class="form-group clearfix margin-b0">
+                            <div class="form-item">
+                                <span class="form-item-name">不通过原因：</span>
+                                <div class="form-item-input form-item-2xl">
+                                    <textarea name="reason" rows="3" class="form-item-input" maxlength="100" style="height: 46px;" ng-model="reject.reason" required></textarea>
+                                    <span style='color: red;position: absolute;'ng-show="(rejectForm.$submitted || rejectForm.reason.$touched) && rejectForm.reason.$error.required">请填写否决原因</span>
+                                    <span style='color: red;position: absolute;' ng-show="rejectForm.$submitted && rejectForm.reason.$error.maxlength">最多只能填写100个字符</span>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+                <div class="etal-c">
+                    <button class="btn btn-info" ng-disabled="isSubmitting" ng-click="addReason()">确定</button>
+                    <button class="btn btn-danger close-modal" ng-click="$dismiss()">取消</button>
+                </div>
+            </div>
+        </div>
+    </script>
+
+    <script type="text/ng-template" id="pass.html">
+        <div class="modal-dialog">
+            <div class="modal-config">
+                <div class="e-box m-b">
+                    <div class="e-box-title">
+                        <h2>批量校验</h2>
+                    </div>
+                    <div class="e-box-content p-sm">
+                        <table class="e-table text-center">
+                            <thead>
+                            <tr>
+                                <th class="text-center">
+                                    <select-all list="users" selected-key="_checked"></select-all>
+                                </th>
+                                <th class="text-center">姓名</th>
+                                <th class="text-center">身份证号</th>
+                                <th class="text-center" width="50%">校验结果</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr ng-repeat="user in selectedApplications" ng-cloak>
+                                <td>
+                                    <input type="checkbox" ng-model="user._checked" ng-disabled="user.error.message!= ('' || null)">
+                                </td>
+                                <td ng-bind="user.relName"></td>
+                                <td ng-bind="user.idCard"></td>
+                                <td>
+                                    <span class="txt-red" ng-if="user.error.message"><i class="icons-12 icons-12-warning red m-r-xs"></i>{{user.error.message}}</span>
+                                    <span class="txt-green" ng-if="!user.error.message">信息正确，可以开通业务管理员</span>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                        <hr class="m-t-sm m-b-sm">
+                        <div class="etal-c">
+                            <buttpn type="button" class="btn btn-info" ng-disabled="canDoClear() === false" ng-click="pass()">通过</buttpn>
+                            <button type="button" class="btn close-modal" ng-click="$dismiss()">关闭</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </script>
+
+</div>
+
+<div layout:fragment="scripts">
+    <script src="/manage/js/manage/manager-appliFiling.js"></script>
+    <script src="js/filters/multipleLines.js"></script>
+    <script src="js/assist-manage/services/assistManageService.js"></script>
+    <script src="/manage/js/service/managerAppliFilingService.js"></script>
+</div>
+
+</body>
+
+</html>

@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>com.ido85.partybuild</groupId>
+  <artifactId>party-build-4a</artifactId>
+  <version>0.0.2.SNAPSHOT</version>
+  <packaging>pom</packaging>
+
+  <name>party-build-parent</name>
+  <url>http://maven.apache.org</url>
+
+	<parent>
+	    <groupId>org.springframework.cloud</groupId>
+	    <artifactId>spring-cloud-starter-parent</artifactId>
+	    <version>Dalston.RELEASE</version>
+	</parent>
+	
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <java.version>1.8</java.version>
+    <spring-boot.version>1.4.0.RELEASE</spring-boot.version>
+  </properties>
+  
+  <repositories> 
+		<!-- <repository> 
+            <id>85ido-repos</id> 
+            <name>85ido public repository</name> 
+            <url>http://192.168.10.210:8081/nexus/content/groups/public</url> 
+        </repository> -->
+        <repository>
+        	<id>alimaven</id>
+	        <name>aliyun maven</name>
+	        <url>http://maven.aliyun.com/nexus/content/groups/public/</url>
+        </repository>
+        <repository>
+	        <id>spring-snapshots</id>
+	        <name>Spring Snapshots</name>
+	        <url>https://repo.spring.io/libs-snapshot</url>
+	        <snapshots>
+	            <enabled>true</enabled>
+	        </snapshots>
+    	</repository>
+    </repositories>
+
+  <dependencies>
+  	<dependency>
+			<groupId>javax</groupId>
+			<artifactId>javaee-web-api</artifactId>
+			<version>7.0</version>
+		</dependency>
+	
+	<!-- 自动热部�? -->
+	<!-- <dependency>  
+       <groupId>org.springframework.boot</groupId>  
+       <artifactId>spring-boot-devtools</artifactId>   
+   </dependency> -->
+  </dependencies>
+  
+  <dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>org.springframework.cloud</groupId>
+				<artifactId>spring-cloud-starter-parent</artifactId>
+				<version>Dalston.RELEASE</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
+  
+  <modules>
+  	<!-- <module>party-build-4a-ui</module> -->
+    <module>party-build-4a-sso</module>
+	<module>party-build-4a-sso-vpn</module>
+    <!-- <module>party-build-resource-members</module> -->
+    <module>party-build-4a-mgmt</module>
+    <module>party-build-4a-authentication</module>
+    <module>party-build-4a-sm</module>
+    <module>party-build-4a-userinfo</module>
+    <module>party-build-4a-authority</module>
+      <module>platform-template</module>
+  </modules>
+</project>

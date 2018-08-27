@@ -1,0 +1,8 @@
+spring:
+  application:
+    name: party-build-sso-vpn
+  profiles.active: release
+  #cloud:
+    #config:
+      #uri: http://192.168.10.230:8888
+      #uri: http://10.144.152.53:8888

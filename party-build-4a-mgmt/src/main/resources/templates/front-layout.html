@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:dt="http://www.thymeleaf.org/dandelion/datatables">
+
+<head>
+	<meta charset="utf-8" />
+	<meta name="renderer" content="webkit" />
+	<meta http-equiv="content-type" content="text/html" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0 , maximum-scale=1" />
+
+	<title layout:title-pattern="$CONTENT_TITLE - $DECORATOR_TITLE">党建授权管理登录</title>
+	<link rel="icon" type="image/x-ico" href="/manage/images/favicon.ico">
+	<div th:replace="shared/front-styles"></div>
+	<style type="text/css">
+		.bar .time {
+			line-height: 42px;
+		}
+
+		.noData {
+			line-height: 50px;
+			text-align: center;
+		}
+
+
+		.tianze-loginbtn {
+			cursor: pointer;
+		}
+
+		.tianze-loginbtn:hover {
+			background-color: #D71B10;
+		}
+
+		.input-idcard {
+			text-transform: uppercase;
+		}
+
+		.tianze-login {
+			box-sizing: content-box;
+		}
+		input {
+			box-sizing: content-box;
+		}
+
+		.popover {
+			font-size: 14px;
+		}
+		.popover.top {
+			position: absolute;
+		}
+		.js-check-result {
+			line-height: 20px;
+		}
+		.js-check-result [data-check-result] {
+			transition: color 0.3s;
+		}
+	</style>
+</head>
+
+<body>
+	<div class="top">
+		<div class="ban-box">
+			<div class="ban"></div>
+		</div>
+		<div class="m-bar">
+			<div class="top">
+				<a href="#" class="logo"></a>
+				<a class="btn-nav" id="m-btn-nav"></a>
+				<a class="btn-search" id="m-btn-search"></a>
+			</div>
+		</div>
+		<input type="hidden" name="left-close" id="left-close" value="0" />
+		<div class="m-nav">
+			<ul>
+				<li><a href="/manage/index" class="m-nav-item home">首页</a></li>
+			</ul>
+			<div class="m-nav-close">关闭导航</div>
+		</div>
+		<form class="search_list" action="">
+			<input style="" src="/manage/img/search-b.png" type="image" class="search-submit icon-seach" value="Submit" /> <input
+			 type="text" id="" class="search-bar" placeholder="站内搜索" name="q" />
+		</form>
+	</div>
+	<div layout:fragment="content"></div>
+	<div>
+		<div th:replace="footer :: copy"></div>
+	</div>
+
+	<div layout:fragment="templates"></div>
+	<div th:replace="shared/front-scripts"></div>
+	<div layout:fragment="scripts"></div>
+</body>
+
+</html>

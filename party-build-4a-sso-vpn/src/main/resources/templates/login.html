@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" layout:decorate="front-layout">
+	<head>
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+		<meta charset="utf-8" />
+		<meta name="description" content="User login page" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+		<link rel="stylesheet" type="text/css" href="css/style1.css">
+		<title>灯塔-党建在线登录页面</title>
+		<style type="text/css">
+			html {
+				min-height: auto;
+			}
+			.content .login-con .forget {
+				display:none;
+			}	
+			.tianze-loginbtn {
+			width: 44%;
+			}
+			.login-forget {
+			   margin-top: 11px;
+		      display: inline-block;
+		    }
+			@media screen and (max-width: 600px){
+			 .tianze-loginbtn {
+				 font-size: 14px;
+	    		vertical-align: bottom;
+	    		
+			 }
+			 
+			}
+		</style>
+	</head>
+
+	<body>
+		<div class="tianze-login" layout:fragment="content">		
+			<h3 style="width:196px;">用户登录</h3>
+			<a href="register" class="login-regist">立即激活</a>
+			<form id="loginForm" class="clearfix e-form" role="form" method="post" action="login" novalidate>
+				<div class="tianze-user-box  tianze-username">
+					<input id="username" class="input-idcard" name="username" autocomplete="off" type="text" placeholder="用户名/身份证号" required data-parsley-required-message="请输入用户名/身份证号" data-parsley-errors-container="#nameMessage">
+					<p class="text" id="nameMessage"></p>
+				</div>
+				<div class="tianze-user-box tianze-password">
+					<input type="password" class="js-password-capslock" id="password" placeholder="密 码" name="password" autocomplete="off" required data-parsley-required-message="请输入密码" data-parsley-errors-container="#passwordMessage">
+					<p class="text" id="passwordMessage"></p>
+				</div>
+				<div class="tianze-user-box tianze-sryzm w-width clearfix">
+					<input type="text" class="form-control" id="validateCode" name="validateCode" autocomplete="off" placeholder="验证码" required="" style="text-transform:uppercase;" data-parsley-required-message="请输入图片验证码" data-parsley-errors-container="#validateCodeMessage"/>
+				    <div class="tianze-yzm">
+						<img alt="验证码"  onclick="javascript:refresh()" id="yanzhengma" style='width: 100%;height: 100%;'/>
+					</div>
+						<p class="text" id="validateCodeMessage" th:text="${session.error}" ></p>
+						<!--<span class="text-danger" th:text="${session.error}"></span>-->
+						<!--<div>
+							
+						</div>-->
+				</div>
+					
+				<div class="w-100">
+					<a class="js-submit tianze-loginbtn">登 录</a>
+					<!--<input type="submit" value="登 录" class="tianze-loginbtn">-->
+					<a href="forget" class="login-forget">忘记密码？</a>
+					<!-- <a href="register" class="tianze-loginbtn margin-none">注 册</a> -->
+				</div>
+				<input type="hidden"  id="certInfo" name="certInfo">
+				
+				<input type="hidden" name="loginType" value="simple">
+				<input type="hidden" name="idCard" id="ca-idCard">
+				<input type="hidden" name="source" id="ca-source">
+				<input type="hidden" name="sign" id="ca-sign">
+			</form>
+			<div id="browser-tip" class="btn-pop hide" style="cursor:pointer;">更新浏览器</div>
+		</div>
+
+	<div layout:fragment="templates">
+		<div th:replace="modal/browser-modal"></div>
+	</div>
+		
+
+	<div layout:fragment="scripts">
+		<!-- <script src="js/ca/CryptoKit.js"></script> -->
+		<script src="js/parsley.min.js"></script>
+		<script src="js/bowser.min.js"></script>
+		<script src="js/visualForm.js"></script>
+		<script src="js/manage/passwordPopover.js"></script>
+		<script type="text/javascript">
+			function refresh(){
+				document.getElementById('yanzhengma').src="validateCodeServlet?"+Math.random();
+			}
+
+			function showBrowserModal() {
+				$('#browser-modal').removeClass('hide');
+			}
+
+			function hideBrowserModal() {
+				$('#browser-modal').addClass('hide');
+			}
+
+
+			$(window).on('load', function() {
+				refresh();
+
+				if ((!bowser.chrome) && (!bowser.blink)) {
+					showBrowserModal();
+				}
+
+				$('#browser-modal').on('click', '[data-dismiss="modal"]', function() {
+					hideBrowserModal();
+					$('#browser-tip').removeClass('hide');
+				});
+
+				$('#browser-tip').on('click', function() {
+					showBrowserModal();
+				});
+
+				$('#loginForm')
+					.visualForm({
+                        simulateEnter: true,
+						trim: {
+                            ignore: ['password']
+						},
+                        onBeforeSubmit: function() {
+                            return (!$('.js-submit', this).hasClass('disabled')) && this.parsley().validate();
+                        }
+					})
+                    .on('submitted.visualForm', function() {
+                        $('.js-submit', $(this)).addClass('disabled').text('正在登录...');
+                    })
+					.parsley({
+						trigger:      'change',
+						successClass: "has-success",
+						errorClass: "has-error",
+						classHandler: function (el) {
+							return el.$element.closest('.form-group'); //working
+						},
+						errorsWrapper: '<div class="invalid-message"></div>',
+						errorTemplate: '<span></span>',
+					});
+
+				var _timer = null;
+				function setTimer() {
+					_timer = setInterval(function() {
+						refresh();
+					}, 60 * 10 * 1000);
+				}
+				function resetTimer() {
+					clearInterval(_timer);
+					setTimer();
+				}
+				setTimer();
+				$('#loginForm').on('input', resetTimer);
+				$('body').on('mousemove', resetTimer);
+			});
+		</script>
+	</div>
+	</body>
+</html>

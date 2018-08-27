@@ -1,0 +1,260 @@
+<!--/* 批量开通辅助安全员 */-->
+<script type="text/ng-template" id="batch-add-assistor.html">
+    <style type="text/css">
+        /*授权列表5.20*/
+
+        .form-item-input.role-item {
+            width: initial;
+            margin-right: 20px;
+            line-height: 35px;
+        }
+
+        ul.users-container {
+            display: inline-block;
+            overflow-x: hidden;
+            overflow-y: auto;
+            width: 18%;
+            max-height: 650px;
+            /*width: 130%;*/
+            vertical-align: top;
+            margin-right: -4px;
+        }
+
+        ul.users-container>li {
+            box-sizing: border-box;
+            line-height: 30px;
+            font-size: 16px;
+            padding-left: 13px;
+            line-height: 1.8;
+            border: 1px solid white;
+            border-bottom-color: #ccc;
+        }
+        ul.users-container > li .user-idcard,
+        ul.users-container > li .user-telephone {
+            font-size: 12px;
+        }
+
+        ul.users-container>li:hover {
+            border: 1px solid #ccc;
+            border-right: 1px solid white;
+            background-color: #FFFEF1;
+            color: black;
+            cursor: pointer;
+            /*margin-right: -2.5px;*/
+        }
+
+        ul.users-container>li.active {
+            border: 1px solid #ccc;
+            border-right: 1px solid white;
+            background-color: #FFFEF1;
+            color: black;
+            /*margin-right: -2.5px;*/
+        }
+        ul.users-container > li.disabled {
+            cursor: not-allowed;
+            color: #ccc;
+        }
+
+        table.auth-table {}
+
+        .e-box.app-wrapper {
+            width: 81%;
+            height: 620px;
+            overflow-y: auto;
+            padding-left: 7px;
+            float: right;
+            border-left: 1px solid #ccc!important;
+        }
+
+        .font-red {
+            color: red!important;
+        }
+
+        .popover-fix {
+            left: 651px!important;
+            color: red!important;
+        }
+
+        .single-user .app-wrapper {
+            width: 100%;
+            padding: 10px 20px;
+            box-sizing: border-box;
+        }
+
+        .single-user ul.users-container {
+            display: none;
+        }
+
+        .open-worker-container > .activiting-backdrop {
+            background-color: rgba(0, 0, 0, 0.25);
+            display: none;
+            position: absolute;
+            width: 100%;
+            top: 40px;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            z-index: 1;
+        }
+
+        .progress-container {
+            width: 45%;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            margin-top: -10px;
+            margin-left: -17.5%;
+        }
+
+        .open-worker-container.activiting > .activiting-backdrop {
+            display: block;
+        }
+
+        .progress.progress-info {
+            height: 20px;
+            margin-bottom: 20px;
+            overflow: hidden;
+            background-color: #03A9F4;
+            border-radius: 4px;
+            -webkit-box-shadow: inset 0 1px 2px rgba(0, 0, 0, .1);
+            box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.01), 0 0 15px rgba(0,0,0,.3);
+            border: 1px solid #2196f3;
+        }
+
+        .open-worker-container > .activiting-backdrop .progress-bar span {
+            color: #fff;
+        }
+        /* 批量开通辅助安全员 */
+        .e-box.app-wrapper.batch-success {
+            position: relative;
+        }
+        .e-box.app-wrapper.batch-success .success-layer {
+            position: absolute;
+            bottom: 0;
+            top: 0;
+            left: 0;
+            right: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #fff;
+            opacity: 0.85;
+        }
+        .e-box.app-wrapper.batch-success .success-layer .content {
+            margin-top: 65px;
+            font-size: 18px;
+        }
+    </style>
+    <div class="modal-content">
+        <div id="info" class="e-box m-b">
+            <form name='authForm'>
+                <div class="e-box-title">
+                    <h2>批量开通辅助安全员</h2>
+                    <div class="e-box-toolbar close-modal"><button type="button" class="close m-t-sm" ng-click="$dismiss()" ng-disabled="isSubmitting"><span>&times;</span><span class="sr-only">Close</span></button></div>
+                </div>
+                <div class="e-box-content open-worker-container" style="overflow:hidden;" ng-class="{'activiting': isSubmitting}">
+                    <div class="activiting-backdrop">
+                        <div class="progress-container">
+                            <uib-progressbar class="progress-striped active progress-info" type="info" value="activitedCount" max="totalActiviteCount">正在批量开通辅助安全员</uib-progressbar>
+                        </div>
+                    </div>
+                    <!--/*<p class="text-center" style='font-size: 15px;padding: 11px;'>您正在为<span ng-bind='businessUserIds.length' ng-cloak></span>人进行授权</p>
+                    <hr>*/-->
+                    <ul class="users-container">
+                        <li title="{{user.isExist ? '用户已存在' : ''}}" ng-repeat="user in assistors track by user.fzuserId" ng-class="{active: selectedAssistor.fzuserId === user.fzuserId, disabled: user.isExist}" ng-click="selectAssistor(user)"
+                            uib-popover="用户已存在" popover-enable="user.isExist" popover-append-to-body="true" popover-placement="right" popover-trigger="mouseenter"
+                            ng-cloak>
+                            <span class="user-name" ng-bind="user.relName"></span>
+                            <span class="m-r-xs pull-right txt-gray" ng-show="(!user.isExist) && (!isBaseInfoValid(user))" ng-click="$event.stopPropagation()"
+                                  uib-popover="用户信息不完整，无法开通辅助安全员（您依然可以批量开通其他辅助安全员）" popover-append-to-body="true" popover-placement="right"
+                                  popover-trigger="mouseenter" ng-cloak><i class="fa fa-user-times"></i></span>
+                            <span class="m-r-xs pull-right txt-gray" ng-show="isBaseInfoValid(user) && !isTelephoneValid(user.telephone)" ng-click="$event.stopPropagation()"
+                                  uib-popover="用户手机号码错误，无法开通辅助安全员（您依然可以批量开通其他辅助安全员）" popover-append-to-body="true" popover-placement="right"
+                                  popover-trigger="mouseenter" ng-cloak><i class="fa fa-mobile"></i></span>
+                            <span class="m-r-xs pull-right txt-red" ng-show="isBaseInfoValid(user) && isTelephoneValid(user.telephone) && isUserError(user)" ng-click="$event.stopPropagation()"
+                                  uib-popover="至少为该用户选择一个应用" popover-append-to-body="true" popover-placement="right"
+                                  popover-trigger="mouseenter" ng-cloak><i class="fa fa-exclamation-circle"></i></span>
+                            <span class="m-r-xs pull-right" ng-show="user.$remote.pending" uib-popover="正在创建辅助安全员"
+                                  popover-append-to-body="true" popover-placement="right" popover-trigger="mouseenter"
+                                  ng-cloak><i class="fa fa-cog fa-spin"></i></span>
+                            <span class="m-r-xs pull-right txt-green" ng-show="(!user.$remote.pending) && user.$remote.isSuccess" uib-popover="辅助安全员创建成功"
+                                  popover-append-to-body="true" popover-placement="right" popover-trigger="mouseenter"
+                                  ng-cloak><i class="fa fa-check"></i></span>
+                            <span class="m-r-xs pull-right txt-red" ng-show="user.$remote && (!user.$remote.pending) && (!user.$remote.isSuccess)" uib-popover="{{user.$remote.message}}"
+                                  popover-append-to-body="true" popover-placement="right" popover-trigger="mouseenter"
+                                  ng-cloak><i class="fa fa-user-times"></i></span>
+                            <span class="user-idcard" style="display:block;" ng-bind="user.idCard"></span>
+                            <span class="user-telephone" style="display:block;" ng-bind="user.telephone"></span>
+                        </li>
+                    </ul>
+                    <div class="e-box app-wrapper batch-success" ng-class="{'batch-success': (!selectedAssistor.$remote.pending) && selectedAssistor.$remote.isSuccess}">
+                        <div class="success-layer" ng-if="(!selectedAssistor.$remote.pending) && selectedAssistor.$remote.isSuccess">
+                            <div class="content text-center"><i class="fa fa-check fa-2x txt-green"></i> <span style="position: relative; top: -5px;">已开通，如需调整应用和管理范围请在列表中操作</span></div>
+                        </div>
+                        <div class="e-box-title">
+                            <h2>为 {{selectedAssistor.relName}} 选择辅助安全员应用和管理范围</h2>
+                            <ul class="e-box-toolbar">
+                                <button type="submit" class="btn btn-sm m-t-xs m-r-md" ng-if="!isSubmitted && selectedAssistor.clients.length > 0 && !isClientLoading" ng-disabled="isSubmitting" ng-click="batchOpen()">
+                                    保存
+                                </button>
+                                <button type="button" class="btn btn-sm m-t-xs m-r-md" disabled ng-if="isSubmitting">批量创建辅助安全员 <i class="fa fa-cog fa-spin"></i></button>
+                                <button type="button" class="btn btn-sm m-t-xs m-r-md" ng-click="$close()" ng-if="(!isSubmitting && isSubmitted) && isAllSuccess">关闭</button>
+                                <button type="button" class="btn btn-sm m-t-xs m-r-md" ng-click="batchOpen(true)" ng-if="(!isSubmitting && isSubmitted) && !isAllSuccess"
+                                    uib-popover="重新批量开通未成功的{{failureCount}}条" popover-append-to-body="true" popover-placement="right" popover-trigger="mouseenter">重试</button>
+                            </ul>
+                        </div>
+
+                        <table class="e-table margin-t10 center1 auth-table">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        <select-all list="selectedAssistor.clients" selected-key="_selected"></select-all>
+                                    </th>
+                                    <th>
+                                        应用
+                                        <a class="m-l-xs" style="cursor: pointer;" uib-popover-template="'client-not-display.html'" popover-append-to-body="true" popover-placement="right" popover-trigger="outsideClick">部分应用系统没有显示，为什么？</a>
+                                    </th>
+                                    <th style="width: 50%;">管理范围</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="text-center" ng-if="isClientLoading">
+                                    <td colspan="3"><i class="fa fa-spin fa-spinner fa-2x"></i> 正在加载应用列表</td>
+                                </tr>
+                                <tr class="text-center" ng-if="!isClientLoading && (!selectedAssistor.clients.length)">
+                                    <td colspan="3">没有能开通辅助安全员的应用系统，请先前往“<a href="/manage/role-packs">辅助安全员-可用角色配置</a>”页面配置应用和角色</td>
+                                </tr>
+                                <tr ng-if="selectedAssistor.clients.length > 0 && !isLoading" ng-repeat="client in selectedAssistor.clients track by $index">
+                                    <td>
+                                        <input type="checkbox" id="client-{{client.clientId}}" ng-model="client._selected" ng-change="clientSelected(selectedAssistor, client)">
+                                    </td>
+                                    <td>
+                                        <label for="client-{{client.clientId}}" ng-bind="client.clientName"></label>
+                                    </td>
+                                    <td>
+                                        <input type="text" style="width:94%;" name="{{client.roleId}}" class="form-item-input large-org" kt-dict="ZZ" ng-model="client.manageId" display-value="client.manageName"
+                                            org-verify role-type="work" clientid="{{client.clientId}}" enable-search="false" org-can-search="true" tree-level="1" allow-top="false">
+                                        <!--<org-dict ng-model='client.manageId' url="{{client.classificationUrl}}"></org-dict>-->
+                                        <!--<div class="" uib-popover="请选择管理范围" popover-class="popover-fix" popover-trigger='null' popover-is-open="authForm.$submitted&&checkOrg(client)">-->
+                                            <!--<div uib-popover="请选择正确的管理范围" popover-class="popover-fix" popover-trigger='null' popover-is-open="authForm[client.roleId].$error.errOrg">-->
+                                                <!--<input type="text" style="width:94%;" kt-dict='ZZ' ng-model='client.manageId' display-value="client.manageName" class='form-item-input large-org'-->
+                                                       <!--org-verify role-type="work" clientid="{{client.clientId}}" name="{{client.roleId}}" ng-change="checkOrg(client)" ng-if="topOrg.level === ORG_LEVELS.Xian" enable-search="'auto'" org-can-search="true">-->
+                                                <!--<input type="text" style="width:94%;" kt-dict='ZZ' ng-model='client.manageId' display-value="client.manageName" class='form-item-input large-org'-->
+                                                       <!--org-verify role-type="work" clientid="{{client.clientId}}" name="{{client.roleId}}" ng-change="checkOrg(client)" tree-level="0" ng-if="topOrg.level < ORG_LEVELS.Xian">-->
+                                                <!--<span ng-show="authForm['client.roleId'].$pending"><i class="fa fa-spin fa-spinner loading-btn"></i></span>-->
+                                            <!--</div>-->
+                                        <!--</div>-->
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                    </div>
+                    <!--<hr class="m-t-sm m-b-sm">
+                    <div class="etal-c m-b-sm">
+                        <div class="btn btn-danger close-modal" ng-click='$dismiss()'>关闭</div>
+                    </div>-->
+                </div>
+            </form>
+        </div>
+    </div>
+</script>

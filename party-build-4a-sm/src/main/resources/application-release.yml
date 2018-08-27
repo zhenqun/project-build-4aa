@@ -1,0 +1,82 @@
+server:
+  port: 8972
+  context-path: /
+
+security:
+  sessions: if-required
+  #ALWAYS
+  #user.password: password
+  #if-required
+  #encrpyt.encoder bcrypt or SHA-256,default:SHA-256
+  encrypt.encoder: SHA-256
+  encrypt.hash-interations: 1024
+  encrypt.strength: 8
+  # ALWAYS
+  oauth2:
+    resource:
+      resourceId: party-build-4a-sm
+      userInfoUri: http://10.254.23.63:8912/sso/user/principal
+    server:
+      checkTokenUri: http://10.254.23.63:8912/sso/oauth/check_token
+      resourceId: party-build-4a-sm
+      resourceSecret: ido85R&Dcenter
+      
+  
+spring:
+  application:
+    name: party-build-4a-sm
+  datasource:
+    dataSourceClassName: com.highgo.jdbc.jdbc2.optional.SimpleDataSource
+    url: jdbc:highgo://10.254.23.58:5866/party_sm?useUnicode=true&characterEncoding=utf-8
+    username: highgo
+    password: highgo123
+    poolName: StringBootHikariCP
+    maximumPoolSize: 5
+    minimumIdle: 3
+    maxLifetime: 2000000
+    connectionTimeout: 30000
+    idleTimeout: 30000
+    pool-prepared-statements: true
+    max-open-prepared-statements: 300
+  jpa:
+    databasePlatform: org.hibernate.dialect.PostgreSQLDialect
+    properties:
+      hibernate.cache.use_second_level_cache: false
+      hibernate.cache.use_query_cache: false
+      hibernate.cache.region.factory_class: org.hibernate.cache.ehcache.EhCacheRegionFactory
+  redis:
+    host: 10.254.23.58
+    #host: localhost
+    password: 1qaz@wsx?Z
+    port: 6379
+    database: 7
+  thymeleaf:
+    prefix: classpath:/templates/
+    suffix: .html
+    encoding: utf-8
+    content-type: text/html
+    cache: false
+    excluded-view-names: 
+    check-template-location: true
+    mode: LEGACYHTML5
+    
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://10.254.23.58:8761/eureka/
+      #defaultZone: http://localhost:8761/eureka/
+  instance:
+    prefer-ip-address: true
+
+sendMessage:
+  url: http://118.190.41.112/smsJson.aspx
+  userpwd: 85chuangxin1A
+  message: 
+  account: chuangxin
+  intervaltime: 1
+  maxcnt: 5
+
+logging:
+  level: debug
+#    org.springframework.security: INFO
+#    org.springframework.data.ldap: debug

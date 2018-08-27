@@ -1,0 +1,750 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" layout:decorator="layout">
+
+<head>
+    <title>审计员管理 </title>
+    <link rel="stylesheet" type="text/css" href="/manage/jsTree/default/style.css">
+    <style>
+        .hide {
+            display: none!important;
+        }
+
+        .e-table th.center1 {
+            text-align: center;
+        }
+
+        .e-table td.center1 {
+            text-align: center;
+        }
+
+        .clients-wrapper {
+            width: 20%;
+            display: inline-block;
+        }
+
+        .clients-wrapper .client {
+            border-right: 1px solid #ccc;
+        }
+
+        .clients-wrapper .client.active {
+            border-right: none;
+        }
+
+        .roleDetails {
+            width: 80%;
+            display: inline-block;
+        }
+        /*2.20*/
+
+        .modal-org-wrapper {
+            display: inline-block;
+            margin-left: 21px;
+            margin-top: 10px;
+        }
+
+        .modal-org-wrapper>span {
+            margin-right: 15px;
+        }
+
+        .e-table th input[type="checkbox"],
+        .e-table td input[type="checkbox"] {
+            vertical-align: sub;
+        }
+        /*tree*/
+
+        .tree {
+            padding-left: 9px;
+            overflow-x: hidden;
+            overflow-y: auto;
+            position: relative
+        }
+
+        .tree:before {
+            display: inline-block;
+            content: "";
+            position: absolute;
+            top: -20px;
+            bottom: 16px;
+            left: 0;
+            z-index: 1;
+            border: 1px dotted #67b2dd;
+            border-width: 0 0 0 1px
+        }
+
+        .tree .tree-folder {
+            width: auto;
+            min-height: 20px;
+            cursor: pointer
+        }
+
+        .tree .tree-folder .tree-folder-header {
+            position: relative;
+            height: 20px;
+            line-height: 20px
+        }
+
+        .tree .tree-folder .tree-folder-header:hover {
+            background-color: #F0F7FC
+        }
+
+        .tree .tree-folder .tree-folder-header .tree-folder-name,
+        .tree .tree-item .tree-item-name {
+            display: inline;
+            z-index: 2
+        }
+
+        .tree .tree-folder .tree-folder-header>.ace-icon:first-child,
+        .tree .tree-item>.ace-icon:first-child {
+            display: inline-block;
+            position: relative;
+            z-index: 2;
+            top: -1px
+        }
+
+        .tree .tree-folder .tree-folder-header .tree-folder-name {
+            margin-left: 2px
+        }
+
+        .tree .tree-folder .tree-folder-header>.ace-icon:first-child {
+            margin: -2px 0 0 -2px
+        }
+
+        .tree .tree-folder:last-child:after {
+            display: inline-block;
+            content: "";
+            position: absolute;
+            z-index: 1;
+            top: 15px;
+            bottom: 0;
+            left: -15px;
+            border-left: 1px solid #FFF
+        }
+
+        .tree .tree-folder .tree-folder-content {
+            margin-left: 23px;
+            position: relative
+        }
+
+        .tree .tree-folder .tree-folder-content:before {
+            display: inline-block;
+            content: "";
+            position: absolute;
+            z-index: 1;
+            top: -14px;
+            bottom: 16px;
+            left: -14px;
+            border: 1px dotted #67b2dd;
+            border-width: 0 0 0 1px
+        }
+
+        .tree .tree-item {
+            position: relative;
+            height: 20px;
+            line-height: 20px;
+            cursor: pointer
+        }
+
+        .tree .tree-item:hover {
+            background-color: #F0F7FC
+        }
+
+        .tree .tree-item .tree-item-name {
+            margin-left: 3px
+        }
+
+        .tree .tree-item .tree-item-name>.ace-icon:first-child {
+            margin-right: 3px
+        }
+
+        .tree .tree-item>.ace-icon:first-child {
+            margin-top: -1px
+        }
+
+        .tree .tree-folder,
+        .tree .tree-item {
+            position: relative
+        }
+
+        .tree .tree-folder:before,
+        .tree .tree-item:before {
+            display: inline-block;
+            content: "";
+            position: absolute;
+            top: 14px;
+            left: -13px;
+            width: 18px;
+            height: 0;
+            border-top: 1px dotted #67b2dd;
+            z-index: 1
+        }
+
+        .tree .tree-selected {
+            background-color: rgba(98, 168, 209, 0.1);
+            color: #6398B0
+        }
+
+        .tree .tree-selected:hover {
+            background-color: rgba(98, 168, 209, 0.1)
+        }
+
+        .tree .tree-item,
+        .tree .tree-folder {
+            border: 1px solid #FFF
+        }
+
+        .tree .tree-folder .tree-folder-header {
+            border-radius: 0
+        }
+
+        .tree .tree-item,
+        .tree .tree-folder .tree-folder-header {
+            margin: 0;
+            padding: 5px;
+            color: #4D6878;
+            -webkit-box-sizing: content-box;
+            -moz-box-sizing: content-box;
+            box-sizing: content-box
+        }
+
+        .tree .tree-item>.ace-icon:first-child {
+            color: #F9E8CE;
+            width: 13px;
+            height: 13px;
+            line-height: 13px;
+            font-size: 11px;
+            text-align: center;
+            border-radius: 3px;
+            -webkit-box-sizing: content-box;
+            -moz-box-sizing: content-box;
+            box-sizing: content-box;
+            background-color: #FAFAFA;
+            border: 1px solid #CCC;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05)
+        }
+
+        .tree .tree-selected>.ace-icon:first-child {
+            background-color: #F9A021;
+            border-color: #F9A021;
+            color: #FFF
+        }
+
+        .tree .tree-plus.ace-icon:first-child,
+        .tree .tree-minus.ace-icon:first-child {
+            font-style: normal;
+            border: 1px solid #DDD;
+            vertical-align: middle;
+            height: 11px;
+            width: 11px;
+            -webkit-box-sizing: content-box;
+            -moz-box-sizing: content-box;
+            box-sizing: content-box;
+            text-align: center;
+            border: 1px solid #8BAEBF;
+            line-height: 10px;
+            background-color: #FFF;
+            position: relative;
+            z-index: 1
+        }
+
+        .tree .tree-plus.ace-icon:first-child:before,
+        .tree .tree-minus.ace-icon:first-child:before {
+            content: "";
+            display: block;
+            width: 7px;
+            height: 0;
+            border-top: 1px solid #4D6878;
+            position: absolute;
+            top: 5px;
+            left: 2px
+        }
+
+        .tree .tree-plus.ace-icon:first-child:after {
+            content: "";
+            display: block;
+            height: 7px;
+            width: 0;
+            border-left: 1px solid #4D6878;
+            position: absolute;
+            top: 2px;
+            left: 5px
+        }
+
+        .tree .tree-unselectable .tree-item>.ace-icon:first-child {
+            color: #5084A0;
+            width: 13px;
+            height: 13px;
+            line-height: 13px;
+            font-size: 10px;
+            text-align: center;
+            border-radius: 0;
+            background-color: transparent;
+            border: none;
+            box-shadow: none
+        }
+
+        .tree .ace-icon[class*="-down"] {
+            transform: rotate(-45deg)
+        }
+
+        .tree .fa-spin {
+            height: auto
+        }
+
+        .tree .tree-loading {
+            margin-left: 36px
+        }
+
+        .tree img {
+            display: inline;
+            veritcal-align: middle
+        }
+
+        .pagination{
+            margin:5px 0;
+        }
+        .e-table.e-clborder tr:last-child{
+            border-bottom:1px solid #E2E6EA;}
+    </style>
+</head>
+
+<body ng-controller="AuditController">
+    <div layout:fragment="content">
+        <div class="layout-content">
+            <div class="guidepost">
+                <span class="guidepost-span">位置：</span>
+                <ul class="guidepost-con">
+                    <li class="guidepost-item">
+                        <a href="#">首页 <i class="icons-12 icons-12-arrowr gray"></i></a>
+                    </li>
+                    <li class="guidepost-item">审计员管理
+                    </li>
+                </ul>
+            </div>
+            <div class="e-main">
+                <select-app th:if="${showApp} != false">正在加载应用列表...</select-app>
+                <div class="mian-box-content" style="box-sizing: border-box;height: 100%;">
+                    <div class="e-box m-n" style="height: 100%;box-sizing: border-box;display: flex;flex-direction: column;">
+                        <div class="e-box-title">
+                            <h2>审计员管理</h2>
+                            <span class="e-box-toolbar">
+                                <button type="button" class="btn btn-xs" data-toggle="modal" data-target="#modal-4" >开通</button>
+                                <button class='btn btn-xs' ng-click='exportUser()'>导出授权码</button>
+                                <!--/*<button class='btn btn-xs' type="file" ngf-pattern=".xls,.xlsx" ngf-select="uploadFiles($file, $invalidFiles)">导入审计员信息</button>*/-->
+                            </span>
+                        </div>
+                        <div class="e-box-content p-xs e-border-bottom">
+                            <!--/////////////////-->
+                            <form id='queryForm'>
+                                <div class="clearfix e-form">
+                                    <div class="form-group clearfix m-n">
+                                        <div class="form-item form-item-2xl">
+                                            <span class="form-item-name">管理范围：</span>
+                                            <div class="form-item-input">
+                                                <div class="form-item-input" ng-model="selectClient.clientId" ng-cloak>
+                                                    <span kt-dict="ZZ" ng-model="queryParams.manageOrgId" clientId="{{selectClient.clientId}}"></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-item">
+                                            <span class="form-item-name">审计员姓名：</span>
+                                            <div class="form-item-input">
+                                                <input type="text" ng-model='queryParams.auditorName' class="form-item-input">
+                                            </div>
+                                        </div>
+
+                                        <div class="form-item">
+                                            <span class="form-item-name">使用状态：</span>
+                                            <select type="text" class="form-item-input" ng-model='queryParams.state'>
+                                                <option value=''>全部</option>
+                                                <option value='1'>禁用</option>
+                                                <option value='0'>启用</option>
+                                            </select>
+                                        </div>
+
+                                        <div class="form-item">
+                                            <span class="form-item-name">激活状态：</span>
+                                            <select type="text" class="form-item-input" ng-model='queryParams.isActivation'>
+                                                <option value="">全部</option>
+                                                <option value="0">未激活</option>
+                                                <option value="1">已激活</option>
+                                            </select>
+                                        </div>
+
+                                        <a class="btn btn-info" ng-click='queryUsers()'>查 询</a>
+                                    </div>
+
+                                </div>
+                            </form>
+                        </div>
+                        <!--/////////////////-->
+                        <div class="e-box-title">
+                            <h2>审计员列表</h2>
+                            <span class="e-box-toolbar" ng-if='!isLoading&&userList.length>0'>
+                                <!--<button type="button" class="btn btn-xs" ng-click='openAuthorty()'>批量授权</button>-->
+                                <button type="button" class="btn btn-xs" ng-click='state(0)'>批量启用</button>
+                                <button type="button" class="btn btn-xs" ng-click="clearClient()">批量撤销权限</button>
+                                <button type="button" class="btn btn-xs" ng-click='state(1)'>批量禁用</button>
+
+                                </span>
+                        </div>
+                        <div style="flex: 1;overflow: auto;border-bottom: 1px solid #C7CED3;">
+                            <table class="e-table e-clborder margin-t10 center1">
+                                <thead>
+                                <tr>
+                                    <th class='center1'>
+                                        <select-all list="userList" selected-key="_selected"></select-all>
+                                    </th>
+                                    <th width="5%" class="text-center">
+                                        序号
+                                    </th>
+                                    <!--<th>用户名</th>-->
+                                    <th>审计员姓名</th>
+                                    <!--<th>审计员id</th>-->
+                                    <th>授权码</th>
+                                    <th>身份证号</th>
+                                    <!--<th style='min-width: 144px;'>所属党组织</th>-->
+                                    <th>手机号码</th>
+                                    <th width="15%">管理范围</th>
+                                    <th>激活状态</th>
+                                    <th>使用状态</th>
+                                    <th width="15%" class="text-center">操作</th>
+                                </tr>
+                                </thead>
+                                <tbody ng-cloak>
+                                <tr ng-if='!orgLoading&&!isLoading&&userList.length>0' ng-repeat='user in userList'>
+                                    <td class='center1'><input type="checkbox" ng-model="user._selected"></td>
+                                    <td class="text-center">{{$index|handleIndex:page}}</td>
+                                    <!--<td>{{user.username}}</td>-->
+                                    <td>{{user.auditorName}}</td>
+                                    <!--<td>{{user.auditorId}}</td>-->
+                                    <td>{{user.authorizationCode}}</td>
+                                    <td>{{user.idCard}}</td>
+                                    <!--<td>{{user.orgName}}</td>-->
+                                    <td>{{user.telephone}}</td>
+                                    <td>{{user.manageName}}</td>
+                                    <td>
+                                        <span ng-if='user.isActivation == 0'>未激活</span>
+                                        <span ng-if='user.isActivation == 1'>已激活</span>
+                                    </td>
+                                    <td>
+                                        <span ng-if='user.state == 0'>可使用</span>
+                                        <span ng-if='user.state == 1'>已禁用</span>
+                                    </td>
+                                    <td class="text-center" style="white-space: nowrap;">
+                                        <button type="button" class="btn btn-xs btn-info" ng-click="resetVpnPassword(user)">重置 VPN 密码</button>
+                                        <button type="button" class="btn btn-xs btn-info" ng-if='user.state == 0' ng-click='state(1,user.auditorId)'>禁用</button>
+                                        <button type="button" class="btn btn-xs btn-info" ng-if='user.state == 1' ng-click='state(0,user.auditorId)'>启用</button>
+                                        <button type="button" class="btn btn-xs btn-info" ng-click="clearClient(user)">撤销权限</button>
+                                    </td>
+                                </tr>
+
+                                <tr ng-if='!orgLoading&&!isLoading&&(userList.length==0||!userList)' class="text-center">
+                                    <td colspan='13'>暂无数据</td>
+                                </tr>
+                                <tr ng-if='orgLoading||isLoading' class="text-center">
+                                    <td colspan='13'>加载中</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <nav class="text-center">
+                            <uib-pagination ng-model="page.pageNo" ng-change="queryUsers()" total-items="totalItems" items-per-page="page.pageSize" template-url="pagination.html"
+                                force-ellipses="true" max-size="7">
+                            </uib-pagination>
+                        </nav>
+                        <!-- 弹窗3 -->
+                        <div class="modal fade" id="modal-3" tabindex="-1" role="dialog">
+                            <!--<div id="system_list_html">-->
+                            <!--<script id="system_list_tpl" type="text/x-handlebars-template">-->
+                            <div class="modal-dialog modal-lg">
+                                <div class="modal-content">
+                                    <div id="info" class="e-box m-b">
+                                        <div class="e-box-title">
+                                            <h2>系统分配</h2>
+                                            <div class="e-box-toolbar close-modal"><button type="button" class="close m-t-sm" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button></div>
+                                        </div>
+                                        <div class="e-box-content">
+                                            <table class="e-table">
+                                                <thead>
+                                                    <tr>
+                                                        <th width="5%" class="text-center">
+                                                            <input id="selectall" type="checkbox">
+                                                        </th>
+                                                        <th class="text-center">应用系统</th>
+                                                        <th class="text-center">管理范围</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr systemId='{{applicationId}}' name='systemTr'>
+                                                        <td class="text-center">
+                                                            <input name='system' type="checkbox" value="">
+                                                        </td>
+                                                        <td>{{applicationName}}</td>
+                                                        <td class="text-center">
+                                                            <input id="" type="text" class="form-item-input" style="width: 90%;">
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                            <hr class="m-t-sm m-b-sm">
+                                            <div class="etal-c m-b-sm">
+                                                <button class="btn btn-info" cmd='dist'>确定</button>
+                                                <div class="btn btn-danger close-modal" data-dismiss="modal">取消</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--</script>	-->
+                            <!--</div>-->
+                            <!--</div> -->
+
+                        </div>
+                        <!-- 弹窗3 -->
+
+                        <!--弹窗4-->
+                        <div class="modal fade" id="modal-4" tabindex="-1" role="dialog" ng-click='resetAddParams()'>
+                            <!--<div id="system_list_html">-->
+                            <!--<script id="system_list_tpl" type="text/x-handlebars-template">-->
+                            <div class="modal-dialog modal-lg">
+                                <div class="modal-content">
+                                    <div id="info" class="e-box m-b">
+                                        <div class="e-box-title">
+                                            <h2>开通审计员</h2>
+                                            <div class="e-box-toolbar close-modal"><button type="button" ng-click='resetAddParams()' class="close m-t-sm"
+                                                    data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button></div>
+                                        </div>
+                                        <div class="e-box-content p-m">
+                                            <form name='addForm' novalidate>
+                                                <div class="clearfix e-form">
+                                                    <div class="form-group clearfix margin-b0">
+                                                        <div class="form-item">
+                                                            <span class="form-item-name">姓名：</span>
+                                                            <div class="form-item-input">
+                                                                <input id="username" ng-model='addParams[0].relName' name='username' type="text" class="form-item-input" required>
+                                                                <span style='color: red;position: absolute;' ng-show="!firstOpen&&addForm.$submitted&&addForm.username.$error.required">请填写姓名</span>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="form-item">
+                                                            <span class="form-item-name">身份证号：</span>
+                                                            <div class="form-item-input">
+                                                                <input id="" name='idCard' ng-minlength="18" ng-maxlength="18" ng-model='addParams[0].idCard' type="text" class="form-item-input input-idcard"
+                                                                    required>
+                                                                <span style='color: red;position: absolute;' ng-show="!firstOpen&&addForm.$submitted&&addForm.idCard.$error.required">请填写身份证号</span>
+                                                                <span style='color: red;position: absolute;' ng-show="!firstOpen&&addForm.$submitted&&addForm.idCard.$invalid&&!addForm.idCard.$error.required">请填写正确的身份证号</span>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-item">
+                                                            <span class="form-item-name">手机号：</span>
+                                                            <div class="form-item-input">
+                                                                <input id="" name='telephone' ng-pattern="/^1[3456789]\d{9}$/" ng-model='addParams[0].telephone' type="text" class="form-item-input"
+                                                                    required>
+                                                                <span style='color: red;position: absolute;' ng-show="!firstOpen&&addForm.$submitted&&addForm.telephone.$error.required">请填写手机号</span>
+                                                                <span style='color: red;position: absolute;' ng-show="!firstOpen&&addForm.$submitted&&addForm.telephone.$invalid&&!addForm.telephone.$error.required">请填写正确的手机号</span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                            <hr class="m-t-sm m-b-sm">
+                                            <div class="etal-c m-b-sm">
+                                                <button class="btn btn-info" ng-disabled='isSubmitting' ng-click='add()'>确定</button>
+                                                <div class="btn btn-danger close-modal" data-dismiss="modal" ng-click='resetAddParams()'>取消</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!--弹窗4-->
+
+                        <!--弹窗5-->
+                        <script type='text/ng-template' id='dist.html'>
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div id="info" class="e-box m-b">
+                                        <div class="e-box-title">
+                                            <h2>批量分配</h2>
+                                            <div class="e-box-toolbar close-modal"><button type="button" class="close m-t-sm"><span ng-click='$dismiss()'>&times;</span><span class="sr-only" ng-click='$dismiss()'>Close</span></button></div>
+                                        </div>
+                                        <div class="e-box-content p-m">
+                                            <form>
+                                                <div class="clearfix e-form">
+                                                    <div class="form-group clearfix margin-b0">
+                                                        <div class="form-item" style='margin: 0 auto;float: none;'>
+                                                            <span class="form-item-name">所属组织：</span>
+                                                            <div class="form-item-input">
+                                                                <org-dict ng-model='orgId' org='orgInfo'></org-dict>
+                                                            </div>
+                                                        </div>
+
+
+                                                    </div>
+                                                </div>
+                                            </form>
+                                            <hr class="m-t-sm m-b-sm">
+                                            <div class="etal-c m-b-sm">
+                                                <button class="btn btn-info" ng-click='dist()'>确定</button>
+                                                <div class="btn btn-danger close-modal" ng-click='$dismiss()'>取消</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </script>
+                        <!--弹窗5-->
+                        <!--弹窗6-->
+                        <script type='text/ng-template' id='auth.html'>
+                            <div class="modal-content">
+                                <div id="info" class="e-box m-b">
+                                    <div class="e-box-title">
+                                        <h2>授权</h2>
+                                        <div class="e-box-toolbar close-modal"><button type="button" class="close m-t-sm"><span ng-click='$dismiss()'>&times;</span><span class="sr-only" ng-click='$dismiss()'>Close</span></button></div>
+                                    </div>
+                                    <div class="e-box-content p-m">
+                                        <!--<div class="clients-wrapper">
+                                                    <ul>
+                                                        <li class='client' ng-class="{active:client.chk}" ng-click='display(client)' ng-repeat='client in clientList'>
+                                                            <div class="form-item-input">
+                                                                <input type="checkbox" id='client.clientId' ng-model='client.chk'>
+                                                                <label for='client.clientId'>{{client.clientName}}</label>
+                                                            </div>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                               <div class="roleDetails">
+                                                   <div class="roles-wrapper">
+                                                      <ul>
+                                                          <li ng-repeat='role in choosedRoles'>
+                                                            <input id='child.roleId' type="checkbox" ng-model='child.chk'>
+                                                            <label for='child.roleId' title='child.authorityName'>{{child.roleName}}</label>
+                                                          </li>
+                                                      </ul>
+                                                    </div>
+                                               </div>-->
+                                        <p style='font-size: 15px;padding-left: 6px;margin-bottom: 10px;'>您正在为<span ng-bind='auditorIds.length'></span>人进行授权</p>
+                                        <table class="e-table margin-t10 center1">
+                                            <thead>
+                                                <tr>
+                                                    <th style='width: 14%;'>应用</th>
+                                                    <th>角色</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody ng-cloak>
+                                                <tr ng-if='clientList.length>0' ng-repeat='client in clientList'>
+                                                    <td class="text-center">
+                                                        <!--<input type="checkbox"  id='{{client.clientId}}' ng-click='selectChildren(client)' ng-model='client.chk'>                                                                     -->
+                                                        <label for='{{client.clientId}}'>{{client.clientName}}</label>
+                                                    </td>
+                                                    <td>
+                                                        <div class="form-item-input" style='width: initial;margin-right: 20px;display: inline-block;' ng-repeat='child in client.roles'>
+                                                            <input id='{{child.roleId}}' type="checkbox" ng-model='child.chk'>
+                                                            <label for='{{child.roleId}}' title='child.authorityName'>{{child.roleName}}</label>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+
+                                            </tbody>
+                                        </table>
+                                        <span class='modal-org-wrapper'>
+                                                        <span class="form-item-name">管理范围：</span>
+
+                                        <org-dict ng-model='orgId' org='orgInfo'></org-dict>
+                                        </span>
+
+                                        <hr class="m-t-sm m-b-sm">
+                                        <div class="etal-c m-b-sm">
+                                            <button class="btn btn-info" ng-click='auth()'>确定</button>
+                                            <div class="btn btn-danger close-modal" ng-click='$dismiss()'>取消</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </script>
+                        <!--弹窗6-->
+                        <!--弹窗7-->
+                        <div class="modal fade" id="modal-7" tabindex="-1" role="dialog">
+                            <div class="modal-dialog modal-lg">
+                                <div class="modal-content">
+                                    <div id="info" class="e-box m-b">
+                                        <div class="e-box-title">
+                                            <h2>确认导入信息</h2>
+                                            <div class="e-box-toolbar close-modal"><button type="button" class="close m-t-sm" ng-click="closeModal('#modal-7')"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button></div>
+                                        </div>
+                                        <div class="e-box-content">
+                                            <table class="e-table">
+                                                <thead>
+                                                    <tr>
+                                                        <th width="5%" class="text-center">
+                                                            序号
+                                                            <!--<input id="selectall" type="checkbox">-->
+                                                        </th>
+                                                        <th class="text-center">身份证</th>
+                                                        <th class="text-center">姓名</th>
+                                                        <th class="text-center">手机号</th>
+                                                        <!--<th class="text-center">性别</th>
+                                                            <th class="text-center">组织名</th>-->
+
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr ng-cloak ng-repeat='user in importList track by $index'>
+                                                        <td class="text-center">
+                                                            {{$index|handleIndex:page}}
+                                                            <!--<input name='system' type="checkbox" value="">-->
+                                                        </td>
+                                                        <td class="text-center">{{user.idCard}}</td>
+                                                        <td class="text-center">{{user.relName}}</td>
+                                                        <td class="text-center">{{user.telephone}}</td>
+                                                        <!--<td class="text-center">{{user.sex}}</td>
+                                                        <td class="text-center">{{user.orgName}}</td>-->
+
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                            <nav class="text-center">
+                                                <uib-pagination ng-model="importPage.pageNo" ng-change="pageData()" total-items="importTotalItems" items-per-page="importPage.pageSize"
+                                                    template-url="pagination.html" force-ellipses="true" max-size="7">
+                                                </uib-pagination>
+                                            </nav>
+                                            <hr class="m-t-sm m-b-sm">
+                                            <div class="etal-c m-b-sm">
+                                                <button class="btn btn-info" ng-click="add('batch')">确定</button>
+                                                <div class="btn btn-danger close-modal" ng-click="closeModal('#modal-7')">取消</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!--弹窗7-->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    </div>
+    <div layout:fragment='templates'>
+        <div th:replace="modal/dist-audit :: dist"></div>
+        <div th:replace="modal/auth :: auth"></div>
+        <div th:replace="modal/clear-client-modal"></div>
+        <script th:replace="modal/exporting-modal"></script>
+    </div>
+    <div layout:fragment="scripts">
+        <script src="js/service/ClearClientService.js"></script>
+        <script src="js/modal/clearClient.js"></script>
+        <script src="js/service/fileDownloadService.js"></script>
+        <script src="js/manage/audit-manage.js"></script>
+        <script>
+            // $('#org').ktDict({ code: "ZZ", val: "", input: "#org" });
+        </script>
+
+    </div>
+</body>
+
+</html>

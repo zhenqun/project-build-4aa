@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:dt="http://www.thymeleaf.org/dandelion/datatables" layout:decorate="front-layout">
+
+<head>
+    <meta http-equiv="X-UA-Compatible" charset="utf-8" />
+    <meta content="webkit" name="renderer" />
+    <meta content="text/html" http-equiv="content-type" />
+    <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible" />
+    <meta content="width=device-width, initial-scale=1.0 , maximum-scale=1" name="viewport" />
+    <link href="css/style.css" rel="stylesheet" type="text/css" />
+    <link href="images/favicon.ico" rel="icon" type="image/x-ico" />
+    <title th:unless="${session?.CLIENTNAME} == null" th:text="|${session?.CLIENTNAME}_灯塔-党建在线登录页面|"></title>
+    <title th:if="${session?.CLIENTNAME == null}">灯塔-党建在线登录页面</title>
+    <link href="css/style1.css" rel="stylesheet" type="text/css" />
+    <link href="css/forget.css" rel="stylesheet" type="text/css" />
+    <style type="text/css">
+        .bar .time {
+            line-height: 42px;
+        }
+        
+        .noData {
+            line-height: 50px;
+            text-align: center;
+        }
+        
+        .tianze-loginbtn {
+            cursor: pointer;
+        }
+        
+        .tianze-loginbtn:hover {
+            background-color: #D71B10;
+        }
+        
+        .ban h2 {
+            color: #fff;
+            font-weight: bolder;
+            text-shadow: 0 2px 3px rgba(0, 0, 0, 0.75);
+            position: absolute;
+            right: 50px;
+            top: 50%;
+            margin-top: -15px;
+            letter-spacing: 3px;
+            font-size: 32px;
+            margin-top: -16px;
+        }
+        
+        .ban.logo2 {
+            background-image: url(img/2logo.png);
+        }
+    </style>
+    <style type="text/css">
+        html {
+            min-height: auto;
+        }
+        
+        .content .login-con .forget {
+            display: none;
+        }
+        
+        .tianze-user-box:before {
+            background: none;
+        }
+        
+        .e-form p.text {
+            left: 100px;
+        }
+        .e-form .text {
+            width: 100%!important;
+        }
+        .text-muted{color:#999}
+        .text-primary{color:#428bca}
+        a.text-primary:hover{color:#3071a9}
+        .text-success{color:#3c763d}
+        a.text-success:hover{color:#2b542c}
+        .text-info{color:#31708f}
+        a.text-info:hover{color:#245269}
+        .text-warning{color:#8a6d3b}
+        a.text-warning:hover{color:#66512c}
+        .text-danger{color:#a94442}
+        a.text-danger:hover{color:#843534}
+    </style>
+</head>
+
+<body>
+    <div class="tianze-login clearfix" layout:fragment="content">
+        <h3>忘记密码</h3>
+        <div class="area" id='first'>
+            <ul class="forget-steps clearfix">
+                <li class="forget-step forget-step-active">
+                    <p>
+                        <i>01</i>验证密码
+                    </p>
+                    <span>&gt;</span>
+                </li>
+                <li class="forget-step">
+                    <p>
+                        <i>02</i>重置密码
+                    </p>
+                    <span>&gt;</span>
+                </li>
+                <li class="forget-step">
+                    <p>
+                        <i>03</i>设置成功
+                    </p>
+                </li>
+            </ul>
+            <form class="clearfix e-form" id="firstForm" method="post" data-parsley-validate>
+                <div class="tianze-user-box  tianze-username">
+                    <span>手机号码</span>
+                    <input data-parsley-errors-container="#phoneMessage" name='telePhone' placeholder='手机号' data-parsley-pattern="/^1[34578]\d{9}$/"
+                        data-parsley-pattern-message="请输入正确的手机号码" data-parsley-required-message="请输入常用的手机号码"
+                        required type="text">
+                    <p class="text" id="phoneMessage"></p>
+                    <p class="text hide" id="errtelePhone">该手机号未注册</p>
+                </div>
+                <div class="tianze-user-box tianze-sryzm w-width clearfix">
+                    <span>短信验证码</span>
+                    <input class="form-control" data-parsley-errors-container="#validateCodeMessage" data-parsley-required-message="请输入验证码" id="validateCode"
+                        name="verificationCode" required="" style="text-transform:uppercase;" type="text" />
+                    <div class="tianze-yzm">
+                        <!-- <img alt="验证码" id="yanzhengma" onclick="javascript:refresh()" style="width: 100%;height: 100%;" /> -->
+
+                        <a style="width: 100%;height: 100%;" id='sms-btn'>获取验证码</a>
+                    </div>
+                    <p class="text" id="validateCodeMessage"></p>
+
+                </div>
+                <div class="w-100">
+                    <input class="tianze-loginbtn" type="submit" id="next1" value="下一步" />
+                </div>
+            </form>
+        </div>
+
+        <div class="area hide" id='second'>
+            <ul class="forget-steps clearfix">
+                <li class="forget-step">
+                    <p>
+                        <i>01</i>验证密码
+                    </p>
+                    <span>&gt;</span>
+                </li>
+                <li class="forget-step forget-step-active">
+                    <p>
+                        <i>02</i>重置密码
+                    </p>
+                    <span>&gt;</span>
+                </li>
+                <li class="forget-step">
+                    <p>
+                        <i>03</i>设置成功
+                    </p>
+                </li>
+            </ul>
+            <form class="clearfix e-form" id="secondForm" method="post" data-parsley-validate data-parsley-trigger="blur">
+                <div class="tianze-user-box  tianze-username">
+                    <span>密&nbsp;&nbsp;码</span>
+                    <input type="password" placeholder="密码" class="form-control js-password-popover" name="password" id="password" required
+                           data-parsley-errors-container="#passwordMessage"
+                           data-parsley-maxlength="18"
+                           data-parsley-minlength="8"
+                           data-parsley-password-strength
+                           data-parsley-required-message="请输入密码"
+                           data-parsley-maxlength-message="请输入8-18位的密码"
+                           data-parsley-minlength-message="请输入8-18位的密码"
+                           data-parsley-password-strength-message="密码强度较弱，请混合使用大小写字母和数字，避开常用密码">
+                    <p class="text" id="passwordMessage"></p>
+                </div>
+                <div class="tianze-user-box  tianze-username">
+                    <span>确认密码</span>
+                    <input data-parsley-equalto="#password" placeholder='确认密码' data-parsley-equalto-message="两次密码不一致，请重新填写" data-parsley-errors-container="#rpasswordMessage"
+                        data-parsley-required-message="请输入重复密码" name="rPassword" required type="password" />
+                    <p class="text" id="rpasswordMessage"></p>
+                </div>
+
+                <div class="w-100">
+                    <input class="tianze-loginbtn" type="submit" id="next2" value="确定" />
+                </div>
+            </form>
+        </div>
+
+        <div class="area hide" id="third">
+            <ul class="forget-steps clearfix">
+                <li class="forget-step">
+                    <p>
+                        <i>01</i>验证密码
+                    </p>
+                    <span>&gt;</span>
+                </li>
+                <li class="forget-step">
+                    <p>
+                        <i>02</i>重置密码
+                    </p>
+                    <span>&gt;</span>
+                </li>
+                <li class="forget-step forget-step-active">
+                    <p>
+                        <i>03</i>设置成功
+                    </p>
+                </li>
+            </ul>
+            <form class="clearfix e-form" id="loginForm" method="post" novalidate="" role="form">
+                <div class="forget-success clearfix">
+                    <img src="img/forget-success.png">
+                    <div class="success-tip">
+                        <p>恭喜您，密码重置成功</p>
+                        <a href="login">立即登录</a>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+    </div>
+
+    <div layout:fragment="templates">
+        <script th:replace="common/password-popover-tpl"></script>
+    </div>
+
+    <div layout:fragment="scripts">
+        <!--<script src="js/jquery.slimscroll.min.js"></script>-->
+        <script src="js/parsley.min.js"></script>
+        <script src="js/manage/passwordPopover.js"></script>
+        <script src='js/manage/forget2.js'></script>
+    </div>
+</body>
+
+</html>

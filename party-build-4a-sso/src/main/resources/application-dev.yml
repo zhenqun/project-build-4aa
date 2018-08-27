@@ -1,0 +1,182 @@
+server:
+  port: 9898
+  context-path: /sso
+  compression:
+    enabled: true
+  tomcat: 
+    protocol-header: X-Forwarded-Proto
+    remote-ip-header: X-Forwarded-For
+  session.timeout: 43200
+
+security:
+  sessions: if-required
+  #ALWAYS
+  #user.password: password
+  #if-required
+  #encrpyt.encoder bcrypt or SHA-256,default:SHA-256
+  encrypt.encoder: SHA-256
+  encrypt.hash-interations: 1024
+  encrypt.strength: 8
+  # ALWAYS
+  # ignored: /user/principal,/webjars/**, /css/**, /validateCodeServlet, /img/**,/checkValidateCode/**,/internet/**,/index, /,/js/**, /images/**,/register,/common/**,/success,/vpn/**,/retrievePassword,/sendMessage,/gettelephoneByusername,/unifiedLogout,/verifyRetrievePwdVerificationCode,/retrievePasswordForWeb,/forget,/oauth/check_token
+  oauth2:
+    resource:
+      resourceId: party-build-sso
+      userInfoUri: http://localhost:9898/sso/user/principal
+    server:
+      checkTokenUri: http://localhost:9898/sso/oauth/check_token
+      resourceId: party-build-sso
+      resourceSecret: ido85R&Dcenter
+  
+spring:
+  application:
+    name: party-build-sso
+  primaryDatasource:
+    dataSourceClassName: com.highgo.jdbc.jdbc2.optional.SimpleDataSource
+    #url: jdbc:mysql://localhost:3306/platform_aaaa?useUnicode=true&characterEncoding=utf-8
+    #username: root
+    #password: root
+    url: jdbc:highgo://10.254.23.58:5866/sso_internet?useUnicode=true&characterEncoding=utf-8
+    username: highgo
+    password: highgo123
+    poolName: StringBootHikariCP
+    maximumPoolSize: 5
+    minimumIdle: 3
+    maxLifetime: 2000000
+    connectionTimeout: 30000
+    idleTimeout: 30000
+    pool-prepared-statements: true
+    max-open-prepared-statements: 300
+  logdatasource:
+    dataSourceClassName: com.highgo.jdbc.jdbc2.optional.SimpleDataSource
+    #url: jdbc:mysql://localhost:3306/platform_aaaa?useUnicode=true&characterEncoding=utf-8
+    #username: root
+    #password: root
+    url: jdbc:highgo://10.254.23.58:5866/sso_log?useUnicode=true&characterEncoding=utf-8
+    username: highgo
+    password: highgo123
+    poolName: StringBootHikariCP
+    maximumPoolSize: 5
+    minimumIdle: 3
+    maxLifetime: 2000000
+    connectionTimeout: 30000
+    idleTimeout: 30000
+    pool-prepared-statements: true
+    max-open-prepared-statements: 300
+  jpa:
+    databasePlatform: org.hibernate.dialect.PostgreSQLDialect
+    properties:
+      hibernate.cache.use_second_level_cache: false
+      hibernate.cache.use_query_cache: false
+      hibernate.cache.region.factory_class: org.hibernate.cache.ehcache.EhCacheRegionFactory
+  redis:
+    host: 192.168.10.211
+    #host: localhost
+    password: ido85redis
+    port: 6379
+    database: 8
+  thymeleaf:
+    prefix: classpath:/templates/
+    suffix: .html
+    encoding: utf-8
+    content-type: text/html
+    cache: false
+    excluded-view-names: 
+    check-template-location: true
+    mode: LEGACYHTML5
+  session:
+    store-type: redis
+    redis:
+      namespace: iw-sso
+      maxInactiveIntervalInSeconds: 43200
+    cookie:
+      domain:
+      path: /
+      name: SSO-SID
+
+customer:
+  datasources:
+    write:
+      dataSourceClassName: com.highgo.jdbc.jdbc2.optional.SimpleDataSource
+      url: jdbc:highgo://10.254.23.58:5866/sso_internet?useUnicode=true&characterEncoding=utf-8
+      #&targetServerType=master
+      username: highgo
+      password: highgo123
+      poolName: writePool
+      maximumPoolSize: 50
+      minimumIdle: 10
+      maxLifetime: 2000000
+      connectionTimeout: 30000
+      idleTimeout: 30000
+      pool-prepared-statements: true
+      max-open-prepared-statements: 300
+      sqlScriptEncoding: UTF-8
+    read:
+      dataSourceClassName: com.highgo.jdbc.jdbc2.optional.SimpleDataSource
+      url: jdbc:highgo://10.254.23.58:5866,192.168.10.211:5866/sso_internet?useUnicode=true&characterEncoding=utf-8&loadBalanceHosts=true
+      username: highgo
+      password: highgo123
+      poolName: readPool
+      maximumPoolSize: 50
+      minimumIdle: 10
+      maxLifetime: 2000000
+      connectionTimeout: 3000
+      idleTimeout: 30000
+      pool-prepared-statements: true
+      max-open-prepared-statements: 300
+      sqlScriptEncoding: UTF-8
+
+ribbon.eureka.enabled: false
+party-build-4a-sm:
+  ribbon:
+    MaxAutoRetries: 1
+    MaxAutoRetriesNextServer: 1
+    OkToRetryOnAllOperations: true
+    ServerListRefreshInterval: 2000
+    ConnectTimeout: 3000
+    ReadTimeout: 3000
+    EnablePrimeConnections: true
+    listOfServers: http://localhost:8080
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://192.168.10.230:8761/eureka/
+      #defaultZone: http://localhost:8761/eureka/
+  instance:
+    prefer-ip-address: true
+
+logging:
+  level:
+    org.springframework.security: INFO
+
+threadpool:
+  core-pool-size: 10
+  max-pool-size: 20
+  queue-capacity: 1000
+  keep-alive-seconds: 300
+    
+sendMessage:
+  url: http://118.190.41.112/smsJson.aspx
+  userpwd: 85chuangxin1A
+  message: 
+  account: chuangxin
+  intervaltime: 1
+
+vpntokenUrl: http://localhost:9999/sso/oauth/token?grant_type=client_credentials
+tokenUrl: http://localhost:9898/sso/oauth/token?grant_type=client_credentials 
+userLogoUrl: http://10.254.23.110:9898/userLogo/
+uploadLogoUrl: /data/party/userLogo/
+personalZoneUrl: http://dt2.85ido.com:8080/member/member/index.jspx
+checkUserExistUrl: http://192.168.10.211:8083/simpledata/checkUserExist/
+queryUserInfoByHashUrl: http://192.168.10.211:8083/simpledata/queryUserInfoByHash
+defaultUserLogoUrl: http://10.254.23.110:9898/userLogo/default.png
+
+########页面url参数配置#########
+maps:
+########灯塔党建在线#######
+ dtdjzx: http://dt2.85ido.com:8080/
+########统一登录系统（互联网)#######
+ ssoInter: http://dtsso.85ido.com:8080
+########灯塔dt1#######
+ dt: http://dt1.85ido.com:8080/

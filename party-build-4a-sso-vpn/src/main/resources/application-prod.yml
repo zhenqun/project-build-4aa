@@ -1,0 +1,140 @@
+server:
+  port: 2223
+#  http.port: 9999
+#  https.port: 9443
+  context-path: /sso
+#  ssl.key-store: classpath:sso-vpn.jks
+#  ssl.key-store-password: 123456
+#  ssl.key-password: 123456
+
+security:
+  sessions: if-required
+  #ALWAYS
+  #user.password: password
+  #if-required
+  #encrpyt.encoder bcrypt or SHA-256,default:SHA-256
+  encrypt.encoder: SHA-256
+  encrypt.hash-interations: 1024
+  encrypt.strength: 8
+  # ALWAYS
+  # ignored: fonts/**,/webjars/**, /css/**, /validateCodeServlet, /checkValidateCode/**,/acc/**, /index, /, /img/**,/images/**,/js/**, /register,/common/**,/success,/vpn/**,/sendMessage,/gettelephoneByusername,/verifyRetrievePwdVerificationCode,/retrievePasswordForWeb,/forget/**,/oauth/check_token,/application-sdk,/notice/**
+  oauth2:
+    resource:
+      resourceId: party-build-4a-sso-vpn
+      userInfoUri: http://10.254.23.63:2223/sso/user/principal
+    server:
+      checkTokenUri: http://10.254.23.63:2223/sso/oauth/check_token
+      resourceId: party-build-4a-sso-vpn
+      resourceSecret: ido85R&Dcenter   
+      tokenUrl: http://10.254.23.63:2223/sso/oauth/token?grant_type=client_credentials  
+
+spring:
+  application:
+    name: party-build-sso-vpn
+  datasource:
+    dataSourceClassName: com.highgo.jdbc.jdbc2.optional.SimpleDataSource
+    #url: jdbc:mysql://localhost:3306/platform_aaaa?useUnicode=true&characterEncoding=utf-8
+    #username: root
+    #password: root
+    url: jdbc:highgo://10.254.23.58:5866/sso_vpn?useUnicode=true&characterEncoding=utf-8
+    username: highgo
+    password: highgo123
+    poolName: StringBootHikariCP
+    maximumPoolSize: 5
+    minimumIdle: 3
+    maxLifetime: 2000000
+    connectionTimeout: 30000
+    idleTimeout: 30000
+    pool-prepared-statements: true
+    max-open-prepared-statements: 300
+  jpa:
+    databasePlatform: org.hibernate.dialect.PostgreSQLDialect
+    properties:
+      hibernate.cache.use_second_level_cache: false
+      hibernate.cache.use_query_cache: false
+      hibernate.cache.region.factory_class: org.hibernate.cache.ehcache.EhCacheRegionFactory
+  redis:
+    host: 10.254.23.58
+    #host: localhost
+    password: 1qaz@wsx?Z
+    port: 6379
+    database: 4
+  thymeleaf:
+    prefix: classpath:/templates/
+    suffix: .html
+    encoding: utf-8
+    content-type: text/html
+    cache: false
+    excluded-view-names: 
+    check-template-location: true
+    mode: LEGACYHTML5
+  session:
+    store-type: redis
+    redis:
+      namespace: iw-sso
+      maxInactiveIntervalInSeconds: 1800
+    cookie:
+      domain:
+      path: /
+      name: SSO-SID
+
+ribbon.eureka.enabled: false
+party-build-4a-sync:
+  ribbon:
+    MaxAutoRetries: 1
+    MaxAutoRetriesNextServer: 1
+    OkToRetryOnAllOperations: true
+    ServerListRefreshInterval: 2000
+    ConnectTimeout: 3000
+    ReadTimeout: 3000
+    EnablePrimeConnections: true
+    listOfServers: http://10.254.23.63:8080
+   
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://10.254.23.58:8761/eureka/
+      #defaultZone: http://localhost:8761/eureka/
+  instance:
+    prefer-ip-address: true
+
+logging:
+  level: DEBUG
+    #org.springframework.security: DEBUG
+
+sendMessage:
+  url: http://118.190.41.112/smsJson.aspx
+  userpwd: 85chuangxin1A
+  message: 
+  account: chuangxin
+  intervaltime: 1
+
+multipart:
+  maxFileSize: 5Mb
+  maxRequestSize: 30Mb
+
+ca: 
+  client-ip: 60.216.5.244
+  client-port: 9189
+  
+ldap:
+  url: ldap://10.243.32.5:389
+  login-dn: cn=Manager,dc=inspur,dc=com
+  password: 123456
+  base-dn: dc=inspur,dc=com
+  dn.format: uid=%s,ou=%s
+
+threadpool:
+  core-pool-size: 10
+  max-pool-size: 20
+  queue-capacity: 1000
+  keep-alive-seconds: 300
+
+tokenUrl: http://10.254.23.63:2223/sso/oauth/token?grant_type=client_credentials
+userLogoUrl: http://10.254.23.110:9999/userLogo/
+defaultUserLogoUrl: http://10.254.23.110:9999/userLogo/default.png
+uploadLogoUrl: /data/party/userLogo/
+checkUserExistUrl: http://10.254.23.6:8083/simpledata/checkUserExist/
+queryUserInfoByHashUrl: http://10.254.23.6:8083/simpledata/queryUserInfoByHash
+ssoUrl: http://localhost:2223/sso
+safeCenterUrl: //10.243.32.40:8930/
